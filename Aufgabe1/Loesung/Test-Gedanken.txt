@@ -1,0 +1,61 @@
+// Michael Lucas | Gruppe 17 
+
+Nicht gerforderte Tests
+    - Korrekter Aufruf
+    - Nicht korrekter Aufruf
+
+Ordner-Tests
+    Order "Info" vorhanden
+        -> Skript erstellt Ordner "info" (kleingeschrieben) und ignoriert den Ordner "Info"
+
+    Ordner "info" vorhanden
+        -> Order wird nicht neu erstellt, sondern schreibt datei in den vorhandenen Ordner
+
+    Ordner "info" nicht vorhanden
+        -> Ordner wird erstellt und Dateiname(n) werden in neu erstellte Textdatei geschrieben
+
+    Datei in Ordner "Info" bereits vorhanden
+        -> Datei wird überschrieben
+
+    Datei in Ordner "Info" nicht vorhanden
+        -> Datei wird neu erstellt
+
+Dateien-Tests
+    Keine Textdatei vorhanden
+        Ordner vorhanden
+            -> leere Textdatei wird in Ordner erstellt
+
+        Ordner nicht vorhanden
+            -> Ordner wird erstellt, und leere Textdatei erstellt.
+        
+    Eine Textdatei vorhanden
+        Ordner vorhanden
+            -> Textdatei mit Dateinamen wird in Ordner erstellt
+
+        Ordner nicht vorhanden
+            -> Ordner wird erstellt, und Textdatei mit Dateinamen wird erstellt.
+
+    Mehrere Textdateien vorhanden
+        Ordner vorhanden
+            -> Textdatei mit allen Dateinamen wird sortiert in Ordner erstellt
+
+        Ordner nicht vorhanden
+            -> Ordner wird erstellt, und Textdatei mit allen Dateinamen wird sortiert erstellt.
+
+    Dateien mit .txt NICHT am Ende (z.B. datei.txt.bak)
+        -> Ordner und Textdatei werden ggf. erstellt (Textdatei leer)
+
+    Dateien mit .txt mittendrin UND am Ende (z.B. datei.txt.bak.txt)
+        -> Ordner wird ggf. erstellt. Textdatei wird erstellt mit Inhalt "datei.txt.bak.txt"
+
+    Datei mit Inhalt (Datei "test.txt" | Inhalt "bla")
+        -> Ordner wird ggf. erstellt. Textdatei wird erstellt mit Inhalt "test.txt"
+
+    Datei ohne Inhalt (Datei "test.txt")
+        -> Ordner wird ggf. erstellt. Textdatei wird erstellt mit Inhalt "test.txt"
+
+    Mehrere Dateien sollten sortiert werden (Datei1: "zzz.txt" | Datei2: "ccc.txt" | Datei3: "aaa.txt")
+        -> Ordner wird ggf. erstellt. Textdatei wird erstellt mit Inhalt:
+                                                                         "aaa.txt
+                                                                          ccc.txt
+                                                                          zzz.txt"
