@@ -1,22 +1,19 @@
 Bild 1:
     Ich habe pwd verwendet, um einen kurzen Überblick über den Pfad des lokalen Ordners zu geben.
-    - Intern verwende ich GIT, um meine Aufgaben zu versionieren. - 
     In ../Aufgabe1 habe ich die Aufgabenstellung als PDF gespeichert, und die Skript-Datei "lister.sh" in dem Ordner "Loesung" abgespeichert.
-    durch pwd sieht man, dass ich mich in Aufgabe1 befinde, ls zeigt die PDF-Datei und den Ordner Loesung.
-    Durch ls Loesung wird die lister.sh angezeigt.
+    durch "pwd" sieht man, dass ich mich in Aufgabe1 befinde, "ls" zeigt die PDF-Datei und den Ordner Loesung.
+    Durch "ls Loesung" wird die "lister.sh" im Ordner "Loesung" angezeigt angezeigt.
 
 Bild 2:
-    Durch svn checkout habe ich die leeren Ordner vom Server geladen.
+    Durch "svn checkout" habe ich die leeren Ordner vom Server geladen.
     Zu sehen ist zudem "Revision 1", es wurde vorher nichts von mir hochgeladen oder verändert.
-    (Ich habe zu spät gesehen, dass angezeigt werden soll, dass keine Dateien im Ordner sind
-    -> ich würde es mit ls -LR für einen rekursiven Aufruf machen)
-    "ls -LR unix-sv" in dem Fall.
 
 Bild 3:
     Hier verschiebe ich meine lokale Script-Datei in den SVN ueb01-Ordner.
-    alle 3 "ls" sind für den Kopiervorgang unerheblich und dienen für den Screenshot nur der Übersicht.
+    alle 3 "ls" sind für den Kopiervorgang unerheblich und dienen für den Screenshot nur der Übersicht (ich hätte auch "ls -LR" verwenden könne, wodurch rekursive alle Ordner angezeigt werden).
+
     -> Zuerst aktueller Ordner, wo "unix-svn" und "Unix-Uebung-2020" (lokale Version) zu sehen sind.
-    -> Danach zeige ich, dass im SVN-Ordner der Ordner ueb01 leer ist
+    -> Danach zeige ich, dass im SVN-Ordner der Ordner "ueb01" leer ist
     -> Jetzt zeige ich, dass in der lokalen Version die Datei "lister.sh" vorhanden ist
     -> nun wird mit "cp" die datei in den SVN-Ordner kopiert
 
@@ -27,3 +24,6 @@ Bild 5:
     Die Datei "lister.sh" wird zu Versionierung hinzugefügt.
     mit "svn commit -m" füge ich eine Commit-Nachricht hinzu und lade sie auf den Server.
     Zu sehen ist nun, dass die Versionierung bei Revision 2 steht.
+
+Bild 6:
+    Ich habe die Repo mit Revision nachträglich ausgecheckt, um mit "ls" zu zeigen, dass sie bei Revision 1 komplett ohne Dateien war.
