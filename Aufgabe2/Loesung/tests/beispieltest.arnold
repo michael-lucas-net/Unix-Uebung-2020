@@ -14,3 +14,67 @@ test {
     cmd     {diff beispieltest.out beispieltest.exp}
     expect  {^$}
 }
+
+test {
+    name    = Test 3 Bereits fertig vorsortiert (stdout)
+    comment = Testet die Ausgabe des Tools auf der Standardausgabe
+    type    = param
+    cmd     {cat vorsortiert.in | DUT vorsortiert.out}
+    expect  {^gibt$}
+}
+
+test {
+    name    = Test 3 Bereits fertig vorsortiert (datei)
+    comment = Testet den Fall, dass alle Eintraege bereits vorsortiert sind
+    type    = param
+    cmd     {diff vorsortiert.out vorsortiert.exp}
+    expect  {^$}
+}
+
+test {
+    name    = Test 4 andersrum vorsortiert (stdout)
+    comment = Testet die Ausgabe des Tools auf der Standardausgabe
+    type    = param
+    cmd     {cat unvorsortiert.in | DUT unvorsortiert.out}
+    expect  {^Schlechtester$}
+}
+
+test {
+    name    = Test 4 andersrum vorsortiert (datei)
+    comment = Testet den Fall, dass alle Eintraege bereits vorsortiert sind
+    type    = param
+    cmd     {diff unvorsortiert.out unvorsortiert.exp}
+    expect  {^$}
+}
+
+test {
+    name    = Test 5 Bewertung gleich (stdout)
+    comment = Testet den Fall, dass die Bewertung gleich ist - so soll der Key jetzt sortieren
+    type    = param
+    cmd     {cat bewertungGleich.in | DUT bewertungGleich.out}
+    expect  {^Schlecht$}
+}
+
+test {
+    name    = Test 5 Bewertung gleich (datei)
+    comment = Testet den Fall, dass die Bewertung gleich ist - so soll der Key jetzt sortieren
+    type    = param
+    cmd     {diff bewertungGleich.out bewertungGleich.exp}
+    expect  {^$}
+}
+
+test {
+    name    = Test 6 Bewertung gleich 2 (stdout)
+    comment = Testet den Fall, dass die Bewertung gleich ist - so soll der Key jetzt sortieren
+    type    = param
+    cmd     {cat bewertungGleich2.in | DUT bewertungGleich2.out}
+    expect  {^Schlecht$}
+}
+
+test {
+    name    = Test 6 Bewertung gleich 2 (datei)
+    comment = Testet den Fall, dass die Bewertung gleich ist - so soll der Key jetzt sortieren
+    type    = param
+    cmd     {diff bewertungGleich2.out bewertungGleich2.exp}
+    expect  {^$}
+}
