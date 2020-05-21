@@ -1,0 +1,25 @@
+Datei
+    [x] leer
+    [x] vollstaendig
+    [x] fehlerhaft
+
+Spalten
+    [x] weniger als 3
+    [x] genau 3
+    [x] mehr als 3
+
+Error
+    [x] ohne
+    [x] 1x
+    [x] mehrmals
+    [x] nur
+
+Sortierung
+    [x] korrekt vorsortiert
+    [x] genau andersrum sortiert
+    [x] nicht sortiert
+    [x] Bewertung alle unterschiedlich
+    [x] Bewertung von 2 gleich
+    [x] Bewertung alle gleich
+    Negative Bewertungen
+    Bewertungen ueber 100
