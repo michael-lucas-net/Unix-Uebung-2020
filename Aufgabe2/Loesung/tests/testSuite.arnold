@@ -207,3 +207,19 @@ test {
     expect  {^$}
 }
 
+test {
+    name    = Test 26 - Alles gleich (stdout)
+    comment = Testet den (nicht geforderten) Fall, dass alle Eintraege identisch sind
+    type    = param
+    cmd     {cat allesGleich.in | DUT allesGleich.out}
+    expect  {^Gut$}
+}
+
+test {
+    name    = Test 27 - Alles gleich (Datei)
+    comment = Testet den (nicht geforderten) Fall, dass alle Eintraege identisch sind
+    type    = param
+    cmd     {diff allesGleich.out allesGleich.exp}
+    expect  {^$}
+}
+
