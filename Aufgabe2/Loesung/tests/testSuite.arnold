@@ -168,10 +168,42 @@ test {
 }
 
 test {
-    name    = Test 20 - 10 Zeilen (Datei)
+    name    = Test 21 - 10 Zeilen (Datei)
     comment = Testet den Fall, dass die Datei zehn Eintraege hat
     type    = param
     cmd     {diff vieleZeilen.out vieleZeilen.exp}
+    expect  {^$}
+}
+
+test {
+    name    = Test 22 - Negative Bewertungen (stdout)
+    comment = Testet den Fall, dass ein Eintrag eine negative Bewertung hat
+    type    = param
+    cmd     {cat negativeBewertung.in | DUT negativeBewertung.out}
+    expect  {^unfassbarSchlecht$}
+}
+
+test {
+    name    = Test 23 - Negative Bewertungen (Datei)
+    comment = Testet den Fall, dass ein Eintrag eine negative Bewertung hat
+    type    = param
+    cmd     {diff negativeBewertung.out negativeBewertung.exp}
+    expect  {^$}
+}
+
+test {
+    name    = Test 24 - große Bewertungen (stdout)
+    comment = Testet den Fall, dass einige Bewertungen große Zahlen sind
+    type    = param
+    cmd     {cat grosseBewertungen.in | DUT grosseBewertungen.out}
+    expect  {^sehrSchlecht$}
+}
+
+test {
+    name    = Test 25 - große Bewertungen (Datei)
+    comment = Testet den Fall, dass einige Bewertungen große Zahlen sind
+    type    = param
+    cmd     {diff grosseBewertungen.out grosseBewertungen.exp}
     expect  {^$}
 }
 
