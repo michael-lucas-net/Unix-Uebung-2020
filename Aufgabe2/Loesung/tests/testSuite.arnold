@@ -3,7 +3,7 @@ test {
     name    = Beispieltest Teil 1 (stdout)
     comment = Testet die Ausgabe des Tools auf der Standardausgabe
     type    = param
-    cmd     {cat beispieltest.in | DUT beispieltest.out}
+    cmd     {cat ./testfaelle/beispieltest.in | DUT ./out/beispieltest.out}
     expect  {^SoRichtigSchlecht$}
 }
 
@@ -11,7 +11,7 @@ test {
     name    = Beispieltest Teil 2 (Datei)
     comment = Testet die in Beispieltest Teil 1 geschriebene Datei
     type    = param
-    cmd     {diff beispieltest.out beispieltest.exp}
+    cmd     {diff ./out/beispieltest.out ./testfaelle/beispieltest.exp}
     expect  {^$}
 }
 
@@ -19,7 +19,7 @@ test {
     name    = Test 2 Bereits fertig vorsortiert (stdout)
     comment = Testet die Ausgabe des Tools auf der Standardausgabe
     type    = param
-    cmd     {cat vorsortiert.in | DUT vorsortiert.out}
+    cmd     {cat ./testfaelle/vorsortiert.in | DUT ./out/vorsortiert.out}
     expect  {^gibt$}
 }
 
@@ -27,7 +27,7 @@ test {
     name    = Test 3 Bereits fertig vorsortiert (Datei)
     comment = Testet den Fall, dass alle Eintraege bereits vorsortiert sind
     type    = param
-    cmd     {diff vorsortiert.out vorsortiert.exp}
+    cmd     {diff ./out/vorsortiert.out ./testfaelle/vorsortiert.exp}
     expect  {^$}
 }
 
@@ -35,7 +35,7 @@ test {
     name    = Test 4 andersrum vorsortiert (stdout)
     comment = Testet die Ausgabe des Tools auf der Standardausgabe
     type    = param
-    cmd     {cat unvorsortiert.in | DUT unvorsortiert.out}
+    cmd     {cat ./testfaelle/unvorsortiert.in | DUT ./out/unvorsortiert.out}
     expect  {^Schlechtester$}
 }
 
@@ -43,7 +43,7 @@ test {
     name    = Test 5 andersrum vorsortiert (Datei)
     comment = Testet den Fall, dass alle Eintraege bereits vorsortiert sind
     type    = param
-    cmd     {diff unvorsortiert.out unvorsortiert.exp}
+    cmd     {diff ./out/unvorsortiert.out ./testfaelle/unvorsortiert.exp}
     expect  {^$}
 }
 
@@ -51,7 +51,7 @@ test {
     name    = Test 6 Bewertung gleich (stdout)
     comment = Testet den Fall, dass die Bewertung gleich ist - jetzt nach Kennzahl sortieren
     type    = param
-    cmd     {cat bewertungGleich.in | DUT bewertungGleich.out}
+    cmd     {cat ./testfaelle/bewertungGleich.in | DUT ./out/bewertungGleich.out}
     expect  {^Schlecht$}
 }
 
@@ -59,7 +59,7 @@ test {
     name    = Test 7 Bewertung gleich (Datei)
     comment = Testet den Fall, dass die Bewertung gleich ist - jetzt nach Kennzahl sortieren
     type    = param
-    cmd     {diff bewertungGleich.out bewertungGleich.exp}
+    cmd     {diff ./out/bewertungGleich.out ./testfaelle/bewertungGleich.exp}
     expect  {^$}
 }
 
@@ -67,7 +67,7 @@ test {
     name    = Test 8 Bewertung gleich 2 (stdout)
     comment = Testet den Fall, dass die Bewertung gleich ist - jetzt nach Kennzahl sortieren
     type    = param
-    cmd     {cat bewertungGleich2.in | DUT bewertungGleich2.out}
+    cmd     {cat ./testfaelle/bewertungGleich2.in | DUT ./out/bewertungGleich2.out}
     expect  {^Schlecht$}
 }
 
@@ -75,7 +75,7 @@ test {
     name    = Test 9 Bewertung gleich 2 (Datei)
     comment = Testet den Fall, dass die Bewertung gleich ist - jetzt nach Kennzahl sortieren
     type    = param
-    cmd     {diff bewertungGleich2.out bewertungGleich2.exp}
+    cmd     {diff ./out/bewertungGleich2.out ./testfaelle/bewertungGleich2.exp}
     expect  {^$}
 }
 
@@ -83,7 +83,7 @@ test {
     name    = Test 10 Alle Bewertungen gleich (stdout)
     comment = Testet den Fall, dass die Bewertung gleich ist - jetzt nach Kennzahl sortieren
     type    = param
-    cmd     {cat alleGleicheBewertung.in | DUT alleGleicheBewertung.out}
+    cmd     {cat ./testfaelle/alleGleicheBewertung.in | DUT ./out/alleGleicheBewertung.out}
     expect  {^Gut$}
 }
 
@@ -91,7 +91,7 @@ test {
     name    = Test 11 Alle Bewertungen gleich (Datei)
     comment = Testet den Fall, dass die Bewertung gleich ist - jetzt nach Kennzahl sortieren
     type    = param
-    cmd     {diff alleGleicheBewertung.out alleGleicheBewertung.exp}
+    cmd     {diff ./out/alleGleicheBewertung.out ./testfaelle/alleGleicheBewertung.exp}
     expect  {^$}
 }
 
@@ -99,7 +99,7 @@ test {
     name    = Test 12 Viele Fehlerhafte Zeilen (stdout)
     comment = Testet den Fall, dass es mehrere fehlerhafte Zeilen gibt
     type    = param
-    cmd     {cat mitFehlern.in | DUT mitFehlern.out}
+    cmd     {cat ./testfaelle/mitFehlern.in | DUT ./out/mitFehlern.out}
     expect  {^SoRichtigSchlecht$}
 }
 
@@ -107,7 +107,7 @@ test {
     name    = Test 13 Viele Fehlerhafte Zeilen (Datei)
     comment = Testet den Fall, dass es mehrere fehlerhafte Zeilen gibt
     type    = param
-    cmd     {diff mitFehlern.out mitFehlern.exp}
+    cmd     {diff ./out/mitFehlern.out ./testfaelle/mitFehlern.exp}
     expect  {^$}
 }
 
@@ -115,7 +115,7 @@ test {
     name    = Test 14 Nur Fehler (stdout)
     comment = Testet den Fall, nur fehlerhafte Zeilen enthalten sind
     type    = param
-    cmd     {cat nurFehler.in | DUT nurFehler.out}
+    cmd     {cat ./testfaelle/nurFehler.in | DUT ./out/nurFehler.out}
     expect  {^$}
 }
 
@@ -123,7 +123,7 @@ test {
     name    = Test 15 Nur Fehler (Datei)
     comment = Testet den Fall, nur fehlerhafte Zeilen enthalten sind
     type    = param
-    cmd     {cat nurFehler.out}
+    cmd     {cat ./testfaelle/nurFehler.out}
     expect  {^$}
 }
 
@@ -131,7 +131,7 @@ test {
     name    = Test 16 leer (stdout)
     comment = Testet den Fall, dass die Datei leer ist
     type    = param
-    cmd     {cat leer.in | DUT leer.out}
+    cmd     {cat ./testfaelle/leer.in | DUT ./out/leer.out}
     expect  {^$}
 }
 
@@ -139,7 +139,7 @@ test {
     name    = Test 17 leer(Datei)
     comment = Testet den Fall, dass die Datei leer ist
     type    = param
-    cmd     {cat leer.out}
+    cmd     {cat ./testfaelle/leer.out}
     expect  {^$}
 }
 
@@ -147,7 +147,7 @@ test {
     name    = Test 18 nur zwei Zeilen (stdout)
     comment = Testet den Fall, dass die Datei nur zwei Zeilen hat
     type    = param
-    cmd     {cat nurZweiZeilen.in | DUT nurZweiZeilen.out}
+    cmd     {cat ./testfaelle/nurZweiZeilen.in | DUT ./out/nurZweiZeilen.out}
     expect  {^NichtGanzSoSchlecht$}
 }
 
@@ -155,7 +155,7 @@ test {
     name    = Test 19 nur zwei Zeilen (Datei)
     comment = Testet den Fall, dass die Datei nur zwei Zeilen hat
     type    = param
-    cmd     {diff nurZweiZeilen.out nurZweiZeilen.exp}
+    cmd     {diff ./out/nurZweiZeilen.out ./testfaelle/nurZweiZeilen.exp}
     expect  {^$}
 }
 
@@ -163,7 +163,7 @@ test {
     name    = Test 20 - 10 Zeilen (stdout)
     comment = Testet den Fall, dass die Datei zehn Eintraege hat
     type    = param
-    cmd     {cat vieleZeilen.in | DUT vieleZeilen.out}
+    cmd     {cat ./testfaelle/vieleZeilen.in | DUT ./out/vieleZeilen.out}
     expect  {^sehrSchlecht$}
 }
 
@@ -171,7 +171,7 @@ test {
     name    = Test 21 - 10 Zeilen (Datei)
     comment = Testet den Fall, dass die Datei zehn Eintraege hat
     type    = param
-    cmd     {diff vieleZeilen.out vieleZeilen.exp}
+    cmd     {diff ./out/vieleZeilen.out ./testfaelle/vieleZeilen.exp}
     expect  {^$}
 }
 
@@ -179,7 +179,7 @@ test {
     name    = Test 22 - Negative Bewertungen (stdout)
     comment = Testet den Fall, dass ein Eintrag eine negative Bewertung hat
     type    = param
-    cmd     {cat negativeBewertung.in | DUT negativeBewertung.out}
+    cmd     {cat ./testfaelle/negativeBewertung.in | DUT ./out/negativeBewertung.out}
     expect  {^unfassbarSchlecht$}
 }
 
@@ -187,7 +187,7 @@ test {
     name    = Test 23 - Negative Bewertungen (Datei)
     comment = Testet den Fall, dass ein Eintrag eine negative Bewertung hat
     type    = param
-    cmd     {diff negativeBewertung.out negativeBewertung.exp}
+    cmd     {diff ./out/negativeBewertung.out ./testfaelle/negativeBewertung.exp}
     expect  {^$}
 }
 
@@ -195,7 +195,7 @@ test {
     name    = Test 24 - große Bewertungen (stdout)
     comment = Testet den Fall, dass einige Bewertungen große Zahlen sind
     type    = param
-    cmd     {cat grosseBewertungen.in | DUT grosseBewertungen.out}
+    cmd     {cat ./testfaelle/grosseBewertungen.in | DUT ./out/grosseBewertungen.out}
     expect  {^sehrSchlecht$}
 }
 
@@ -203,7 +203,7 @@ test {
     name    = Test 25 - große Bewertungen (Datei)
     comment = Testet den Fall, dass einige Bewertungen große Zahlen sind
     type    = param
-    cmd     {diff grosseBewertungen.out grosseBewertungen.exp}
+    cmd     {diff ./out/grosseBewertungen.out ./testfaelle/grosseBewertungen.exp}
     expect  {^$}
 }
 
@@ -211,7 +211,7 @@ test {
     name    = Test 26 - Alles gleich (stdout)
     comment = Testet den (nicht geforderten) Fall, dass alle Eintraege identisch sind
     type    = param
-    cmd     {cat allesGleich.in | DUT allesGleich.out}
+    cmd     {cat ./testfaelle/allesGleich.in | DUT ./out/allesGleich.out}
     expect  {^Gut$}
 }
 
@@ -219,7 +219,7 @@ test {
     name    = Test 27 - Alles gleich (Datei)
     comment = Testet den (nicht geforderten) Fall, dass alle Eintraege identisch sind
     type    = param
-    cmd     {diff allesGleich.out allesGleich.exp}
+    cmd     {diff ./out/allesGleich.out ./testfaelle/allesGleich.exp}
     expect  {^$}
 }
 
