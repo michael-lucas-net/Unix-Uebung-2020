@@ -1,0 +1,53 @@
+Generell
+	Bei Bilder mit 2 Terminals ist links die "korrekte" Arbeitskopie und rechts ein "ausgedachter" Arbeitsplatz.
+	Zu erkennen zudem im Titel mit dem Pfad.
+
+Konflikte
+	Bild 1
+		Links befindet sich die Arbeitskopie in Revision 10 mit der Datei "conflict-me.txt" mit Inhalt "abc".
+		Rechts wurde diese Datei verändert mit Inhalt "def".
+
+	Bild2 
+		Links wurde der Inhalt der Datei geändert und sollte committed werden. 
+		Der Stand von Links (Revision 10) ist veraltet, da Rechts die Datei vorher bearbeitet hatte (siehe "Bild 1" - Revision 11),
+		weswegen die Nachricht erscheint ".. is out of date". Man muss vorher updaten, damit man commiten kann.
+
+	Bild 3
+		Ich habe geupdatet und es kam wie erwartet zu einem Konflikt. Die Daten sind inkonsistent und der Nutzer muss aktiv werden.
+		Die Optionen sind wie folgt:
+				- postpone: "Verschiebt" den Konflikt. Bedeutet, dass das Menü verschwindet und die betroffenen Dateien markiert sind
+					(z.B. bei "test.txt" werden weitere Datei erzeugt: "test.txt.r1", "test.txt.r2" und "test.txt.mine")
+					r steht für Revision - Ist dafür gedacht, die Dateien manuell zu öffnen und zu bearbeiten
+				- show diff: Zeigt die genauen Unterschiede an
+				- edit file: Öffnet die Datei direkt zum manuellen verändern
+				- merge zum Zusammenführen der Dateien (siehe unten)
+				- mc & tc: Man kann automatisch auswählen, ob man die eigene Version haben möchte oder die vom Repo.
+
+	Bild 4
+		Ich habe mich für "show diff" entschieden. Hier kann man sehen, dass mein geladener Inhalt "abc" war, 
+		von mir zu "ghi" geändert habe und die aktuelle Version im Repos. "def" ist.
+
+	Bild 5
+		Da ich sicher bin, dass mein Inhalt der beste ist, habe ich mich entschieden, meine Änderung "ghi" zu speichern.
+		Links commite ich noch und rechts update ich, um zu beweisen, dass der Konflikt gelöst wurde.
+
+
+Merge
+	Bild 6
+		Eine zweite Datei wurde erstellt "merge-me.txt", um das Zusammenführen ein wenig zu erläutern.
+		Links Inhalt mit "To merge" - Rechts bereits geändert und hochgeladen mit "To merge or not to merge"
+		Wichtig hier: Ich möchte die Datei automatisch zusammenführen lassen, weshalb ich mit Absätzen arbeite.
+
+	Bild 7 + Bild 8
+		Im Prinzip gleiches Vorgehen wie bei "Bild 2": Ich habe links die Datei geändert und wollte commiten, 
+		aber ich hatte noch nicht die aktuelle Version geladen, weshalb ein Konflikt auftrat.
+		Dieses Mal habe ich mich im Menü für "(m) merge" entschieden. 
+		Ein weiteres Menü erscheint und ich kann zwischen verschiedenen Optionen wählen 
+		(Diese liste ich hier jetzt nicht auf, denn sie sind selbsterklärend).
+		Ich habe mich für (12) entschieden, um beides zusammenzuführen.
+		Mit dem Befehl "cat" kann man unten im Bild den von mir geplanten Inhalt erkennen
+
+	Bild 9
+		Entspricht dem rechten Terminal, wo ich nochmals beweise, dass der zusammengeführte Inhalt im Repos. ist.
+
+	
