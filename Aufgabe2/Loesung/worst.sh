@@ -7,7 +7,7 @@
 # sort: Sortiert Text
     # - t "," Laesst nach Key sortieren
     # - k2 = Sortiert nach 2 tem Key (a, > b <, c)
-    # - k1 sortiert zudem nach erstem ersten Key (in dem Fall Kennzahl) NACHDEM die Bewertung sortiert wurde
+    # - k1 sortiert zudem nach erstem Key (in dem Fall Kennzahl) NACHDEM die Bewertung sortiert wurde
     # - r Absteigend
     # - n numerisch sortieren (beruecksichtigt z.B. 10 > 9)
 # tee: Ausgabe in Console und Datei
