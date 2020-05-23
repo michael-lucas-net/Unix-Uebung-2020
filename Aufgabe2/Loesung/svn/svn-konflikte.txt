@@ -1,23 +1,36 @@
 Was ist ein SVN-Konflikt und wie kann er entstehen?
-    Wenn z.B. zwei Personen an einer Datei arbeiten, kann es sein, dass Person B die Änderungen, die Person A gemacht und committed hat, noch nicht lokal geladen hat.
-    Jetzt gibt es einen Datei-Konflikt. Hier bei unterscheidet man noch zwischen:
+	Wenn z.B. zwei Personen an einer Datei arbeiten, kann es sein, dass Person B die Änderungen, die Person A gemacht und committed hat, noch nicht lokal geladen hat.
+	Jetzt gibt es einen Datei-Konflikt. Hier bei unterscheidet man noch zwischen:
 
-    Automatisch lösbare Konflike
-        Oben genannter Fall tritt ein. Die Datei, die geändert wird ist 2 Seiten lang (z.B. eine Excel Datei).
-        Person A hat Änderungen auf Seite 2 gemacht, Person B auf Seite 1. Dieser Konflikt kann automatisch gelöst werden.
+	Automatisch lösbare Konflike
+	        Oben genannter Fall tritt ein. Die Datei, die geändert wird ist 2 Seiten lang (z.B. eine Excel Datei).
+        	Person A hat Änderungen auf Seite 2 gemacht, Person B auf Seite 1. Dieser Konflikt kann automatisch gelöst werden.
 
-    Manuell lösbare Konflike
-        Oben genannter Fall tritt ein. Die Datei, die geändert wird ist 1 Seite lang.
-        Wenn zum Beispiel Person A den ersten Satz verändert hat, Person B hat diesen wie geschrieben noch nicht lokal geladen 
-        und ändert auch den ersten Satz, dann muss dieser Konflikt manuell gelöst werden (also es muss entschieden werden, welche Version committed wird).
+   	Manuell lösbare Konflike
+        	Oben genannter Fall tritt ein. Die Datei, die geändert wird ist 1 Seite lang.
+        	Wenn zum Beispiel Person A den ersten Satz verändert hat, Person B hat diesen wie geschrieben noch nicht lokal geladen 
+	        und ändert auch den ersten Satz, dann muss dieser Konflikt manuell gelöst werden (also es muss entschieden werden, welche Version committed wird).
 
 
 Kann ein Konflikt nur bei mehreren Benutzern des gleichen Repositories entstehen?
-    Ein Konflikt kann auch entstehen, wenn man alleine in einem Repositorie arbeitet.
-    Beispiele: 
-        - Mehrere Rechner, auf denen gearbeitet wird (z.B. PC auf Arbeit, Laptop unterwegs etc.)
-        - Mehrere lokale Kopien
-        - Konflikte bei Branches (nicht Aufgabenrelevant)
+	Ein Konflikt kann auch entstehen, wenn man alleine in einem Repositorie arbeitet.
+	Beispiele: 
+		- Mehrere Rechner, auf denen gearbeitet wird (z.B. PC auf Arbeit, Laptop unterwegs etc.)
+		- Mehrere lokale Kopien
+        	- Konflikte bei Branches (nicht Aufgabenrelevant)
 
-Wie geht man schrittweise vor um einen Konflikt zu beheben?
-// TODO:
+Wie geht man vor, um einen Konflikt zu beheben?
+	Wichtig ist vor allem zu wissen, wie die Datei(en) am Ende korrekt aussehen sollen und wo genau die Unterschiede im Konflikt sind.
+	SVN bietet ein interaktives Menü, um verschieden auf Konflikte zu reagieren 
+	(z.B. Merge, eigene Änderung akzeptieren, Fremde Änderung akzeptieren etc.)
+	
+	Wenn man sich zum Beispiel sicher ist, dass alle eigenen Änderungen "besser" sind, als die der Repo, 
+	dann kann man "my side of conflict" wählen, um die Änderungen der Repo zu überschreiben.
+	Meist ist dies leider nicht so einfach und man muss sich ggf. die Unterschiede mit "show diff" anzeigen lassen.
+	Mit Postpone kann man auch das (leicht unübersichtliche) Menü verlassen und mit dem eigenen Editor alle Änderungen vornehmen.
+
+Wie geht man schrittweise vor, um einen Konflikt zu beheben?
+	- Unterschiede anzeigen lassen
+	- Unterschiede entweder automatisch mit merge oder manuell (postpone -> Editor, my side, their side) entfernen
+	- Änderungen commiten
+
