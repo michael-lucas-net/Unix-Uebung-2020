@@ -3,7 +3,7 @@ Datei
     [x] vollstaendig
     [x] fehlerhaft
 
-Spalten
+Reihen
     [x] weniger als 3
     [x] genau 3
     [x] mehr als 3
