@@ -223,3 +223,19 @@ test {
     expect  {^$}
 }
 
+test {
+    name    = Test 28 - Sternchentest (stdout)
+    comment = Testet, ob ***error*** ignoriert wird
+    type    = param
+    cmd     {cat ./testfaelle/sternchenError.in | DUT ./out/sternchenError.out}
+    expect  {^ok$}
+}
+
+test {
+    name    = Test 29 - Sternchentest (Datei)
+    comment = Testet, ob ***error*** ignoriert wird
+    type    = param
+    cmd     {diff ./out/sternchenError.out ./testfaelle/sternchenError.exp}
+    expect  {^$}
+}
+

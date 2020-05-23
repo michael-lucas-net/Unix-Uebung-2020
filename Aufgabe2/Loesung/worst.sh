@@ -17,4 +17,4 @@
     # cut: Schneidet Text ab
     # - d: teilt Text anhand von ',' auf
     # - f3 letzte Stelle(a, b, > c <)
-grep ",*," | sort -t ',' -k2 -k1 -r -n | tee "$1" | tail -n1 | cut -d "," -f3
+grep -v "***error***"  | grep ",*," | sort -t ',' -k2 -k1 -r -n | tee "$1" | tail -n1 | cut -d "," -f3
