@@ -123,7 +123,7 @@ test {
     name    = Test 15 Nur Fehler (Datei)
     comment = Testet den Fall, nur fehlerhafte Zeilen enthalten sind
     type    = param
-    cmd     {cat ./testfaelle/nurFehler.out}
+    cmd     {cat ./out/nurFehler.out}
     expect  {^$}
 }
 
@@ -139,7 +139,7 @@ test {
     name    = Test 17 leer(Datei)
     comment = Testet den Fall, dass die Datei leer ist
     type    = param
-    cmd     {cat ./testfaelle/leer.out}
+    cmd     {cat ./out/leer.out}
     expect  {^$}
 }
 
