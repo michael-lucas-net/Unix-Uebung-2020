@@ -13,6 +13,7 @@ Error
     [x] 1x
     [x] mehrmals
     [x] nur
+    [x] Case Insensitive
 
 Sortierung
     [x] korrekt vorsortiert
