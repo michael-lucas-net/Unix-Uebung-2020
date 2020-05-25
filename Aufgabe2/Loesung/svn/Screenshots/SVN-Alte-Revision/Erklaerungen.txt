@@ -1,0 +1,15 @@
+Bild 1
+	Kleine Uebersicht, dass ein Ordner "doofer-weg" angelegt wurde mit Dateien, die auf den "falschen Weg" fuehrten ;)
+
+Bild 2
+	Als Nutzer bin ich mir klar geworden, dass die Dateien im Ordner "doofer Weg" mir nicht weiterhelfen, 
+	also möchte ich auf einer aeltere Revision aufbauen.
+	Mit "svn log -l 5" kann ich die letzten 5 Revisionen anschauen und erkenne, dass "r25" noch vor den "schlechten" Dateien ist.
+	 - In einer echten Situation wuerde ich "svn update -r 25" machen, 
+	   und ggf. Tests oder anderes ausprobieren, damit ich sicher bin, dass das die richtige Revision ist -
+
+	Ich bin mir sicher, dass R25 die korrekte Revision ist und möchte nun auf dieser aufbauen.
+	Zur Sicherheit mache ich ein "svn update", damit keine unnoetigen Konflikte entstehen.
+	Mit "svn merge -r HEAD:25 ./" merge ich die aktuelle Version (head) in die Revision 25.
+	Jetzt noch commiten und die aktuelle Version ist zwar Revision 28, aber hat den Stand von 25.
+
