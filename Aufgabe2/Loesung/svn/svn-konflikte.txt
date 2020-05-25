@@ -11,7 +11,6 @@ Was ist ein SVN-Konflikt und wie kann er entstehen?
         	Wenn zum Beispiel Person A den ersten Satz verändert hat, Person B hat diesen wie geschrieben noch nicht lokal geladen 
 	        und ändert auch den ersten Satz, dann muss dieser Konflikt manuell gelöst werden (also es muss entschieden werden, welche Version committed wird).
 
-
 Kann ein Konflikt nur bei mehreren Benutzern des gleichen Repositories entstehen?
 	Ein Konflikt kann auch entstehen, wenn man alleine in einem Repositorie arbeitet.
 	Beispiele: 
