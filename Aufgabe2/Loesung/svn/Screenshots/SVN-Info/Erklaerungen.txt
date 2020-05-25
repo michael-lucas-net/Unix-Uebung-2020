@@ -1,0 +1,19 @@
+
+Bild 1
+	Mit "svn list" alle Verzeichniseintraege auflisten.
+	Mit "svn status" alle veraenderten Dateien listen.
+		? Noch nicht in der Versionskontrolle
+		! Geaendert
+		A Neu hinzugefuegt
+		D Entfernt
+	Mit "svn info" alle Informationen zum Repository auflisten
+	Unter anderem:
+		- Aktuelle Revision
+		- URL des Repos. (auf dem Server)
+		- Lokaler Pfad des Repos.
+		- Wer zuletzt etwas geaendert hat
+
+
+Bild 2
+	Mit "svn log" kann man alle Commits und Revision sehen (inkl. Commit-Message)
+		"-l 5" beschraenkt es auf die letzten 5 Eintraege
