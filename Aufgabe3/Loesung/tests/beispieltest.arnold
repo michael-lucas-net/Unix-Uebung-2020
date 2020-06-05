@@ -3,7 +3,7 @@ test {
     name    = 1. Hilfeaufruf: Ausgabe
     comment = Hilfetext anfordern und ueberpruefen
     type    = param
-    cmd       {DUT -h | diff - help.exp}
+    cmd       {DUT -h | diff - testfaelle/help.exp}
     expect    {^$}
 }
 
@@ -27,7 +27,7 @@ test {
     name    = 3a. Korrekter Aufruf mit einfacher Additition
     comment = Erwartet die History-Ausgabe auf stderr und das Ergebnis auf stdout, prueft beides
     type    = param
-    cmd       {DUT 1 2 ADD 1>out.out 2>err.out ; diff out.out example_out.exp && diff err.out example_err.exp && echo "ok"}
+    cmd       {DUT 1 2 ADD 1 > ./out/out.out 2>err.out ; diff ./out/out.out ./testfaelle/example_out.exp && diff ./out/err.out ./testfaelle/example_err.exp && echo "ok"}
     expect    {^ok$}
 }
 
