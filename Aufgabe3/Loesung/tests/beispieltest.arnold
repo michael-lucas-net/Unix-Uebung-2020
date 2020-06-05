@@ -1,0 +1,49 @@
+
+test {
+    name    = 1. Hilfeaufruf: Ausgabe
+    comment = Hilfetext anfordern und ueberpruefen
+    type    = param
+    cmd       {DUT -h | diff - help.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 2a. Hilfeaufruf: Exit code
+    comment = Erwartet einen exit code von 0 bei korrektem Hilfeaufruf
+    type    = param
+    cmd       {DUT -h 1>/dev/null && echo "ok"}
+    expect    {^ok$}
+}
+
+test {
+    name    = 2b. Hilfeaufruf: Exit code (zweite Variante zur Ueberpruefung)
+    comment = Erwartet einen exit code von 0 bei korrektem Hilfeaufruf
+    type    = param
+    cmd       {DUT -h 1>/dev/null ; echo "$?"}
+    expect    {^0$}
+}
+
+test {
+    name    = 3a. Korrekter Aufruf mit einfacher Additition
+    comment = Erwartet die History-Ausgabe auf stderr und das Ergebnis auf stdout, prueft beides
+    type    = param
+    cmd       {DUT 1 2 ADD 1>out.out 2>err.out ; diff out.out example_out.exp && diff err.out example_err.exp && echo "ok"}
+    expect    {^ok$}
+}
+
+test {
+    name    = 3b1. Korrekter Aufruf mit einfacher Addition 
+    comment = Erwartet die History auf stderr und prueft nur diese
+    type    = param
+    cmd       {DUT 1 2 ADD 2>&1 1>/dev/null}
+    expect    {^> ADD 1 2$}
+}
+
+test {
+    name    = 3b2. Korrekter Aufruf mit einfacher Addition
+    comment = Erwartet das Ergebnis auf stdout und prueft nur dieses
+    type    = param
+    cmd       {DUT 1 2 ADD 2>/dev/null }
+    expect    {^3$}
+}
+
