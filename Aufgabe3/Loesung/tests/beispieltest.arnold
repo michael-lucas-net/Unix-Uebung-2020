@@ -27,7 +27,7 @@ test {
     name    = 3a. Korrekter Aufruf mit einfacher Additition
     comment = Erwartet die History-Ausgabe auf stderr und das Ergebnis auf stdout, prueft beides
     type    = param
-    cmd       {DUT 1 2 ADD 1 > ./out/out.out 2>err.out ; diff ./out/out.out ./testfaelle/example_out.exp && diff ./out/err.out ./testfaelle/example_err.exp && echo "ok"}
+    cmd       {DUT 1 2 ADD 1> ./out/add1_result.out 2>./out/add1_history.out ; diff ./out/add1_result.out ./testfaelle/example_out.exp && diff ./out/add1_history.out ./testfaelle/example_err.exp && echo "ok"}
     expect    {^ok$}
 }
 

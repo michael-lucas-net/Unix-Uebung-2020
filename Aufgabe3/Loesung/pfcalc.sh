@@ -76,7 +76,7 @@ showError(){
 # Ueberprueft, ob die uebergebene Zahl eine ganze Zahl ist
 isNumber(){
   #TODO: Check, ob wirklich nur ints erlaubt sind
-  if [[ "$1"  =~ ^[0-9]+$ ]]; then
+  if [[ "$1"  =~ ^-?[0-9]+$ ]]; then
     return 0
   else 
     return 1
@@ -148,6 +148,10 @@ calculate(){
   esac
 }
 
+printHistory() {
+ echo ">" "$op" "$num1" "$num2" >&2
+}
+
 # Solange die Anzahl der Parameter ($#) größer 0
 while [ $# -gt 0 ];
 do
@@ -177,6 +181,7 @@ do
         showError "no-numbers"
       else
         # Rechnen
+        printHistory
         calculate
         setVars
       fi
