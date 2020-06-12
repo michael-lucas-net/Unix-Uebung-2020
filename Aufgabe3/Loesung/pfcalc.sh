@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # TODO: Change Last Change xD
-# Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020 - 00:50
+# Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020 - 01:09
 
 lastNum="-1"
 num1="-1"
@@ -83,6 +83,15 @@ isNumber(){
   fi
 }
 
+# Prueft, ob der uebergebene Operator auch wirklich ein Operator ist
+isOperator(){
+  if [ "$1" == "ADD" ] || [ "$1" == "SUB" ] || [ "$1" == "MUL" ] || [ "$1" == "DIV" ] || [ "$1" == "MOD" ] || [ "$1" == "EXP" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 # Setzt die richtige Zahl auf den uebergebenen Wert
 # Ich gehe davon aus, das die Funktion korrekt aufgerufen wird
 setNumber(){
@@ -99,15 +108,8 @@ setNumber(){
     esac
 }
 
-# Prueft, ob der uebergebene Operator auch wirklich ein Operator ist
-isOperator(){
-  if [ "$1" == "ADD" ] || [ "$1" == "SUB" ] || [ "$1" == "MUL" ] || [ "$1" == "DIV" ] || [ "$1" == "MOD" ] || [ "$1" == "EXP" ]; then
-    return 0
-  else
-    return 1
-  fi
-}
-
+# Rechnet das Ergebnis aus und schreibt es auf "num1"
+# Pruefungen wurden vorher erledigt (bis auf 0 check bei div und mod)
 calculate(){
     case "$op" in
     "ADD")
@@ -133,7 +135,6 @@ calculate(){
         num1=$(("$num1" % "$num2"))
       fi 
     ;;
-    # TODO: FIX
     "EXP")
       num1=$(("$num1" ** "$num2"))
     ;;
