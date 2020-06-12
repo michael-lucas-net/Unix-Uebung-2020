@@ -108,6 +108,13 @@ setNumber(){
     esac
 }
 
+# Setzt nach einer Berechnung die Variablen zurueck
+setVars(){
+  op=""
+  num2="-1"
+  lastNum="1"
+}
+
 # Rechnet das Ergebnis aus und schreibt es auf "num1"
 # Pruefungen wurden vorher erledigt (bis auf 0 check bei div und mod)
 calculate(){
@@ -129,7 +136,7 @@ calculate(){
       fi
     ;;
     "MOD")
-      if "$num1" == 0; then
+      if [ "$num1" == 0 ]; then
         showError "mod-zero"
       else
         num1=$(("$num1" % "$num2"))
@@ -171,7 +178,7 @@ do
       else
         # Rechnen
         calculate
-        echo "$num1"
+        setVars
       fi
     fi
 
@@ -186,3 +193,6 @@ do
 
   shift
 done
+
+  # Ergebnis ausgeben
+  echo "$num1"
