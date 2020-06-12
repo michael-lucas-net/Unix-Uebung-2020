@@ -47,3 +47,11 @@ test {
     expect    {^3$}
 }
 
+test {
+    name    = 4. Fehlerhafter Hilfe-Aufruf
+    comment = Erwartet Fehlermeldung
+    type    = param
+    cmd       {DUT -h -a 1>/dev/null ; echo "$?"}
+    expect    {^1$}
+}
+

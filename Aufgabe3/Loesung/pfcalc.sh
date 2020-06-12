@@ -45,8 +45,8 @@ printText(){
 # Es werden kurze Parameter verwendet, welche zu Texten umgewandelt werden
 # und mit der Funktion "printText" ausgegeben werden
 showError(){
-  if [ "$1" == "wrong-parameter" ]; then
-    printText "Wrong parameters were used."
+  if [ "$1" == "wrong-arguments" ]; then
+    printText "Wrong arguments were used."
     showHelp
   else
     echo showHelp
@@ -60,13 +60,19 @@ while [ $# -gt 0 ];
 do
 
   # Hilfe
-	if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
-    showHelp
-    exit 0
+  if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+
+    # Nur anzeigen, wenn kein weiterer Parameter vorhanden
+    if [ -z "$2" ]; then
+      showHelp
+      exit 0
+    else
+      showError "wrong-arguments"
+    fi
 
   # Keiner zutreffend
   else
-    showError "wrong-parameter"
+    showError "wrong-arguments"
   fi
 
   shift                  #Parameter verschieben $2->$1, $3->$2, $4->$3,...
