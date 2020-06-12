@@ -47,19 +47,27 @@ printText(){
 showError(){
   if [ "$1" == "wrong-arguments" ]; then
     printText "Wrong arguments were used."
-    showHelp
-  else
-    echo showHelp
+  elif [ "$1" == "no-int" ]; then
+    printText "No integer was used"
   fi
 
+  showHelp
   exit 1
+}
+
+isNumber(){
+  if [[ "$1"  =~ ^[0-9]+$ ]]; then
+    return 0
+  else 
+    return 1
+  fi
 }
 
 # Solange die Anzahl der Parameter ($#) größer 0
 while [ $# -gt 0 ];
 do
 
-  # Hilfe
+  #Hilfe
   if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
 
     # Nur anzeigen, wenn kein weiterer Parameter vorhanden
@@ -70,10 +78,17 @@ do
       showError "wrong-arguments"
     fi
 
+  # Zahlen
+  elif ! isNumber "$1"; then
+    showError "no-int"
+
+  elif isNumber "$1"; then
+    echo "Scheint korrekt zu sein"
+
   # Keiner zutreffend
   else
     showError "wrong-arguments"
   fi
 
-  shift                  #Parameter verschieben $2->$1, $3->$2, $4->$3,...
+  shift
 done
