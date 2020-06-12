@@ -1,6 +1,6 @@
 #!/bin/bash
 
-printHelp(){
+showHelp(){
 echo "Usage:
 pfcalc.sh -h | pfcalc.sh --help
 
@@ -28,13 +28,35 @@ pfcalc.sh NUM1 NUM2 OP [NUM OP] ...
 At the end of a successful call the history of all intermediate calculations 
 is printed out to stderr."
 }
+
+printText(){
+  printf "\n"
+  echo "  ----------------------------"
+  printf "   $1\n"
+  echo "  ----------------------------"
+  printf "\n"
+}
+
+showError(){
+  if [ "$1" == "wrong-parameter" ]; then
+    printText "Wrong parameters were used."
+    showHelp
+  else
+    echo "Test: " $1
+  fi
+}
+
 #Solange die Anzahl der Parameter ($#) größer 0
 while [ $# -gt 0 ];
 do
 
 	if [ "$1" == "-h" -o "$1" == "--help" ]; then
-    printHelp
+    showHelp
     exit 0
+  else
+    showError "wrong-parameter"
+    exit 1
   fi
+
   shift                  #Parameter verschieben $2->$1, $3->$2, $4->$3,...
 done
