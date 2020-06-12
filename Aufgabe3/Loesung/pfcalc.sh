@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# TODO: Change Last Change xD
+# Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020 - 00:50
+
+lastNum="-1"
+num1="-1"
+num2="-1"
+op=""
+
 # Gibt die Hilfe aus
 showHelp(){
 echo "Usage:
@@ -46,21 +54,90 @@ printText(){
 # und mit der Funktion "printText" ausgegeben werden
 showError(){
   if [ "$1" == "wrong-arguments" ]; then
-    printText "Wrong arguments were used."
+    printText "Wrong arguments were used."    
   elif [ "$1" == "no-int" ]; then
     printText "No integer was used"
+  elif [ "$1" == "div-zero" ]; then
+    printText  "Dont div by zero, please"
+  elif [ "$1" == "mod-zero" ]; then
+    printText  "Dont mod with zero, please"
+  elif [ "$1" == "wrong-operator" ]; then
+    printText "Please use a correct operator"
+  elif [ "$1" == "no-numbers" ]; then
+    printText "Please select a correct amount of numbers"
+  else 
+    printText "$1"
   fi
 
   showHelp
   exit 1
 }
 
+# Ueberprueft, ob die uebergebene Zahl eine ganze Zahl ist
 isNumber(){
+  #TODO: Check, ob wirklich nur ints erlaubt sind
   if [[ "$1"  =~ ^[0-9]+$ ]]; then
     return 0
   else 
     return 1
   fi
+}
+
+# Setzt die richtige Zahl auf den uebergebenen Wert
+# Ich gehe davon aus, das die Funktion korrekt aufgerufen wird
+setNumber(){
+  case "$lastNum" in
+    -1 | 2)
+      num1=$1
+      lastNum=1
+      ;;
+
+    1)
+      num2=$1
+      lastNum=2
+      ;;
+    esac
+}
+
+# Prueft, ob der uebergebene Operator auch wirklich ein Operator ist
+isOperator(){
+  if [ "$1" == "ADD" ] || [ "$1" == "SUB" ] || [ "$1" == "MUL" ] || [ "$1" == "DIV" ] || [ "$1" == "MOD" ] || [ "$1" == "EXP" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+calculate(){
+    case "$op" in
+    "ADD")
+      num1=$(("$num1" + "$num2"))
+    ;;
+    "SUB")
+      num1=$(("$num1" - "$num2"))
+    ;;
+    "MUL")
+      num1=$(("$num1" * "$num2"))
+    ;;
+    "DIV")
+      if [ "$num2" == 0 ]; then
+        showError "div-zero"
+      else
+        num1=$(("$num1" / "$num2"))
+      fi
+    ;;
+    "MOD")
+      if "$num1" == 0; then
+        showError "mod-zero"
+      else
+        num1=$(("$num1" % "$num2"))
+      fi 
+    ;;
+    # TODO: FIX
+    "EXP")
+      num1=$(("$num1" ** "$num2"))
+    ;;
+  esac
 }
 
 # Solange die Anzahl der Parameter ($#) größer 0
@@ -78,12 +155,28 @@ do
       showError "wrong-arguments"
     fi
 
-  # Zahlen
+  # Keine korrekte Zahl
   elif ! isNumber "$1"; then
-    showError "no-int"
 
+    # Pruefen ob Operator
+    if ! isOperator "$1"; then
+      showError "wrong-operator"
+    else
+      op="$1"
+
+      # Gibt zwar Operator, aber keine Zahlen
+      if [ ! "$num1" -gt 0 ] || [ ! "$num1" -gt 0 ] ; then
+        showError "no-numbers"
+      else
+        # Rechnen
+        calculate
+        echo "$num1"
+      fi
+    fi
+
+  # Korrekte Zahl
   elif isNumber "$1"; then
-    echo "Scheint korrekt zu sein"
+    setNumber "$1" 
 
   # Keiner zutreffend
   else
