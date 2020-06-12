@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Gibt die Hilfe aus
 showHelp(){
 echo "Usage:
 pfcalc.sh -h | pfcalc.sh --help
@@ -29,33 +30,43 @@ At the end of a successful call the history of all intermediate calculations
 is printed out to stderr."
 }
 
+# Gibt uebergebenen Text aus.
+# Methode erstellt, um Code-Verdopplung zu sparen und 
+# Darstellung zu verschoenern
 printText(){
   printf "\n"
   echo "  ----------------------------"
-  printf "   $1\n"
+  printf "   %s\n" "$1"
   echo "  ----------------------------"
   printf "\n"
 }
 
+# Laesst Fehler anzeigen
+# Es werden kurze Parameter verwendet, welche zu Texten umgewandelt werden
+# und mit der Funktion "printText" ausgegeben werden
 showError(){
   if [ "$1" == "wrong-parameter" ]; then
     printText "Wrong parameters were used."
     showHelp
   else
-    echo "Test: " $1
+    echo showHelp
   fi
+
+  exit 1
 }
 
-#Solange die Anzahl der Parameter ($#) größer 0
+# Solange die Anzahl der Parameter ($#) größer 0
 while [ $# -gt 0 ];
 do
 
-	if [ "$1" == "-h" -o "$1" == "--help" ]; then
+  # Hilfe
+	if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     showHelp
     exit 0
+
+  # Keiner zutreffend
   else
     showError "wrong-parameter"
-    exit 1
   fi
 
   shift                  #Parameter verschieben $2->$1, $3->$2, $4->$3,...
