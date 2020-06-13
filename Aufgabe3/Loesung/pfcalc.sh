@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # TODO: Change Last Change xD
+# TODO: Funktionsbeschreibung inkl. Parameter
 # Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020 - 01:09
 
 lastNum="-1"
@@ -148,8 +149,24 @@ calculate(){
   esac
 }
 
+# Gibt die History auf stderr aus
 printHistory() {
  echo ">" "$op" "$num1" "$num2" >&2
+}
+
+# Prueft, ob printHistory aufgerufen werden darf
+# darf nicht, wenn div zero und mul zero
+# TODO: Eleganer loesen
+isPrintable(){
+  shouldPrint=0
+
+  if [ "$op" == "DIV" ] && [ "$num2" == 0 ]; then
+    shouldPrint=1;
+  elif [ "$op" == "EXP" ] && [ "$num1" == 0 ]; then
+    shouldPrint=1
+  fi
+
+  return "$shouldPrint"
 }
 
 # Solange die Anzahl der Parameter ($#) größer 0
@@ -181,7 +198,11 @@ do
         showError "no-numbers"
       else
         # Rechnen
-        printHistory
+        # TODO: Gibt noch history aus, wenn man durch 0 teilt oder mit 0 multipliret (bei exp)
+        if isPrintable; then
+          printHistory
+        fi
+
         calculate
         setVars
       fi

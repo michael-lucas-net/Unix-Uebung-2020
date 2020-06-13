@@ -174,3 +174,11 @@ test {
     cmd       {DUT 5 2 EXP 2>/dev/null }
     expect    {^25$}
 }
+
+test {
+    name    = 10c. DIV mit 0
+    comment = Erwartet Fehler
+    type    = param
+    cmd       {DUT 10 0 DIV 1>/dev/null ; echo "$?"}
+    expect    {^1$}
+}
