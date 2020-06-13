@@ -2,7 +2,7 @@
 
 # TODO: Change Last Change xD
 # TODO: Funktionsbeschreibung inkl. Parameter
-# Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020 - 01:09
+# Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020 - 03:23
 
 lastNum="-1"
 num1="-1"
@@ -208,11 +208,10 @@ do
       op="$1"
 
       # Gibt zwar Operator, aber keine Zahlen
-      if [ ! "$num1" -gt 0 ] || [ ! "$num1" -gt 0 ] ; then
+      if [ ! "$num1" -gt -1 ] || [ ! "$num1" -gt -1 ] ; then
         showError "no-numbers"
       else
         # Rechnen
-        # TODO: Gibt noch history aus, wenn man durch 0 teilt oder mit 0 multipliret (bei exp)
         if isPrintable; then
           printHistory
         fi
