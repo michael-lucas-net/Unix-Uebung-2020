@@ -126,7 +126,7 @@ power() {
     i=$((i + 1))
   done
 
-  return "$res"
+  echo "$res"
 }
 
 # Rechnet das Ergebnis aus und schreibt es auf "num1"
@@ -157,8 +157,8 @@ calculate(){
       fi 
     ;;
     "EXP")
-      power "$num1" "$num2"
-      num1=$? # Letztes Ergebnis auslesen
+      #power "$num1" "$num2"
+      num1=$( power "$num1" "$num2" ) 
     ;;
   esac
 }
