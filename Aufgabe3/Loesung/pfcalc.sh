@@ -1,13 +1,17 @@
 #!/bin/sh
 
-# TODO: Change Last Change xD
+# TODO: Change Last Change
 # TODO: Funktionsbeschreibung inkl. Parameter
-# Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020 - 03:23
+# TODO: Endlosschleife?
+# TODO: Falsche Aufrufsyntax
+# TODO: globale Vars raus -.-
+# Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020 - 15:30
 
 lastNum="-1"
 num1="-1"
 num2="-1"
 op=""
+history=""
 
 # Gibt die Hilfe aus
 showHelp(){
@@ -43,16 +47,13 @@ is printed out to stderr."
 # Methode erstellt, um Code-Verdopplung zu sparen und 
 # Darstellung zu verschoenern
 printText(){
-  printf "\n"
-  echo "  ----------------------------"
-  printf "   %s\n" "$1"
-  echo "  ----------------------------"
-  printf "\n"
+  printf "ERROR: %s\n" "$1"
 }
 
 # Laesst Fehler anzeigen
 # Es werden kurze Parameter verwendet, welche zu Texten umgewandelt werden
 # und mit der Funktion "printText" ausgegeben werden
+# TODO: Verschiedene Error-Codes?
 showError(){
   if [ "$1" = "wrong-arguments" ]; then
     printText "Wrong arguments were used."    
@@ -85,6 +86,7 @@ isNumber(){
   fi
 }
 
+# Prueft, ob die uebergebene Zahl negativ ist
 isNegativeNumber(){
   if [ "$1" -lt 0 ]; then
     return 0
@@ -159,7 +161,7 @@ calculate(){
       num1=$(($num1 / $num2))
     ;;
     "MOD")
-      if [ "$num1" = 0 ]; then
+      if [ "$num2" = 0 ]; then
         showError "mod-zero"
       fi
       num1=$(($num1 % $num2))
@@ -175,22 +177,17 @@ calculate(){
 
 # Gibt die History auf stderr aus
 printHistory() {
- echo ">" "$op" "$num1" "$num2" >&2
+  echo "$history" >&2
 }
 
-# Prueft, ob printHistory aufgerufen werden darf
-# darf nicht, wenn div zero und mul zero
-# TODO: Eleganer loesen
-isPrintable(){
-  shouldPrint=0
-
-  if [ "$op" = "DIV" ] && [ "$num2" = 0 ]; then
-    shouldPrint=1;
-  elif [ "$op" = "EXP" ] && [ "$num1" = 0 ]; then
-    shouldPrint=1
+# Schreibt Geschichte ;)
+# Speichert die Rechnenoperationen in eine Variable
+# (Wird am Ende mit printHistory ausgegeben)
+writeHistory(){
+  if [ ! -z "$history" ]; then
+    history="${history}\n"
   fi
-
-  return "$shouldPrint"
+  history="${history}> $op $num1 $num2"
 }
 
 # Solange die Anzahl der Parameter ($#) größer 0
@@ -216,12 +213,9 @@ do
       showError "wrong-operator"
     else
       op="$1"
-        if isPrintable; then
-          printHistory
-        fi
-
-        calculate
-        setVars
+      writeHistory "$op" "$1" "$2"
+      calculate
+      setVars
     fi
 
   # Korrekte Zahl
@@ -235,6 +229,9 @@ do
 
   shift
 done
+
+  # History ausgeben
+  printHistory
 
   # Ergebnis ausgeben
   echo "$num1"
