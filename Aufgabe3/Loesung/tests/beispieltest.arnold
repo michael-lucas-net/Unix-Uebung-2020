@@ -182,3 +182,24 @@ test {
     cmd       {DUT 10 0 DIV 1>/dev/null ; echo "$?"}
     expect    {^1$}
 }
+test {
+    name    = 11a. ADD SUB MUL DIV EXP MOD 1
+    comment = Erwartet die History-Ausgabe auf stderr und das Ergebnis auf stdout, prueft beides
+    type    = param
+    cmd       {DUT 5 4 ADD 2 SUB 3 MUL 7 DIV 3 EXP 2 MOD 1> ./out/everything1_result.out 2>./out/everything1_history.out ; diff ./out/everything1_result.out ./testfaelle/everything1_result.exp && diff ./out/everything1_history.out ./testfaelle/everything1_history.exp && echo "ok"}
+    expect    {^ok$}
+}
+test {
+    name    = 11b. Korrekter Aufruf mit einfacher EXP
+    comment = Erwartet das Ergebnis auf stdout und prueft nur dieses
+    type    = param
+    cmd       {DUT 5 4 ADD 2 SUB 3 MUL 7 DIV 3 EXP 2 MOD 2>/dev/null }
+    expect    {^1$}
+}
+test {
+    name    = 12 Ungueltiger Aufruf
+    comment = Erwartet das Ergebnis auf stdout und prueft nur dieses
+    type    = param
+    cmd       {DUT 5 4 3 MOD 2>/dev/null }
+    expect    {^1$}
+}

@@ -62,6 +62,8 @@ showError(){
     printText  "Dont div by zero, please"
   elif [ "$1" = "mod-zero" ]; then
     printText  "Dont mod with zero, please"
+  elif [ "$1" = "exp-negative" ]; then
+    printText "Dont exp with numbers less than zero, please"
   elif [ "$1" = "wrong-operator" ]; then
     printText "Please use a correct operator"
   elif [ "$1" = "no-numbers" ]; then
@@ -76,9 +78,17 @@ showError(){
 
 # Ueberprueft, ob die uebergebene Zahl eine ganze Zahl ist
 isNumber(){
-  if echo "$1" | grep -E -q '^[0-9]+$'; then
+  if echo "$1" | grep -E -q '^[-]?[[:digit:]]+$'; then
     return 0
   else
+    return 1
+  fi
+}
+
+isNegativeNumber(){
+  if [ "$1" -lt 0 ]; then
+    return 0
+  else 
     return 1
   fi
 }
@@ -134,30 +144,30 @@ power() {
 calculate(){
     case "$op" in
     "ADD")
-      num1=$((num1 + num2))
+      num1=$(($num1 + $num2))
     ;;
     "SUB")
-      num1=$((num1 - num2))
+      num1=$(($num1 - $num2))
     ;;
     "MUL")
-      num1=$((num1 * num2))
+      num1=$(($num1 * $num2))
     ;;
     "DIV")
       if [ "$num2" = 0 ]; then
         showError "div-zero"
-      else
-        num1=$((num1 / num2))
       fi
+      num1=$(($num1 / $num2))
     ;;
     "MOD")
       if [ "$num1" = 0 ]; then
         showError "mod-zero"
-      else
-        num1=$((num1 % num2))
-      fi 
+      fi
+      num1=$(($num1 % $num2))
     ;;
     "EXP")
-      #power "$num1" "$num2"
+      if isNegativeNumber "$num2"; then
+        showError "exp-negative"
+      fi
       num1=$( power "$num1" "$num2" ) 
     ;;
   esac
@@ -206,19 +216,12 @@ do
       showError "wrong-operator"
     else
       op="$1"
-
-      # Gibt zwar Operator, aber keine Zahlen
-      if [ ! "$num1" -gt -1 ] || [ ! "$num1" -gt -1 ] ; then
-        showError "no-numbers"
-      else
-        # Rechnen
         if isPrintable; then
           printHistory
         fi
 
         calculate
         setVars
-      fi
     fi
 
   # Korrekte Zahl
