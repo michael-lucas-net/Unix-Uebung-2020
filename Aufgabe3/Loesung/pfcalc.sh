@@ -117,12 +117,12 @@ setVars(){
 
 # power 2 3 -> 8
 power() {
-  res=0
-  i=1
+  res=1
+  i=0
 
   while [ "$i" -ne "$2" ]
   do
-    res=$((res + ($1 * $1)))
+    res=$((res * $1))
     i=$((i + 1))
   done
 
