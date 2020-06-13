@@ -151,11 +151,16 @@ do
     history=""
     shift
 
-    while [ -n "$1" -a -n "$2" ]; do
+    # -n : not null
+    while [ -n "$1" ] && [ -n "$2" ]; do
       # Fuer History Temp-Variable "number1"
       number1="$result"
       number2="$1"
       op="$2"
+
+      if [ -z "$history" ] && isNumber "$op"; then
+        showError "wrong-operator"
+      fi
       
       # Rechnen
       if isNumber "$number2"; then

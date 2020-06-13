@@ -190,7 +190,7 @@ test {
     expect    {^ok$}
 }
 test {
-    name    = 11b. Korrekter Aufruf mit einfacher EXP
+    name    = 11b. ADD SUB MUL DIV EXP MOD 1
     comment = Erwartet das Ergebnis auf stdout und prueft nur dieses
     type    = param
     cmd       {DUT 5 4 ADD 2 SUB 3 MUL 7 DIV 3 EXP 2 MOD 2>/dev/null }
@@ -200,14 +200,14 @@ test {
     name    = 12 DIV 0 Fehler
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
-    cmd       {DUT 5 2 ADD 7 SUB 199 ADD 0 DIV 1>/dev/null ; echo "$?"}
+    cmd       {DUT 5 0 DIV 1>/dev/null ; echo "$?"}
     expect    {^3$}
 }
 test {
     name    = 12 MOD 0 Fehler
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
-    cmd       {DUT 1 2 ADD 0 MOD 1>/dev/null ; echo "$?"}
+    cmd       {DUT 1 0 MOD 1>/dev/null ; echo "$?"}
     expect    {^4$}
 }
 test {
@@ -216,4 +216,18 @@ test {
     type    = param
     cmd       {DUT 100 -2 EXP 1>/dev/null ; echo "$?"}
     expect    {^5$}
+}
+test {
+    name    = 13 Wrong Operator (zuviele Zahlen)
+    comment = Erwartet, dass Programm abbricht (mit Fehler)
+    type    = param
+    cmd       {DUT 1 2 3 ADD 1>/dev/null ; echo "$?"}
+    expect    {^6$}
+}
+test {
+    name    = 14 Wrong Operator (zuviele Operatoren am Anfang)
+    comment = Erwartet, dass Programm abbricht (mit Fehler)
+    type    = param
+    cmd       {DUT SUB 1 2 1>/dev/null ; echo "$?"}
+    expect    {^1$}
 }
