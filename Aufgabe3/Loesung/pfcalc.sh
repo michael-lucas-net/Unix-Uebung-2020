@@ -4,14 +4,7 @@
 # TODO: Funktionsbeschreibung inkl. Parameter
 # TODO: Endlosschleife?
 # TODO: Falsche Aufrufsyntax
-# TODO: globale Vars raus -.-
 # Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020 - 15:30
-
-lastNum="-1"
-num1="-1"
-num2="-1"
-op=""
-history=""
 
 # Gibt die Hilfe aus
 showHelp(){
@@ -53,28 +46,35 @@ printText(){
 # Laesst Fehler anzeigen
 # Es werden kurze Parameter verwendet, welche zu Texten umgewandelt werden
 # und mit der Funktion "printText" ausgegeben werden
-# TODO: Verschiedene Error-Codes?
 showError(){
+  local errorCode=1
   if [ "$1" = "wrong-arguments" ]; then
-    printText "Wrong arguments were used."    
+    printText "Wrong arguments were used."
   elif [ "$1" = "no-int" ]; then
     printText "No integer was used"
+    errorCode=2
   elif [ "$1" = "div-zero" ]; then
     printText  "Dont div by zero, please"
+    errorCode=3
   elif [ "$1" = "mod-zero" ]; then
     printText  "Dont mod with zero, please"
+    errorCode=4
   elif [ "$1" = "exp-negative" ]; then
     printText "Dont exp with numbers less than zero, please"
+    errorCode=5
   elif [ "$1" = "wrong-operator" ]; then
     printText "Please use a correct operator"
+    errorCode=6
   elif [ "$1" = "no-numbers" ]; then
     printText "Please select a correct amount of numbers"
+    errorCode=7
   else 
     printText "$1"
+    errorCode=8
   fi
 
   showHelp
-  exit 1
+  exit "$errorCode"
 }
 
 # Ueberprueft, ob die uebergebene Zahl eine ganze Zahl ist
@@ -104,33 +104,10 @@ isOperator(){
   fi
 }
 
-# Setzt die richtige Zahl auf den uebergebenen Wert
-# Ich gehe davon aus, das die Funktion korrekt aufgerufen wird
-setNumber(){
-  case "$lastNum" in
-    -1 | 2)
-      num1=$1
-      lastNum=1
-      ;;
-
-    1)
-      num2=$1
-      lastNum=2
-      ;;
-    esac
-}
-
-# Setzt nach einer Berechnung die Variablen zurueck
-setVars(){
-  op=""
-  num2="-1"
-  lastNum="1"
-}
-
 # power 2 3 -> 8
 power() {
-  res=1
-  i=0
+  local res=1
+  local i=0
 
   while [ "$i" -ne "$2" ]
   do
@@ -141,53 +118,16 @@ power() {
   echo "$res"
 }
 
-# Rechnet das Ergebnis aus und schreibt es auf "num1"
-# Pruefungen wurden vorher erledigt (bis auf 0 check bei div und mod)
-calculate(){
-    case "$op" in
-    "ADD")
-      num1=$(($num1 + $num2))
-    ;;
-    "SUB")
-      num1=$(($num1 - $num2))
-    ;;
-    "MUL")
-      num1=$(($num1 * $num2))
-    ;;
-    "DIV")
-      if [ "$num2" = 0 ]; then
-        showError "div-zero"
-      fi
-      num1=$(($num1 / $num2))
-    ;;
-    "MOD")
-      if [ "$num2" = 0 ]; then
-        showError "mod-zero"
-      fi
-      num1=$(($num1 % $num2))
-    ;;
-    "EXP")
-      if isNegativeNumber "$num2"; then
-        showError "exp-negative"
-      fi
-      num1=$( power "$num1" "$num2" ) 
-    ;;
-  esac
-}
-
-# Gibt die History auf stderr aus
-printHistory() {
-  echo "$history" >&2
-}
-
 # Schreibt Geschichte ;)
-# Speichert die Rechnenoperationen in eine Variable
-# (Wird am Ende mit printHistory ausgegeben)
 writeHistory(){
+  local history="$1"
+  local op="$2"
+  local num1="$3"
+  local num2="$4"
   if [ ! -z "$history" ]; then
     history="${history}\n"
   fi
-  history="${history}> $op $num1 $num2"
+  echo "$history> $op $num1 $num2"
 }
 
 # Solange die Anzahl der Parameter ($#) größer 0
@@ -205,22 +145,54 @@ do
       showError "wrong-arguments"
     fi
 
-  # Keine korrekte Zahl
-  elif ! isNumber "$1"; then
-
-    # Pruefen ob Operator
-    if ! isOperator "$1"; then
-      showError "wrong-operator"
-    else
-      op="$1"
-      writeHistory "$op" "$1" "$2"
-      calculate
-      setVars
-    fi
-
   # Korrekte Zahl
   elif isNumber "$1"; then
-    setNumber "$1" 
+    result="$1"
+    history=""
+    shift
+
+    while [ -n "$1" -a -n "$2" ]; do
+      # Fuer History Temp-Variable "number1"
+      number1="$result"
+      number2="$1"
+      op="$2"
+      
+      # Rechnen
+      if isNumber "$number2"; then
+        case "$op" in
+          "ADD")
+              result=$(($result + $number2))
+            ;;
+            "SUB")
+              result=$(($result - $number2))
+            ;;
+            "MUL")
+              result=$(($result * $number2))
+            ;;
+            "DIV")
+              if [ "$number2" = 0 ]; then
+                showError "div-zero"
+              fi
+              result=$(($result / $number2))
+            ;;
+            "MOD")
+              if [ "$number2" = 0 ]; then
+                showError "mod-zero"
+              fi
+              result=$(($result % $number2))
+            ;;
+            "EXP")
+              if isNegativeNumber "$number2"; then
+                showError "exp-negative"
+              fi
+              result=$( power "$result" "$number2" ) 
+          ;;
+        esac
+
+        history=$(writeHistory "$history" "$op" "$number1" "$number2")
+      fi
+      shift
+    done
 
   # Keiner zutreffend
   else
@@ -230,8 +202,10 @@ do
   shift
 done
 
-  # History ausgeben
-  printHistory
+# History ausgeben
+echo "$history" >&2
 
-  # Ergebnis ausgeben
-  echo "$num1"
+# Ergebnis ausgeben
+echo "$result"
+
+exit 0

@@ -180,7 +180,7 @@ test {
     comment = Erwartet Fehler
     type    = param
     cmd       {DUT 10 0 DIV 1>/dev/null ; echo "$?"}
-    expect    {^1$}
+    expect    {^3$}
 }
 test {
     name    = 11a. ADD SUB MUL DIV EXP MOD 1
@@ -201,19 +201,19 @@ test {
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 5 2 ADD 7 SUB 199 ADD 0 DIV 1>/dev/null ; echo "$?"}
-    expect    {^1$}
+    expect    {^3$}
 }
 test {
     name    = 12 MOD 0 Fehler
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 1 2 ADD 0 MOD 1>/dev/null ; echo "$?"}
-    expect    {^1$}
+    expect    {^4$}
 }
 test {
     name    = 12 EXP Negative Zahl Fehler
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 100 -2 EXP 1>/dev/null ; echo "$?"}
-    expect    {^1$}
+    expect    {^5$}
 }
