@@ -32,7 +32,7 @@ test {
 }
 
 test {
-    name    = 3b1. Korrekter Aufruf mit einfacher Addition 
+    name    = 3b. Korrekter Aufruf mit einfacher Addition 
     comment = Erwartet die History auf stderr und prueft nur diese
     type    = param
     cmd       {DUT 1 2 ADD 2>&1 1>/dev/null}
@@ -40,7 +40,7 @@ test {
 }
 
 test {
-    name    = 3b2. Korrekter Aufruf mit einfacher Addition
+    name    = 3c. Korrekter Aufruf mit einfacher Addition
     comment = Erwartet das Ergebnis auf stdout und prueft nur dieses
     type    = param
     cmd       {DUT 1 2 ADD 2>/dev/null }
@@ -55,3 +55,122 @@ test {
     expect    {^1$}
 }
 
+test {
+    name    = 5a. Korrekter Aufruf mit einfacher Multiplikation
+    comment = Erwartet die History-Ausgabe auf stderr und das Ergebnis auf stdout, prueft beides
+    type    = param
+    cmd       {DUT 5 10 MUL 1> ./out/mul1_result.out 2>./out/mul1_history.out ; diff ./out/mul1_result.out ./testfaelle/mul1.exp && diff ./out/mul1_history.out ./testfaelle/mul1_history.exp && echo "ok"}
+    expect    {^ok$}
+}
+
+test {
+    name    = 5b. Korrekter Aufruf mit einfacher Multiplikation 
+    comment = Erwartet die History auf stderr und prueft nur diese
+    type    = param
+    cmd       {DUT 5 10 MUL 2>&1 1>/dev/null}
+    expect    {^> MUL 5 10$}
+}
+
+test {
+    name    = 5c. Korrekter Aufruf mit einfacher Multiplikation
+    comment = Erwartet das Ergebnis auf stdout und prueft nur dieses
+    type    = param
+    cmd       {DUT 5 10 MUL 2>/dev/null }
+    expect    {^50$}
+}
+
+test {
+    name    = 6a. Korrekter Aufruf mit einfacher Division
+    comment = Erwartet die History-Ausgabe auf stderr und das Ergebnis auf stdout, prueft beides
+    type    = param
+    cmd       {DUT 100 25 DIV 1> ./out/div1_result.out 2>./out/div1_history.out ; diff ./out/div1_result.out ./testfaelle/div1_result.exp && diff ./out/div1_history.out ./testfaelle/div1_history.exp && echo "ok"}
+    expect    {^ok$}
+}
+
+test {
+    name    = 6b. Korrekter Aufruf mit einfacher Division 
+    comment = Erwartet die History auf stderr und prueft nur diese
+    type    = param
+    cmd       {DUT 100 25 DIV 2>&1 1>/dev/null}
+    expect    {^> DIV 100 25$}
+}
+
+test {
+    name    = 6c. Korrekter Aufruf mit einfacher Division
+    comment = Erwartet das Ergebnis auf stdout und prueft nur dieses
+    type    = param
+    cmd       {DUT 100 25 DIV 2>/dev/null }
+    expect    {^4$}
+}
+
+test {
+    name    = 7a. Korrekter Aufruf mit einfacher Subtraktion
+    comment = Erwartet die History-Ausgabe auf stderr und das Ergebnis auf stdout, prueft beides
+    type    = param
+    cmd       {DUT 7 5 SUB 1> ./out/sub1_result.out 2>./out/sub1_history.out ; diff ./out/sub1_result.out ./testfaelle/sub1_result.exp && diff ./out/sub1_history.out ./testfaelle/sub1_history.exp && echo "ok"}
+    expect    {^ok$}
+}
+
+test {
+    name    = 7b. Korrekter Aufruf mit einfacher Subtraktion 
+    comment = Erwartet die History auf stderr und prueft nur diese
+    type    = param
+    cmd       {DUT 7 5 SUB 2>&1 1>/dev/null}
+    expect    {^> SUB 7 5$}
+}
+
+test {
+    name    = 7c. Korrekter Aufruf mit einfacher Subtraktion
+    comment = Erwartet das Ergebnis auf stdout und prueft nur dieses
+    type    = param
+    cmd       {DUT 7 5 SUB 2>/dev/null }
+    expect    {^2$}
+}
+
+test {
+    name    = 8a. Korrekter Aufruf mit einfacher MOD
+    comment = Erwartet die History-Ausgabe auf stderr und das Ergebnis auf stdout, prueft beides
+    type    = param
+    cmd       {DUT 10 2 MOD 1> ./out/mod1_result.out 2>./out/mod1_history.out ; diff ./out/mod1_result.out ./testfaelle/mod1_result.exp && diff ./out/mod1_history.out ./testfaelle/mod1_history.exp && echo "ok"}
+    expect    {^ok$}
+}
+
+test {
+    name    = 8b. Korrekter Aufruf mit einfacher MOD 
+    comment = Erwartet die History auf stderr und prueft nur diese
+    type    = param
+    cmd       {DUT 10 2 MOD 2>&1 1>/dev/null}
+    expect    {^> MOD 10 2$}
+}
+
+test {
+    name    = 8c. Korrekter Aufruf mit einfacher MOD
+    comment = Erwartet das Ergebnis auf stdout und prueft nur dieses
+    type    = param
+    cmd       {DUT 10 2 MOD 2>/dev/null }
+    expect    {^0$}
+}
+
+test {
+    name    = 9a. Korrekter Aufruf mit einfacher EXP
+    comment = Erwartet die History-Ausgabe auf stderr und das Ergebnis auf stdout, prueft beides
+    type    = param
+    cmd       {DUT 5 2 EXP 1> ./out/exp1_result.out 2>./out/exp1_history.out ; diff ./out/exp1_result.out ./testfaelle/exp1_result.exp && diff ./out/exp1_history.out ./testfaelle/exp1_history.exp && echo "ok"}
+    expect    {^ok$}
+}
+
+test {
+    name    = 9b. Korrekter Aufruf mit einfacher EXP 
+    comment = Erwartet die History auf stderr und prueft nur diese
+    type    = param
+    cmd       {DUT 5 2 EXP 2>&1 1>/dev/null}
+    expect    {^> EXP 5 2$}
+}
+
+test {
+    name    = 9c. Korrekter Aufruf mit einfacher EXP
+    comment = Erwartet das Ergebnis auf stdout und prueft nur dieses
+    type    = param
+    cmd       {DUT 5 2 EXP 2>/dev/null }
+    expect    {^25$}
+}
