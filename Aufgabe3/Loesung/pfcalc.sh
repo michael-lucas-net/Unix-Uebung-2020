@@ -196,6 +196,9 @@ do
               fi
               result=$( power "$result" "$number2" ) 
           ;;
+          *)
+            showError "wrong-operator"
+          ;;
         esac
 
         history=$(writeHistory "$history" "$op" "$number1" "$number2")
