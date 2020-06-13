@@ -35,42 +35,42 @@ is printed out to stderr."
 }
 
 # Gibt uebergebenen Text aus.
-# Methode erstellt, um Code-Verdopplung zu sparen und 
-# Darstellung zu verschoenern
-printText(){
+printError(){
   printf "ERROR: %s\n" "$1" >&2
 }
 
 # Laesst Fehler anzeigen
 # Es werden kurze Parameter verwendet, welche zu Texten umgewandelt werden
-# und mit der Funktion "printText" ausgegeben werden
+# und mit der Funktion "printError" ausgegeben werden
 showError(){
   local errorCode=1
+  local errorText=""
   if [ "$1" = "wrong-arguments" ]; then
-    printText "Wrong arguments were used."
+    errorText="Wrong arguments were used."
   elif [ "$1" = "no-int" ]; then
-    printText "No integer was used"
+    errorText="No integer was used"
     errorCode=2
   elif [ "$1" = "div-zero" ]; then
-    printText  "Dont div by zero, please"
+    errorText="Dont div by zero, please"
     errorCode=3
   elif [ "$1" = "mod-zero" ]; then
-    printText  "Dont mod with zero, please"
+    errorText="Dont mod with zero, please"
     errorCode=4
   elif [ "$1" = "exp-negative" ]; then
-    printText "Dont exp with numbers less than zero, please"
+    errorText="Dont exp with numbers less than zero, please"
     errorCode=5
   elif [ "$1" = "wrong-operator" ]; then
-    printText "Please use a correct operator"
+    errorText="Please use a correct operator"
     errorCode=6
   elif [ "$1" = "no-numbers" ]; then
-    printText "Please select a correct amount of numbers"
+    errorText="Please select a correct amount of numbers"
     errorCode=7
   else 
-    printText "$1"
+    errorText="$1"
     errorCode=8
   fi
 
+  printError errorText
   showHelp
   exit "$errorCode"
 }
@@ -84,36 +84,18 @@ isNumber(){
   fi
 }
 
-# Prueft, ob die uebergebene Zahl negativ ist
-isNegativeNumber(){
-  if [ "$1" -lt 0 ]; then
-    return 0
-  else 
-    return 1
-  fi
-}
-
-# Prueft, ob der uebergebene Operator auch wirklich ein Operator ist
-isOperator(){
-  if [ "$1" = "ADD" ] || [ "$1" = "SUB" ] || [ "$1" = "MUL" ] || [ "$1" = "DIV" ] || [ "$1" = "MOD" ] || [ "$1" = "EXP" ]; then
-    return 0
-  else
-    return 1
-  fi
-}
-
 # power 2 3 -> 8
 power() {
-  local res=1
+  local result=1
   local i=0
 
   while [ "$i" -ne "$2" ]
   do
-    res=$((res * $1))
+    result=$((result * $1))
     i=$((i + 1))
   done
 
-  echo "$res"
+  echo "$result"
 }
 
 # Schreibt Geschichte ;)
@@ -158,7 +140,6 @@ do
 
       # Fuer History Temp-Variable "number1"
       number1="$result"
-
       number2="$1"
       op="$2"
 
@@ -191,7 +172,8 @@ do
               result=$(($result % $number2))
             ;;
             "EXP")
-              if isNegativeNumber "$number2"; then
+             # Bei negativer Zahl Fehler ausgeben
+             if [ "$number2" -lt 0 ]; then
                 showError "exp-negative"
               fi
               result=$( power "$result" "$number2" ) 
@@ -215,13 +197,11 @@ do
 
 done
 
-# History ausgeben
+# History und Ergebnis ausgeben
 if [ -z "$history" ]; then
   showError "wrong-arguments"
 else 
   echo "$history" >&2
-
-  # Ergebnis ausgeben
   echo "$result"
 fi
 
