@@ -52,7 +52,8 @@ test {
     comment = Erwartet Fehlermeldung
     type    = param
     cmd       {DUT -h -a 1>/dev/null ; echo "$?"}
-    expect    {^1$}
+    expect    {^1
+    ERROR: Wrong arguments were used.$}
 }
 
 test {
@@ -180,7 +181,8 @@ test {
     comment = Erwartet Fehler
     type    = param
     cmd       {DUT 10 0 DIV 1>/dev/null ; echo "$?"}
-    expect    {^3$}
+    expect    {^3
+    ERROR: Dont div by zero, please'$}
 }
 test {
     name    = 11a. ADD SUB MUL DIV EXP MOD 1
@@ -197,44 +199,74 @@ test {
     expect    {^1$}
 }
 test {
-    name    = 12 DIV 0 Fehler
+    name    = 12a DIV 0 Fehler
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 5 0 DIV 1>/dev/null ; echo "$?"}
-    expect    {^3$}
+    expect    {^3
+ERROR: Dont div by zero, please'$}
 }
 test {
-    name    = 12 MOD 0 Fehler
+    name    = 12b MOD 0 Fehler
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 1 0 MOD 1>/dev/null ; echo "$?"}
-    expect    {^4$}
+    expect    {^4
+    ERROR: Dont mod with zero, please'$}
 }
 test {
-    name    = 12 EXP Negative Zahl Fehler
+    name    = 12c EXP Negative Zahl Fehler
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 100 -2 EXP 1>/dev/null ; echo "$?"}
-    expect    {^5$}
+    expect    {^5
+    ERROR: Dont exp with numbers less than zero, please'$}
 }
 test {
-    name    = 13 Wrong Operator (zuviele Zahlen)
+    name    = 13 Zuviele Zahlen (am Anfang)
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 1 2 3 ADD 1>/dev/null ; echo "$?"}
-    expect    {^6$}
+    expect    {^6
+    ERROR: Please use a correct operator'$}
 }
 test {
-    name    = 14 Wrong Operator (zuviele Operatoren am Anfang)
+    name    = 14 Zuviele Zahlen (am Ende)
+    comment = Erwartet, dass Programm abbricht (mit Fehler)
+    type    = param
+    cmd       {DUT 1 2 ADD 1 2 1>/dev/null ; echo "$?"}
+    expect    {^6
+    ERROR: Please use a correct operator'$}
+}
+test {
+    name    = 15 Zuviele Operatoren (zuviele Operatoren am Anfang)
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT SUB 1 2 1>/dev/null ; echo "$?"}
-    expect    {^1$}
+    expect    {^1
+    ERROR: Wrong arguments were used.'$}
 }
 test {
-    name    = 15 Wrong Operator (zuviele Operatoren am Ende)
+    name    = 16 Zuviele Operatoren (zuviele Operatoren am Ende)
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 1 2 ADD SUB 1>/dev/null ; echo "$?"}
-    expect    {^1$}
+    expect    {^1
+    ERROR: Wrong arguments were used.'$}
+}
+test {
+    name    = 17 Zuviele Operatoren (mitten drin)
+    comment = Erwartet, dass Programm abbricht (mit Fehler)
+    type    = param
+    cmd       {DUT 1 2 ADD SUB 2 3 1>/dev/null ; echo "$?"}
+    expect    {^6
+    ERROR: Please use a correct operator'$}
+}
+test {
+    name    = 17b Zuviele Operatoren (mitten drin)
+    comment = Erwartet einen exit code von 0 bei korrektem Hilfeaufruf
+    type    = param
+    cmd       {DUT 1 2 ADD SUB 2 3 1>/dev/null ; echo "$?"}
+    expect    {^6
+    ERROR: Wrong arguments were used.$}
 }

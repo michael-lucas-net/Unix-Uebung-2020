@@ -2,9 +2,7 @@
 
 # TODO: Change Last Change
 # TODO: Funktionsbeschreibung inkl. Parameter
-# TODO: Endlosschleife?
-# Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020 - 15:30
-
+# Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020
 
 # Gibt die Hilfe aus
 showHelp(){
@@ -40,7 +38,7 @@ is printed out to stderr."
 # Methode erstellt, um Code-Verdopplung zu sparen und 
 # Darstellung zu verschoenern
 printText(){
-  printf "ERROR: %s\n" "$1"
+  printf "ERROR: %s\n" "$1" >&2
 }
 
 # Laesst Fehler anzeigen
