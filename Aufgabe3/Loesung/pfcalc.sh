@@ -1,12 +1,18 @@
 #!/bin/sh
 
-# TODO: Change Last Change
-# TODO: Funktionsbeschreibung inkl. Parameter
-# Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020
+# +--------------------------------------+--------------------------------------------------------------------+
+# |                                 Calculator - Michael Lucas inf102773                                      |
+# +--------------------------------------+--------------------------------------------------------------------+
+# | Beschreibung                         | Dieses Skript ist ein kleiner Taschenrechner mit Postfix-Notation. |
+# | Last Change                          | 14.06.2020                                                         |
+# | Aufruf                               | -h / --help => Hilfeausgabe | NUM1 NUM2 OP [...] => Berechnung     |
+# | Beispiel-Aufruf                      | pfcalc.sh 5 7 ADD 2 DIV 6 MUL 2 MOD                                |
+# +--------------------------------------+--------------------------------------------------------------------+
 
 # Gibt die Hilfe aus
 showHelp(){
-echo "Usage:
+  cat << buffer
+Usage:
 pfcalc.sh -h | pfcalc.sh --help
 
   prints this help and exits
@@ -31,7 +37,8 @@ pfcalc.sh NUM1 NUM2 OP [NUM OP] ...
     EXP - raises NUM1 to the power of NUM2
 
 At the end of a successful call the history of all intermediate calculations 
-is printed out to stderr."
+is printed out to stderr.
+buffer
 }
 
 # Gibt uebergebenen Text aus.
@@ -70,7 +77,7 @@ showError(){
     errorCode=8
   fi
 
-  printError errorText
+  printError "$errorText"
   showHelp
   exit "$errorCode"
 }
@@ -84,18 +91,17 @@ isNumber(){
   fi
 }
 
-# power 2 3 -> 8
+# Rekursive Loesung fuer Exponentialrechnung
+# Beispielaufruf: Power 2 3
+# $1 = 2
+# $2 = 3
 power() {
-  local result=1
-  local i=0
-
-  while [ "$i" -ne "$2" ]
-  do
-    result=$((result * $1))
-    i=$((i + 1))
-  done
-
-  echo "$result"
+  if [ $2 -eq 0 ]; then
+    echo 1
+  else
+    # z.B. 2 * Power 2 2
+    echo $(($1 * $(power $1 $(($2 - 1)))))
+  fi
 }
 
 # Schreibt Geschichte ;)
@@ -160,13 +166,13 @@ do
               result=$(($result * $number2))
             ;;
             "DIV")
-              if [ "$number2" = 0 ]; then
+              if [ "$number2" -eq 0 ]; then
                 showError "div-zero"
               fi
               result=$(($result / $number2))
             ;;
             "MOD")
-              if [ "$number2" = 0 ]; then
+              if [ "$number2" -eq 0 ]; then
                 showError "mod-zero"
               fi
               result=$(($result % $number2))
