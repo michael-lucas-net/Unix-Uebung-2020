@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # TODO: Change Last Change xD
 # TODO: Funktionsbeschreibung inkl. Parameter
@@ -54,17 +54,17 @@ printText(){
 # Es werden kurze Parameter verwendet, welche zu Texten umgewandelt werden
 # und mit der Funktion "printText" ausgegeben werden
 showError(){
-  if [ "$1" == "wrong-arguments" ]; then
+  if [ "$1" = "wrong-arguments" ]; then
     printText "Wrong arguments were used."    
-  elif [ "$1" == "no-int" ]; then
+  elif [ "$1" = "no-int" ]; then
     printText "No integer was used"
-  elif [ "$1" == "div-zero" ]; then
+  elif [ "$1" = "div-zero" ]; then
     printText  "Dont div by zero, please"
-  elif [ "$1" == "mod-zero" ]; then
+  elif [ "$1" = "mod-zero" ]; then
     printText  "Dont mod with zero, please"
-  elif [ "$1" == "wrong-operator" ]; then
+  elif [ "$1" = "wrong-operator" ]; then
     printText "Please use a correct operator"
-  elif [ "$1" == "no-numbers" ]; then
+  elif [ "$1" = "no-numbers" ]; then
     printText "Please select a correct amount of numbers"
   else 
     printText "$1"
@@ -76,17 +76,16 @@ showError(){
 
 # Ueberprueft, ob die uebergebene Zahl eine ganze Zahl ist
 isNumber(){
-  #TODO: Check, ob wirklich nur ints erlaubt sind
-  if [[ "$1"  =~ ^-?[0-9]+$ ]]; then
+  if echo "$1" | grep -E -q '^[0-9]+$'; then
     return 0
-  else 
+  else
     return 1
   fi
 }
 
 # Prueft, ob der uebergebene Operator auch wirklich ein Operator ist
 isOperator(){
-  if [ "$1" == "ADD" ] || [ "$1" == "SUB" ] || [ "$1" == "MUL" ] || [ "$1" == "DIV" ] || [ "$1" == "MOD" ] || [ "$1" == "EXP" ]; then
+  if [ "$1" = "ADD" ] || [ "$1" = "SUB" ] || [ "$1" = "MUL" ] || [ "$1" = "DIV" ] || [ "$1" = "MOD" ] || [ "$1" = "EXP" ]; then
     return 0
   else
     return 1
@@ -116,35 +115,50 @@ setVars(){
   lastNum="1"
 }
 
+# power 2 3 -> 8
+power() {
+  res=0
+  i=1
+
+  while [ "$i" -ne "$2" ]
+  do
+    res=$((res + ($1 * $1)))
+    i=$((i + 1))
+  done
+
+  return "$res"
+}
+
 # Rechnet das Ergebnis aus und schreibt es auf "num1"
 # Pruefungen wurden vorher erledigt (bis auf 0 check bei div und mod)
 calculate(){
     case "$op" in
     "ADD")
-      num1=$(("$num1" + "$num2"))
+      num1=$((num1 + num2))
     ;;
     "SUB")
-      num1=$(("$num1" - "$num2"))
+      num1=$((num1 - num2))
     ;;
     "MUL")
-      num1=$(("$num1" * "$num2"))
+      num1=$((num1 * num2))
     ;;
     "DIV")
-      if [ "$num2" == 0 ]; then
+      if [ "$num2" = 0 ]; then
         showError "div-zero"
       else
-        num1=$(("$num1" / "$num2"))
+        num1=$((num1 / num2))
       fi
     ;;
     "MOD")
-      if [ "$num1" == 0 ]; then
+      if [ "$num1" = 0 ]; then
         showError "mod-zero"
       else
-        num1=$(("$num1" % "$num2"))
+        num1=$((num1 % num2))
       fi 
     ;;
     "EXP")
-      num1=$(("$num1" ** "$num2"))
+      power "$num1" "$num2"
+      num1=$? # Letztes Ergebnis auslesen
     ;;
   esac
 }
@@ -160,9 +174,9 @@ printHistory() {
 isPrintable(){
   shouldPrint=0
 
-  if [ "$op" == "DIV" ] && [ "$num2" == 0 ]; then
+  if [ "$op" = "DIV" ] && [ "$num2" = 0 ]; then
     shouldPrint=1;
-  elif [ "$op" == "EXP" ] && [ "$num1" == 0 ]; then
+  elif [ "$op" = "EXP" ] && [ "$num1" = 0 ]; then
     shouldPrint=1
   fi
 
@@ -174,7 +188,7 @@ while [ $# -gt 0 ];
 do
 
   #Hilfe
-  if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+  if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 
     # Nur anzeigen, wenn kein weiterer Parameter vorhanden
     if [ -z "$2" ]; then
