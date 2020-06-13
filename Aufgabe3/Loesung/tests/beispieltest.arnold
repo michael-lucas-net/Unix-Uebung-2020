@@ -231,3 +231,10 @@ test {
     cmd       {DUT SUB 1 2 1>/dev/null ; echo "$?"}
     expect    {^1$}
 }
+test {
+    name    = 15 Wrong Operator (zuviele Operatoren am Ende)
+    comment = Erwartet, dass Programm abbricht (mit Fehler)
+    type    = param
+    cmd       {DUT 1 2 ADD SUB 1>/dev/null ; echo "$?"}
+    expect    {^1$}
+}

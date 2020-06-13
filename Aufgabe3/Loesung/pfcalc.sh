@@ -3,8 +3,8 @@
 # TODO: Change Last Change
 # TODO: Funktionsbeschreibung inkl. Parameter
 # TODO: Endlosschleife?
-# TODO: Falsche Aufrufsyntax
 # Bash-Calculator | Michael Lucas inf102773 | Last Change: 13.06.2020 - 15:30
+
 
 # Gibt die Hilfe aus
 showHelp(){
@@ -124,7 +124,7 @@ writeHistory(){
   local op="$2"
   local num1="$3"
   local num2="$4"
-  if [ ! -z "$history" ]; then
+  if [ -n "$history" ]; then
     history="${history}\n"
   fi
   echo "$history> $op $num1 $num2"
@@ -151,17 +151,23 @@ do
     history=""
     shift
 
+    if [ -z "$1" ]; then  
+      showError "wrong-arguments"
+    fi
+
     # -n : not null
     while [ -n "$1" ] && [ -n "$2" ]; do
+
       # Fuer History Temp-Variable "number1"
       number1="$result"
+
       number2="$1"
       op="$2"
 
-      if [ -z "$history" ] && isNumber "$op"; then
+      if isNumber "$op"; then
         showError "wrong-operator"
       fi
-      
+
       # Rechnen
       if isNumber "$number2"; then
         case "$op" in
@@ -195,7 +201,9 @@ do
         esac
 
         history=$(writeHistory "$history" "$op" "$number1" "$number2")
+
       fi
+      shift
       shift
     done
 
@@ -204,13 +212,16 @@ do
     showError "wrong-arguments"
   fi
 
-  shift
 done
 
 # History ausgeben
-echo "$history" >&2
+if [ -z "$history" ]; then
+  showError "wrong-arguments"
+else 
+  echo "$history" >&2
 
-# Ergebnis ausgeben
-echo "$result"
+  # Ergebnis ausgeben
+  echo "$result"
+fi
 
 exit 0
