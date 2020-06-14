@@ -85,9 +85,9 @@ showError(){
 # Ueberprueft, ob die uebergebene Zahl eine ganze Zahl ist
 isNumber(){
   if echo "$1" | grep -E -q '^[-]?[[:digit:]]+$'; then
-    return 0
+    echo true
   else
-    return 1
+    echo false
   fi
 }
 
@@ -132,7 +132,7 @@ do
     fi
 
   # Korrekte Zahl
-  elif isNumber "$1"; then
+  elif $(isNumber "$1"); then
     result="$1"
     history=""
     shift
@@ -149,12 +149,12 @@ do
       number2="$1"
       op="$2"
 
-      if isNumber "$op"; then
+      if $(isNumber "$op"); then
         showError "wrong-operator"
       fi
 
       # Rechnen
-      if isNumber "$number2"; then
+      if $(isNumber "$number2"); then
         case "$op" in
           "ADD")
               result=$(($result + $number2))
