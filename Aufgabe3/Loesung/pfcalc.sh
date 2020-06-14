@@ -6,7 +6,9 @@
 # | Beschreibung                         | Dieses Skript ist ein kleiner Taschenrechner mit Postfix-Notation. |
 # | Last Change                          | 14.06.2020                                                         |
 # | Aufruf                               | -h / --help => Hilfeausgabe | NUM1 NUM2 OP [...] => Berechnung     |
-# | Beispiel-Aufruf                      | pfcalc.sh 5 7 ADD 2 DIV 6 MUL 2 MOD                                |
+# | Beispiel-Aufruf                      | pfcalc.sh 5 7 ADD 2 DIV => 6                                       |
+# | Historie -Ausgabe                    | > ADD 5 7                                                          |
+# |                                      | > DIV 12 2                                                         |
 # +--------------------------------------+--------------------------------------------------------------------+
 
 # Gibt die Hilfe aus
