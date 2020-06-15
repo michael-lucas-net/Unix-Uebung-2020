@@ -207,6 +207,13 @@ test {
 ERROR: Dont div by zero, please'$}
 }
 test {
+    name    = 12a2 DIV 0 Fehler
+    comment = Erwartet, dass Programm abbricht (mit Fehler)
+    type    = param
+    cmd       {DUT 7825825 0 DIV 1>./out/divZero1_result.out 2> ./out/divZero1_history.out ; diff ./out/divZero1_result.out ./testfaelle/divZero1_result.exp && diff ./out/divZero1_history.out ./testfaelle/divZero1_history.exp && echo "ok"}
+    expect    {^ok$}
+}
+test {
     name    = 12b MOD 0 Fehler
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
@@ -215,12 +222,26 @@ test {
     ERROR: Dont mod with zero, please'$}
 }
 test {
+    name    = 12b2 MOD 0 Fehler
+    comment = Erwartet, dass Programm abbricht (mit Fehler)
+    type    = param
+    cmd       {DUT 1 0 MOD 1>./out/modZero_result.out 2> ./out/modZero_history.out ; diff ./out/modZero_result.out ./testfaelle/modZero_result.exp && diff ./out/modZero_history.out ./testfaelle/modZero_history.exp && echo "ok"}
+    expect    {^ok$}
+}
+test {
     name    = 12c EXP Negative Zahl Fehler
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 100 -2 EXP 1>/dev/null ; echo "$?"}
     expect    {^5
-    ERROR: Dont exp with numbers less than zero, please'$}
+    '$}
+}
+test {
+    name    = 12d EXP Negative Zahl Fehler
+    comment = Erwartet, dass Programm abbricht (mit Fehler)
+    type    = param
+    cmd       {DUT 100 -2 EXP 1>./out/negativeExp1_result.out 2> ./out/negativeExp1_history.out ; diff ./out/negativeExp1_result.out ./testfaelle/negativeExp1_result.exp && diff ./out/negativeExp1_history.out ./testfaelle/negativeExp1_history.exp && echo "ok"}
+    expect    {^ok$}
 }
 test {
     name    = 13 Zuviele Zahlen (am Anfang)
