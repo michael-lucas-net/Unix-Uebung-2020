@@ -4,10 +4,12 @@
 # |                                 Calculator - Michael Lucas inf102773                                      |
 # +--------------------------------------+--------------------------------------------------------------------+
 # | Beschreibung                         | Dieses Skript ist ein kleiner Taschenrechner mit Postfix-Notation. |
-# | Last Change                          | 14.06.2020                                                         |
+# | Letzte Aenderung                     | 14.06.2020                                                         |
+# +--------------------------------------+--------------------------------------------------------------------+
 # | Aufruf                               | -h / --help => Hilfeausgabe | NUM1 NUM2 OP [...] => Berechnung     |
 # | Beispiel-Aufruf                      | pfcalc.sh 5 7 ADD 2 DIV => 6                                       |
-# | Historie -Ausgabe                    | > ADD 5 7                                                          |
+# | Beispiel-Ausgabe (stdout)            | 6                                                                  |
+# | Historie-Ausgabe (stderr)            | > ADD 5 7                                                          |
 # |                                      | > DIV 12 2                                                         |
 # +--------------------------------------+--------------------------------------------------------------------+
 
@@ -60,9 +62,6 @@ showError(){
   elif [ "$1" = "wrong-operator" ]; then
     errorText="Please use a correct operator"
     errorCode=5
-  else 
-    errorText="$1"
-    errorCode=6
   fi
 
   printf "ERROR: %s\n" "$errorText" >&2
@@ -93,6 +92,7 @@ power() {
 }
 
 # Schreibt Geschichte ;)
+# Gibt Historie in Form von > OP NUM1 NUM2 zurueck
 writeHistory(){
   local history="$1"
   local op="$2"
@@ -107,7 +107,6 @@ writeHistory(){
 # Solange die Anzahl der Parameter ($#) größer 0
 while [ $# -gt 0 ];
 do
-
   #Hilfe
   if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 
@@ -125,6 +124,7 @@ do
     history=""
     shift
 
+    # zu wenig Parameter
     if [ -z "$1" ]; then  
       showError "wrong-arguments"
     fi
@@ -177,25 +177,18 @@ do
         esac
 
         history=$(writeHistory "$history" "$op" "$number1" "$number2")
-
       fi
-      shift
-      shift
+      shift; shift
     done
 
   # Keiner zutreffend
+  # Bricht z.B. bei "SUB 1 2" ab
   else
     showError "wrong-arguments"
   fi
-
 done
 
-# History und Ergebnis ausgeben
-if [ -z "$history" ]; then
-  showError "wrong-arguments"
-else 
-  echo "$history" >&2
-  echo "$result"
-fi
+echo "$history" >&2
+echo "$result"
 
 exit 0

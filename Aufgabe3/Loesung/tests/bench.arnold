@@ -260,7 +260,7 @@ test {
     ERROR: Please use a correct operator'$}
 }
 test {
-    name    = 15 Zuviele Operatoren (zuviele Operatoren am Anfang)
+    name    = 15 Operatoren (Operator am Anfang)
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT SUB 1 2 1>/dev/null ; echo "$?"}
