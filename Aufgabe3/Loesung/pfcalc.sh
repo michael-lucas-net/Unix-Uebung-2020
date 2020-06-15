@@ -43,14 +43,8 @@ is printed out to stderr.
 buffer
 }
 
-# Gibt uebergebenen Text aus.
-printError(){
-  printf "ERROR: %s\n" "$1" >&2
-}
-
 # Laesst Fehler anzeigen
 # Es werden kurze Parameter verwendet, welche zu Texten umgewandelt werden
-# und mit der Funktion "printError" ausgegeben werden
 showError(){
   local errorCode=1
   local errorText=""
@@ -73,7 +67,7 @@ showError(){
     errorCode=6
   fi
 
-  printError "$errorText"
+  printf "ERROR: %s\n" "$errorText" >&2
   showHelp
   exit "$errorCode"
 }
@@ -174,11 +168,10 @@ do
               result=$(($result % $number2))
             ;;
             "EXP")
-             # Bei negativer Zahl Fehler ausgeben
-             if [ "$number2" -lt 0 ]; then
+              if [ "$number2" -lt 0 ]; then
                 showError "exp-negative"
               fi
-              result=$( power "$result" "$number2" ) 
+              result=$(power "$result" "$number2") 
           ;;
           *)
             showError "wrong-operator"
