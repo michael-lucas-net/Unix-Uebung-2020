@@ -56,27 +56,21 @@ showError(){
   local errorText=""
   if [ "$1" = "wrong-arguments" ]; then
     errorText="Wrong arguments were used."
-  elif [ "$1" = "no-int" ]; then
-    errorText="No integer was used"
-    errorCode=2
   elif [ "$1" = "div-zero" ]; then
     errorText="Dont div by zero, please"
-    errorCode=3
+    errorCode=2
   elif [ "$1" = "mod-zero" ]; then
     errorText="Dont mod with zero, please"
-    errorCode=4
+    errorCode=3
   elif [ "$1" = "exp-negative" ]; then
     errorText="Dont exp with numbers less than zero, please"
-    errorCode=5
+    errorCode=4
   elif [ "$1" = "wrong-operator" ]; then
     errorText="Please use a correct operator"
-    errorCode=6
-  elif [ "$1" = "no-numbers" ]; then
-    errorText="Please select a correct amount of numbers"
-    errorCode=7
+    errorCode=5
   else 
     errorText="$1"
-    errorCode=8
+    errorCode=6
   fi
 
   printError "$errorText"

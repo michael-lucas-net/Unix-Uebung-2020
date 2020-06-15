@@ -181,7 +181,7 @@ test {
     comment = Erwartet Fehler
     type    = param
     cmd       {DUT 10 0 DIV 1>/dev/null ; echo "$?"}
-    expect    {^3
+    expect    {^2
     ERROR: Dont div by zero, please'$}
 }
 test {
@@ -203,7 +203,7 @@ test {
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 5 0 DIV 1>/dev/null ; echo "$?"}
-    expect    {^3
+    expect    {^2
 ERROR: Dont div by zero, please'$}
 }
 test {
@@ -218,7 +218,7 @@ test {
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 1 0 MOD 1>/dev/null ; echo "$?"}
-    expect    {^4
+    expect    {^3
     ERROR: Dont mod with zero, please'$}
 }
 test {
@@ -233,7 +233,7 @@ test {
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 100 -2 EXP 1>/dev/null ; echo "$?"}
-    expect    {^5
+    expect    {^4
     '$}
 }
 test {
@@ -248,7 +248,7 @@ test {
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 1 2 3 ADD 1>/dev/null ; echo "$?"}
-    expect    {^6
+    expect    {^5
     ERROR: Please use a correct operator'$}
 }
 test {
@@ -256,7 +256,7 @@ test {
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 1 2 ADD 1 2 1>/dev/null ; echo "$?"}
-    expect    {^6
+    expect    {^5
     ERROR: Please use a correct operator'$}
 }
 test {
@@ -280,7 +280,7 @@ test {
     comment = Erwartet, dass Programm abbricht (mit Fehler)
     type    = param
     cmd       {DUT 1 2 ADD SUB 2 3 1>/dev/null ; echo "$?"}
-    expect    {^6
+    expect    {^5
     ERROR: Please use a correct operator'$}
 }
 test {
@@ -288,6 +288,6 @@ test {
     comment = Erwartet einen exit code von 0 bei korrektem Hilfeaufruf
     type    = param
     cmd       {DUT 1 2 ADD SUB 2 3 1>/dev/null ; echo "$?"}
-    expect    {^6
+    expect    {^5
     ERROR: Wrong arguments were used.$}
 }
