@@ -13,8 +13,7 @@
 
 # Gibt die Hilfe aus
 showHelp(){
-  cat << buffer
-Usage:
+  echo "Usage:
 pfcalc.sh -h | pfcalc.sh --help
 
   prints this help and exits
@@ -39,8 +38,7 @@ pfcalc.sh NUM1 NUM2 OP [NUM OP] ...
     EXP - raises NUM1 to the power of NUM2
 
 At the end of a successful call the history of all intermediate calculations 
-is printed out to stderr.
-buffer
+is printed out to stderr."
 }
 
 # Laesst Fehler anzeigen
@@ -68,7 +66,7 @@ showError(){
   fi
 
   printf "ERROR: %s\n" "$errorText" >&2
-  showHelp
+  echo "$(showHelp)" >&2 
   exit "$errorCode"
 }
 
