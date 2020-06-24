@@ -13,7 +13,7 @@ finder.sh HTML-FILE OPTION
   where OPTION is one of
     -s CHARS, --search CHARS
          extract and print all <h3>-headlines containing the given character string
-         where CHARS 
+         where CHARS
                is the searched for character string
          and PREFIX for HTML-FILE is: faq
 
@@ -71,7 +71,8 @@ if [ $# -gt 0 ]; then
 		# FAQ
 		if [ "$2" = "-s" ]; then
 			if [[ "$1" = *"faq"* ]]; then
-				cat "$1" | grep "<h3>.*</h3>" -i | grep "$3" -i | sed "s/<[/]*[hH]3>//gi;"
+			# TODO: WTF https://stackoverflow.com/questions/4055837/delete-html-comment-tags-using-regexp
+				cat "$1" | sed 's/<h3>/\n<h3>/g; s/<\/h3>/<\/h3>\n/g;' | sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' | grep "<h3>.*</h3>" -i | grep "$3" -i | sed "s/<[/]*[hH]3>//gi;"
 			else
 				showError "wrong-file"
 			fi
