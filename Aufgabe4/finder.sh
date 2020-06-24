@@ -1,6 +1,6 @@
 #!/bin/sh
 
-help() {
+showHelp() {
     echo "Usage:
 finder.sh -h | finder.sh --help
   print this help and exit
@@ -34,12 +34,49 @@ finder.sh HTML-FILE OPTION
          and PREFIX for HTML-FILE is: kalender"
 }
 
-while [ $# -gt 0 ];
-do
-    if [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
-        help
-        exit 0
-    fi
-done
+# Gibt eine Fehlermeldung auf stderr aus
+# und beendet das Programm mit dem dazugehoerigen Errorcode (> 0)
+showError() {
+	local errorCode=1
+	local errorText=""
 
-echo "Test"
+	if [ "$1" = "wrong-arguments" ]; then
+		errorText="Wrong arguments where used."
+	elif [ "$1" = "no-arguments" ]; then
+		errorText="There are no arguments."
+	fi
+
+	printf "Error: %s\n" "$errorText" >&2
+	showHelp >&3
+	exit "$errorCode"	
+}
+
+if [ $# -gt 0 ]; then
+	# Hilfe-Ausgabe
+	if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+		if [ -z "$2" ]; then
+		     	showHelp
+			exit 0
+		else
+			showError "wrong-arguments"
+		fi
+	fi
+
+	# FAQ oder Kalender
+	if [ -z "$2" ] || [ -z "$3" ]; then
+		showError "wrong-arguments"
+	else
+		# FAQ
+		if [ "$2" = "-s" ]; then
+			cat "$1" | grep "<h2>.*</h2>" | sed "s/<[/]*[hH]2>//gi;"
+		# Kalender
+		elif [ "$2" = "-c" ]; then
+			echo "Kalender-Suche"
+		else
+		      showError "wrong-arguments"	
+		fi
+
+	fi
+else
+	showError "no-arguments"
+fi
