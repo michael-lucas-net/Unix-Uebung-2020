@@ -1,0 +1,4 @@
+Ich verwende bash, weil es einige Vereinfachungen ggü. z.B. sh oder dash bietet.
+Beispiel: if [[ "$1" = *"faq"* ]]; then
+Mit Bash ist das aufürbar. Ich benutze die Abfrage, um zu prüfen, ob die Datein "faq" enthält.
+

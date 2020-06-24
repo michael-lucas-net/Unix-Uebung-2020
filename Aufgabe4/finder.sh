@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 showHelp() {
     echo "Usage:
@@ -44,10 +44,12 @@ showError() {
 		errorText="Wrong arguments where used."
 	elif [ "$1" = "no-arguments" ]; then
 		errorText="There are no arguments."
+	elif [ "$1" = "wrong-file" ]; then
+		errorText="The given file does not fit the requirements."
 	fi
 
 	printf "Error: %s\n" "$errorText" >&2
-	showHelp >&3
+	showHelp >&2
 	exit "$errorCode"	
 }
 
@@ -68,7 +70,11 @@ if [ $# -gt 0 ]; then
 	else
 		# FAQ
 		if [ "$2" = "-s" ]; then
-			cat "$1" | grep "<h2>.*</h2>" | sed "s/<[/]*[hH]2>//gi;"
+			if [[ "$1" = *"faq"* ]]; then
+				cat "$1" | grep "<h3>.*</h3>" -i | grep "$3" -i | sed "s/<[/]*[hH]3>//gi;"
+			else
+				showError "wrong-file"
+			fi
 		# Kalender
 		elif [ "$2" = "-c" ]; then
 			echo "Kalender-Suche"
@@ -80,3 +86,23 @@ if [ $# -gt 0 ]; then
 else
 	showError "no-arguments"
 fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
