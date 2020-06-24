@@ -87,23 +87,3 @@ if [ $# -gt 0 ]; then
 else
 	showError "no-arguments"
 fi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
