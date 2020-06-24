@@ -24,6 +24,46 @@ test {
 }
 
 test {
+    name    = FAQ-Suche: Aufgabenstellung (CAPS)
+    comment = Beispiel aus der Aufgabenstellung mit Caps
+    type    = param
+    cmd       {DUT cache/faq_caps.html -s kom | diff faq.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = FAQ-Suche: Aufgabenstellung (PLAIN)
+    comment = Beispiel aus der Aufgabenstellung mit Plaintext
+    type    = param
+    cmd       {DUT cache/faq_plain.html -s kom | diff faq.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = FAQ-Suche: Aufgabenstellung (SPACED)
+    comment = Beispiel aus der Aufgabenstellung mit Spaces
+    type    = param
+    cmd       {DUT cache/faq_spaced.html -s kom | diff faq.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = FAQ-Suche: Aufgabenstellung (COMMENTS)
+    comment = Beispiel aus der Aufgabenstellung mit Kommentaren
+    type    = param
+    cmd       {DUT cache/faq_comments.html -s kom | diff faq.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = FAQ-Suche: Aufgabenstellung (COMPACT)
+    comment = Beispiel aus der Aufgabenstellung minified
+    type    = param
+    cmd       {DUT cache/faq_compacted.html -s kom | diff faq.exp - }
+    expect    {^$}
+}
+
+test {
     name    = FAQ-Suche: leer
     comment = Nicht vorhandenes Suchwort
     type    = param
