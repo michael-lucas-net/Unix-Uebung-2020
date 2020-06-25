@@ -68,8 +68,10 @@ toUpper(){
 	echo "$1" | tr '[:lower:]' '[:upper:]'
 }
 
-filterDay(){
-	day="$(toLower $1)"
+# Gibt den Index fuer das Reihenueberspringen eines Tages aus
+# Montag ist 2, weil fuer das korrekte Springen muss immer 1 addiert werden
+getIndexOfDay(){
+	day="$(toLower "$1")"
 	if [ "$day" = "montag" ]; then
 		echo "2"
 	elif [ "$day" = "dienstag" ]; then
@@ -84,6 +86,7 @@ filterDay(){
 }
 
 # Prueft, ob der uebergebene Parameter ein gueltiger (MO-FR) Tag ist
+# TODO: Schleifen nicht erlaubt
 isCorrectDay(){
 	local isCorrect="false"
 	local day=$(toLower "$1")
@@ -116,13 +119,14 @@ if [ $# -gt 0 ]; then
 	else
 		# FAQ
 		if [ "$2" = "-s" ]; then
+			# Dateiname muss "faq" enthalten
 			if [[ "$1" = *"faq"* ]]; then
 				# TODO: WTF https://stackoverflow.com/questions/4055837/delete-html-comment-tags-using-regexp
 				cat "$1" \
 				| sed 's/<h3>/\n<h3>/g; s/<\/h3>/<\/h3>\n/g;' \
 				| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
 				| grep "<h3>.*</h3>" -i \
-			        | grep "$3" -i \
+				| grep "$3" -i \
 				| sed "s/<[/]*[hH]3>//gi;"
 			else
 				showError "wrong-file"
@@ -134,21 +138,32 @@ if [ $# -gt 0 ]; then
 				showError "wrong-arguments"
 			fi
 
+			# Dateiname muss "kalender" enthalten
 			if [[ "$1" = *"kalender"* ]]; then
 				day="$3"
-				dayShort=$(echo "$day" | cut -c1-2)
 				grp=$(toUpper "$4")
 
+				# Gruppe muss entweder a oder b sein
 				if [ $(toLower "$grp") != "a" ] && [ $(toLower "$grp") != "b" ]; then
 					showError "wrong-group"
 				fi
-				
+
+
+				# Tag muss [Montag-Freitag] sein
 				if $(isCorrectDay "$day"); then
 					textDay="$(toLower "$day")"
 					textDay="${textDay}s"
-					dayIndex="$(filterDay $day)"
-						
-					echo "Gruppe $grp - $textDay"	
+					dayIndex="$(getIndexOfDay "$day")"
+
+					echo "Gruppe \"$grp\" - \"$textDay\""
+
+					# als erstes wird alles entfernt, außer Inhalt zwischen <tr>***</tr>
+					# als zweites immer $dayIndex schritte (von 7) weitergehen
+					# 	-> es gibt immer 5 tds innerhalb von 1 tr -> 7
+					# Nur relevante Datum finden (z.B: A2 (WInf: B))
+					# jetzt nur noch Daten innerhalb von div.date anzeigen
+					# div.date enternen, sodass nur noch der Inhalt davon (also die Datum) zu sehen ist
+					# Datum mit "|- " beginnen lassen
 					cat "$1" \
 						| sed -n "/<tr>/,/<\/tr>/p" \
 						| sed -n "$dayIndex~7p" \
