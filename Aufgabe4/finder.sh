@@ -49,6 +49,8 @@ showError() {
 		errorText="The given file does not fit the requirements."
 	elif [ "$1" = "wrong-group" ]; then
 		errorText="Wrong group! Only 'A' & 'B' allowed"
+	elif [ "$1" = "wrong-day" ]; then
+		errorText="Wrong day! Only days from Monday-Friday are allowed."
 	fi
 
 	printf "Error: %s\n" "$errorText" >&2
@@ -118,9 +120,13 @@ if [ $# -gt 0 ]; then
 
 				
 				if $(isCorrectDay "$day"); then
-					echo "Korrekter Tag!"
+				
+				# TODO
+				echo "losgehts"
+				cat "$1" | grep "$grp)"
+
 				else
-					echo "Nicht korrekter Tag!"
+					showError "wrong-day"	
 				fi
 
 				echo "Datei: $1 | Tag: $day | grp: $4"			
