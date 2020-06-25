@@ -58,9 +58,14 @@ showError() {
 	exit "$errorCode"	
 }
 
-# Gibt den uebergebenen Parameter in kleinbuchstaben wieder aus
+# Gibt den uebergebenen Parameter in Kleinbuchstaben wieder aus
 toLower(){
 	echo "$1" | tr '[:upper:]' '[:lower:]'
+}
+
+# Gibt den uebergebenen Parameter in Großbuchstaben wieder aus
+toUpper(){
+	echo "$1" | tr '[:lower:]' '[:upper:]'
 }
 
 # Prueft, ob der uebergebene Parameter ein gueltiger (MO-FR) Tag ist
@@ -83,7 +88,7 @@ if [ $# -gt 0 ]; then
 	# Hilfe-Ausgabe
 	if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 		if [ -z "$2" ]; then
-		     	showHelp
+			showHelp
 			exit 0
 		else
 			showError "wrong-arguments"
@@ -112,18 +117,19 @@ if [ $# -gt 0 ]; then
 
 			if [[ "$1" = *"kalender"* ]]; then
 				day="$3"
-				grp="$4"
+				grp=$(toUpper "$4")
 
 				if [ $(toLower "$grp") != "a" ] && [ $(toLower "$grp") != "b" ]; then
 					showError "wrong-group"
 				fi
-
 				
 				if $(isCorrectDay "$day"); then
-				
-				# TODO
-				echo "losgehts"
-				cat "$1" | grep "$grp)"
+					textDay="$(toLower "$day")"
+					textDay="${textDay}s"	
+
+					# TODO
+					echo "Gruppe $grp - $textDay"
+					cat "$1" | grep ": $grp" | grep -o "<div class=\"date\">.*</div>" | sed "s/<div class=\"date\">//g; s/.<\/div>//g;"
 
 				else
 					showError "wrong-day"	
