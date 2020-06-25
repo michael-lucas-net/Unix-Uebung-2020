@@ -68,6 +68,21 @@ toUpper(){
 	echo "$1" | tr '[:lower:]' '[:upper:]'
 }
 
+filterDay(){
+	day="$(toLower $1)"
+	if [ "$day" = "montag" ]; then
+		echo "2"
+	elif [ "$day" = "dienstag" ]; then
+		echo "3"
+	elif [ "$day" = "mittwoch" ]; then
+		echo "4"
+	elif [ "$day" = "donnerstag" ]; then
+		echo "5"
+	elif [ "$day" = "freitag" ]; then
+		echo "6"
+	fi	
+}
+
 # Prueft, ob der uebergebene Parameter ein gueltiger (MO-FR) Tag ist
 isCorrectDay(){
 	local isCorrect="false"
@@ -103,7 +118,12 @@ if [ $# -gt 0 ]; then
 		if [ "$2" = "-s" ]; then
 			if [[ "$1" = *"faq"* ]]; then
 				# TODO: WTF https://stackoverflow.com/questions/4055837/delete-html-comment-tags-using-regexp
-				cat "$1" | sed 's/<h3>/\n<h3>/g; s/<\/h3>/<\/h3>\n/g;' | sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' | grep "<h3>.*</h3>" -i | grep "$3" -i | sed "s/<[/]*[hH]3>//gi;"
+				cat "$1" \
+				| sed 's/<h3>/\n<h3>/g; s/<\/h3>/<\/h3>\n/g;' \
+				| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
+				| grep "<h3>.*</h3>" -i \
+			        | grep "$3" -i \
+				| sed "s/<[/]*[hH]3>//gi;"
 			else
 				showError "wrong-file"
 			fi
@@ -125,18 +145,20 @@ if [ $# -gt 0 ]; then
 				
 				if $(isCorrectDay "$day"); then
 					textDay="$(toLower "$day")"
-					textDay="${textDay}s"				
-					echo "Gruppe $grp - $textDay"		
-
-					# TODO: Fertigstellen (Tag fehlt noch)
-
-					cat "$1" | grep -o "<table class=\"calendar\">\s.*<\/table>/gis"
-					# grep ": $grp" | grep -o "<div class=\"date\">.*</div>" | sed "s/<div class=\"date\">//g; s/.<\/div>//g;"
-
+					textDay="${textDay}s"
+					dayIndex="$(filterDay $day)"
+						
+					echo "Gruppe $grp - $textDay"	
+					cat "$1" \
+						| sed -n "/<tr>/,/<\/tr>/p" \
+						| sed -n "$dayIndex~7p" \
+						| grep "[AB][1-5] (.*: $grp" \
+						| grep -o "<div class=\"date\">.*<\/div>" \
+						| sed "s/<div class=\"date\">//g; s/<\/div>//g;" \
+						| sed "s/.*/|- &/g"
 				else
 					showError "wrong-day"	
-				fi
-				echo "Datei: $1 | Tag: $day | grp: $4"			
+				fi	
 			else
 				showError "wrong-file"
 			fi
