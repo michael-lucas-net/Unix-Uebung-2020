@@ -102,21 +102,31 @@ if [ $# -gt 0 ]; then
 		# FAQ
 		if [ "$2" = "-s" ]; then
 			if [[ "$1" = *"faq"* ]]; then
-			# TODO: WTF https://stackoverflow.com/questions/4055837/delete-html-comment-tags-using-regexp
-				cat "$1" | sed 's/<h3>/\n<h3>/g; s/<\/h3>/<\/h3>\n/g;' | sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' | grep "<h3>.*</h3>" -i | grep "$3" -i | sed "s/<[/]*[hH]3>//gi;"
+				# TODO: WTF https://stackoverflow.com/questions/4055837/delete-html-comment-tags-using-regexp
+				cat "$1" \
+				# Leerzeilen hinzufuegen
+				| sed 's/<h3>/\n<h3>/g; s/<\/h3>/<\/h3>\n/g;' \
+				# Kommentare entfernen
+				| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
+				# h3s auslesen
+				| grep "<h3>.*</h3>" -i \
+				# Nach Text filtern
+				| grep "$3" -i \
+				# h3s entfernen
+				| sed "s/<[/]*[hH]3>//gi;"
 			else
 				showError "wrong-file"
 			fi
 
 		# Kalender
 		elif [ "$2" = "-c" ]; then
-
 			if [ -z "$4" ]; then
 				showError "wrong-arguments"
 			fi
 
 			if [[ "$1" = *"kalender"* ]]; then
 				day="$3"
+				dayShort=$(echo "$day" | cut -c1-2)
 				grp=$(toUpper "$4")
 
 				if [ $(toLower "$grp") != "a" ] && [ $(toLower "$grp") != "b" ]; then
@@ -125,27 +135,30 @@ if [ $# -gt 0 ]; then
 				
 				if $(isCorrectDay "$day"); then
 					textDay="$(toLower "$day")"
-					textDay="${textDay}s"	
+					textDay="${textDay}s"				
+					echo "Gruppe $grp - $textDay"		
 
-					# TODO
-					echo "Gruppe $grp - $textDay"
-					cat "$1" | grep ": $grp" | grep -o "<div class=\"date\">.*</div>" | sed "s/<div class=\"date\">//g; s/.<\/div>//g;"
+					# TODO: Fertigstellen (Tag fehlt noch)
+
+					cat "$1" \
+					# Gruppe finden
+					| grep ": $grp"  \
+					# Nur Datum ausgeben
+					| grep -o "<div class=\"date\">.*</div>"  \
+					# div usw. entfernen
+					| sed "s/<div class=\"date\">//g; s/.<\/div>//g;"
 
 				else
 					showError "wrong-day"	
 				fi
-
 				echo "Datei: $1 | Tag: $day | grp: $4"			
 			else
 				showError "wrong-file"
 			fi
-
 		else
 		      showError "wrong-arguments"	
 		fi
-
 	fi
 else
 	showError "no-arguments"
 fi
-
