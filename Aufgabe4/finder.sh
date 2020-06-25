@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Gibt die Hilfe aus
 showHelp() {
     echo "Usage:
 finder.sh -h | finder.sh --help
@@ -46,11 +47,34 @@ showError() {
 		errorText="There are no arguments."
 	elif [ "$1" = "wrong-file" ]; then
 		errorText="The given file does not fit the requirements."
+	elif [ "$1" = "wrong-group" ]; then
+		errorText="Wrong group! Only 'A' & 'B' allowed"
 	fi
 
 	printf "Error: %s\n" "$errorText" >&2
 	showHelp >&2
 	exit "$errorCode"	
+}
+
+# Gibt den uebergebenen Parameter in kleinbuchstaben wieder aus
+toLower(){
+	echo "$1" | tr '[:upper:]' '[:lower:]'
+}
+
+# Prueft, ob der uebergebene Parameter ein gueltiger (MO-FR) Tag ist
+isCorrectDay(){
+	local isCorrect="false"
+	local day=$(toLower "$1")
+	days="montag dienstag mittwoch donnerstag freitag"
+
+	for d in ${days[*]}
+	do
+		if [ "$d" = "$day" ]; then
+			isCorrect="true"
+		fi		
+	done
+
+	echo "$isCorrect"
 }
 
 if [ $# -gt 0 ]; then
@@ -76,9 +100,34 @@ if [ $# -gt 0 ]; then
 			else
 				showError "wrong-file"
 			fi
+
 		# Kalender
 		elif [ "$2" = "-c" ]; then
-			echo "Kalender-Suche"
+
+			if [ -z "$4" ]; then
+				showError "wrong-arguments"
+			fi
+
+			if [[ "$1" = *"kalender"* ]]; then
+				day="$3"
+				grp="$4"
+
+				if [ $(toLower "$grp") != "a" ] && [ $(toLower "$grp") != "b" ]; then
+					showError "wrong-group"
+				fi
+
+				
+				if $(isCorrectDay "$day"); then
+					echo "Korrekter Tag!"
+				else
+					echo "Nicht korrekter Tag!"
+				fi
+
+				echo "Datei: $1 | Tag: $day | grp: $4"			
+			else
+				showError "wrong-file"
+			fi
+
 		else
 		      showError "wrong-arguments"	
 		fi
@@ -87,3 +136,4 @@ if [ $# -gt 0 ]; then
 else
 	showError "no-arguments"
 fi
+
