@@ -103,17 +103,7 @@ if [ $# -gt 0 ]; then
 		if [ "$2" = "-s" ]; then
 			if [[ "$1" = *"faq"* ]]; then
 				# TODO: WTF https://stackoverflow.com/questions/4055837/delete-html-comment-tags-using-regexp
-				cat "$1" \
-				# Leerzeilen hinzufuegen
-				| sed 's/<h3>/\n<h3>/g; s/<\/h3>/<\/h3>\n/g;' \
-				# Kommentare entfernen
-				| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
-				# h3s auslesen
-				| grep "<h3>.*</h3>" -i \
-				# Nach Text filtern
-				| grep "$3" -i \
-				# h3s entfernen
-				| sed "s/<[/]*[hH]3>//gi;"
+				cat "$1" | sed 's/<h3>/\n<h3>/g; s/<\/h3>/<\/h3>\n/g;' | sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' | grep "<h3>.*</h3>" -i | grep "$3" -i | sed "s/<[/]*[hH]3>//gi;"
 			else
 				showError "wrong-file"
 			fi
@@ -140,13 +130,8 @@ if [ $# -gt 0 ]; then
 
 					# TODO: Fertigstellen (Tag fehlt noch)
 
-					cat "$1" \
-					# Gruppe finden
-					| grep ": $grp"  \
-					# Nur Datum ausgeben
-					| grep -o "<div class=\"date\">.*</div>"  \
-					# div usw. entfernen
-					| sed "s/<div class=\"date\">//g; s/.<\/div>//g;"
+					cat "$1" | grep -o "<table class=\"calendar\">\s.*<\/table>/gis"
+					# grep ": $grp" | grep -o "<div class=\"date\">.*</div>" | sed "s/<div class=\"date\">//g; s/.<\/div>//g;"
 
 				else
 					showError "wrong-day"	
