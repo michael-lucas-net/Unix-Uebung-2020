@@ -86,20 +86,12 @@ getIndexOfDay(){
 }
 
 # Prueft, ob der uebergebene Parameter ein gueltiger (MO-FR) Tag ist
-# TODO: Schleifen nicht erlaubt
 isCorrectDay(){
-	local isCorrect="false"
-	local day=$(toLower "$1")
-	days="montag dienstag mittwoch donnerstag freitag"
-
-	for d in ${days[*]}
-	do
-		if [ "$d" = "$day" ]; then
-			isCorrect="true"
-		fi		
-	done
-
-	echo "$isCorrect"
+	if [ $(getIndexOfDay "$1") -gt 0 ]; then
+        echo "true"
+    else
+        echo "false"
+    fi
 }
 
 if [ $# -gt 0 ]; then
@@ -155,7 +147,7 @@ if [ $# -gt 0 ]; then
 					textDay="${textDay}s"
 					dayIndex="$(getIndexOfDay "$day")"
 
-					echo "Gruppe \"$grp\" - \"$textDay\""
+					echo "Gruppe $grp - $textDay"
 
 					# als erstes wird alles entfernt, außer Inhalt zwischen <tr>***</tr>
 					# als zweites immer $dayIndex schritte (von 7) weitergehen
