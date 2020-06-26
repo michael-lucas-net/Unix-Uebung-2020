@@ -81,9 +81,17 @@ test {
 
 test {
     name    = Kalender-Ausgabe: Aufgabenstellung CAPS
-    comment = Beispiel aus der Aufgabenstellung
+    comment = Beispiel aus der Aufgabenstellung mit Caps
     type    = param
     cmd       {DUT cache/kalender_caps.html -c DiensTag a | diff cal.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = Kalender-Ausgabe: Aufgabenstellung COMPACTED
+    comment = Beispiel aus der Aufgabenstellung minified
+    type    = param
+    cmd       {DUT cache/kalender_compacted.html -c DiensTag a | diff cal.exp - }
     expect    {^$}
 }
 
