@@ -157,11 +157,11 @@ if [ $# -gt 0 ]; then
 					# div.date enternen, sodass nur noch der Inhalt davon (also die Datum) zu sehen ist
 					# Datum mit "|- " beginnen lassen
 					cat "$1" \
-						| sed -n "/<tr>/,/<\/tr>/p" \
+						| sed -n "/<tr>/I,/<\/tr>/Ip" \
 						| sed -n "$dayIndex~7p" \
-						| grep "[AB][1-5] (.*: $grp" \
-						| grep -o "<div class=\"date\">.*<\/div>" \
-						| sed "s/<div class=\"date\">//g; s/<\/div>//g;" \
+						| grep -i "[AB][1-5] (.*: $grp" \
+						| grep -o -i "<div class=\"date\">.*<\/div>" \
+						| sed "s/<div class=\"date\">//Ig; s/<\/div>//Ig;" \
 						| sed "s/.*/|- &/g"
 				else
 					showError "wrong-day"	

@@ -1,0 +1,24 @@
+
+test {
+    name    = Gruppen-Ausgabe: Aufgabenstellung
+    comment = Ein Beispiel aus der Aufgabenstellung: Zwei Teilnehmer
+    type    = param
+    cmd       {DUT cache/gruppen_minimal.html -g 06 | diff grp2.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = Gruppen-Ausgabe: Aufgabenstellung
+    comment = Ein Beispiel aus der Aufgabenstellung: Ein Teilnehmer
+    type    = param
+    cmd       {DUT cache/gruppen_minimal.html -g 12 | diff grp1.exp - }
+    expect    {^$}
+}
+test {
+    name    = Gruppen-Ausgabe: leer
+    comment = Keine passende Gruppe vorhanden
+    type    = param
+    cmd       {DUT cache/gruppen_minimal.html -g 99 }
+    expect    {^$}
+}
+

@@ -80,33 +80,17 @@ test {
 }
 
 test {
+    name    = Kalender-Ausgabe: Aufgabenstellung CAPS
+    comment = Beispiel aus der Aufgabenstellung
+    type    = param
+    cmd       {DUT cache/kalender_caps.html -c DiensTag a | diff cal.exp - }
+    expect    {^$}
+}
+
+test {
     name    = Kalender-Ausgabe: leer
     comment = Keine passenden Termine vorhanden
     type    = param
     cmd       {DUT cache/kalender.html -c Montag B }
     expect    {^Gruppe B - montags$}
 }
-
-test {
-    name    = Gruppen-Ausgabe: Aufgabenstellung
-    comment = Ein Beispiel aus der Aufgabenstellung: Zwei Teilnehmer
-    type    = param
-    cmd       {DUT cache/gruppen_minimal.html -g 06 | diff grp2.exp - }
-    expect    {^$}
-}
-
-test {
-    name    = Gruppen-Ausgabe: Aufgabenstellung
-    comment = Ein Beispiel aus der Aufgabenstellung: Ein Teilnehmer
-    type    = param
-    cmd       {DUT cache/gruppen_minimal.html -g 12 | diff grp1.exp - }
-    expect    {^$}
-}
-test {
-    name    = Gruppen-Ausgabe: leer
-    comment = Keine passende Gruppe vorhanden
-    type    = param
-    cmd       {DUT cache/gruppen_minimal.html -g 99 }
-    expect    {^$}
-}
-
