@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#TODO: Header
+
 # Gibt die Hilfe aus
 showHelp() {
     echo "Usage:
@@ -58,11 +60,13 @@ showError() {
 	exit "$errorCode"
 }
 
+# TODO: Umschreiben, ist evtl nicht noetig
 # Gibt den uebergebenen Parameter in Kleinbuchstaben wieder aus
 toLower(){
 	echo "$1" | tr '[:upper:]' '[:lower:]'
 }
 
+# TODO: Umschreiben, ist evtl nicht noetig
 # Gibt den uebergebenen Parameter in Großbuchstaben wieder aus
 toUpper(){
 	echo "$1" | tr '[:lower:]' '[:upper:]'
@@ -120,17 +124,17 @@ if [ $# -gt 0 ]; then
 		# FAQ
 		if [ "$2" = "-s" ]; then
 			# Dateiname muss "faq" enthalten
-			if [[ "$1" = *"faq"* ]]; then
-				# TODO: WTF https://stackoverflow.com/questions/4055837/delete-html-comment-tags-using-regexp
-				cat "$1" \
-				| sed 's/<h3>/\n<h3>/g; s/<\/h3>/<\/h3>\n/g;' \
-				| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
-				| grep "<h3>.*</h3>" -i \
-				| grep "$3" -i \
-				| sed "s/<[/]*[hH]3>//gi;"
-			else
+			if [[ "$1" != *"faq"* ]]; then
 				showError "wrong-file"
 			fi
+
+			# TODO: Kommentare
+			cat "$1" \
+			| sed 's/<h3>/\n<h3>/g; s/<\/h3>/<\/h3>\n/g;' \
+			| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
+			| grep "<h3>.*</h3>" -i \
+			| grep "$3" -i \
+			| sed "s/<[/]*[hH]3>//gi;"
 
 		# Kalender
 		elif [ "$2" = "-c" ]; then
@@ -139,40 +143,40 @@ if [ $# -gt 0 ]; then
 			fi
 
 			# Dateiname muss "kalender" enthalten
-			if [[ "$1" = *"kalender"* ]]; then
-				day="$3"
-				grp=$(toUpper "$4")
-
-				# Gruppe muss entweder a oder b sein
-				if [ $(toLower "$grp") != "a" ] && [ $(toLower "$grp") != "b" ]; then
-					showError "wrong-group"
-				fi
-
-				# Tag muss [Montag-Freitag] sein
-				if $(isCorrectDay "$day"); then
-					textDay="$(toLower "$day")"
-					textDay="${textDay}s"
-					dayIndex="$(getIndexOfDay "$day")"
-
-					echo "Gruppe $grp - $textDay"
-
-					# TODO: Kommentare
-					cat "$1" \
-						| sed 's/<tr>/\n<tr>/g; s/<\/tr>/<\/tr>\n/g;' \
-						| sed 's/<td.*>/\n&/g; s/<\/td>/<\/td>\n/Ig;' \
-						| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
-						| sed -n "/<tr>/I,/<\/tr>/Ip" \
-                        | grep "\S" \
-						| sed -n "$dayIndex~7p" \
-						| grep -i "[AB][1-5] (.*: $grp" \
-						| grep -o -i "<div.*>.*<\/div>" \
-						| sed "s/<[^>]*>//g" \
-						| sed "s/.*/|- &/g"
-				else
-					showError "wrong-day"
-				fi
-			else
+			if [[ "$1" != *"kalender"* ]]; then
 				showError "wrong-file"
+			fi
+
+			day="$3"
+			grp=$(toUpper "$4")
+
+			# Gruppe muss entweder a oder b sein
+			if [ $(toLower "$grp") != "a" ] && [ $(toLower "$grp") != "b" ]; then
+				showError "wrong-group"
+			fi
+
+			# Tag muss [Montag-Freitag] sein
+			if $(isCorrectDay "$day"); then
+				textDay="$(toLower "$day")"
+				textDay="${textDay}s"
+				dayIndex="$(getIndexOfDay "$day")"
+
+				echo "Gruppe $grp - $textDay"
+
+				# TODO: Kommentare
+				cat "$1" \
+					| sed 's/<tr>/\n<tr>/g; s/<\/tr>/<\/tr>\n/g;' \
+					| sed 's/<td.*>/\n&/g; s/<\/td>/<\/td>\n/Ig;' \
+					| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
+					| sed -n "/<tr>/I,/<\/tr>/Ip" \
+					| grep "\S" \
+					| sed -n "$dayIndex~7p" \
+					| grep -i "[AB][1-5] (.*: $grp" \
+					| grep -o -i "<div.*>.*<\/div>" \
+					| sed "s/<[^>]*>//g" \
+					| sed "s/.*/|- &/g"
+			else
+				showError "wrong-day"
 			fi
 
 		# Gruppen
@@ -183,6 +187,11 @@ if [ $# -gt 0 ]; then
 				showError "wrong-arguments"
 			fi
 
+			# Pruefen, ob Praefix "gruppe" enthalten
+			if [[ "$1" != *"gruppen"* ]]; then
+				showError "wrong-file"
+			fi
+
 			# TODO: Beschreiben
 			data=$(cat "$1" \
 				| sed 's/<tr>/\n<tr>/g; s/<\/tr>/<\/tr>\n/g;' \
@@ -190,7 +199,6 @@ if [ $# -gt 0 ]; then
 				| tail -n +6 \
 				| sed ':a;N;$!ba;s/\n/ /g; s/<\/[TRtr]*>/<\/tr>\n/g;')
 
-			# Unterscheidung der Suche
 			if "$(isNumber $3)"; then
 				# Nach Gruppennummer suchen
 				data=$(echo "$data" | grep -i ".*<td.*>$3<\/td>.*")
