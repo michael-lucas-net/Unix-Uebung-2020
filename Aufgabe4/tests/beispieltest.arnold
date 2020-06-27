@@ -160,6 +160,30 @@ test {
 }
 
 test {
+    name    = Gruppen-Ausgabe: Aufgabenstellung MINIMAL
+    comment = Ein Beispiel aus der Aufgabenstellung: MINIMAL
+    type    = param
+    cmd       {DUT cache/gruppen_minimal.html -g 06 | diff grp2.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = Gruppen-Ausgabe: Aufgabenstellung MINIMAL
+    comment = Ein Beispiel aus der Aufgabenstellung: MINIMAL
+    type    = param
+    cmd       {DUT cache/gruppen_plain.html -g 06 | diff grpSpaced.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = Gruppen-Ausgabe: Aufgabenstellung COMMENTS
+    comment = Ein Beispiel aus der Aufgabenstellung: COMMENTS
+    type    = param
+    cmd       {DUT cache/gruppen_comments.html -g 06 | diff grpSpaced.exp - }
+    expect    {^$}
+}
+
+test {
     name    = Gruppen-Ausgabe: leer
     comment = Keine passende Gruppe vorhanden
     type    = param
