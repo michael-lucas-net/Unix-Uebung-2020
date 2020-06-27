@@ -187,7 +187,7 @@ if [ $# -gt 0 ]; then
 			data=$(cat "$1" \
 				| sed -n "/<[TRtr]*>/I,/<\/[TRtr]*>/Ip" \
 				| tail -n +6 \
-				| sed ':a;N;$!ba;s/\n/ /g; s/<\/[TRtr]*>/<\[TRtr]*>\n/g;')
+				| sed ':a;N;$!ba;s/\n/ /g; s/<\/[TRtr]*>/<\/tr>\n/g;')
 
 			# Unterscheidung der Suche
 			if "$(isNumber $3)"; then
@@ -199,13 +199,10 @@ if [ $# -gt 0 ]; then
 				data=$(echo "$data" | grep -i "<tr>.*$3.*")
 			fi
 
-			echo "$data" > wip.html
-
-			# TODO: Beschreiben
-			data=$(echo "$data" | grep -i ".*<td.*>$3<\/td>.*" \
-				| sed 's/<[TDtd]*.*>/\n&/g; s/<\/[TDtd]*>/<\/[TDtd]*>\n/Ig;' \
+			# # TODO: Beschreiben
+			data=$(echo "$data" | sed 's/<[TDtd]*.*>/\n&/g; s/<\/[TDtd]*>/<\/td>\n/Ig;' \
 				| sed "s/<[^>]*>//g" \
-				| sed "s/^ //g;" \
+				| sed "s/  //g; s/^ //g;" \
 				| grep "\S")
 
 			# Daten der Uebersicht halber auflisten
