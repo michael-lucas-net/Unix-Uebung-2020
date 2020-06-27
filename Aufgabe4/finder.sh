@@ -183,36 +183,46 @@ if [ $# -gt 0 ]; then
 				showError "wrong-arguments"
 			fi
 
-			# TODO: Ueberpruefen, ob Datei auch "Gruppen" enthaelt
-			# Ideen: Gruppen sind bis 66 | Matrikelnummern keine Zahlen
-
+			# TODO: Beschreiben
 			data=$(cat "$1" \
 				| sed -n "/<tr>/I,/<\/tr>/Ip" \
 				| tail -n +6 \
 				| sed ':a;N;$!ba;s/\n/ /g; s/<\/tr>/<\tr>\n/g;')
 
+			# Unterscheidung der Suche
 			if "$(isNumber $3)"; then
+				# Nach Gruppennummer suchen
 				data=$(echo "$data" | grep ".*<td.*>$3<\/td>.*")
 			else
+				# Nach Matrikelnummer suchen
 				data=$(echo "$data" | grep "<tr>.*$3.*")
 			fi
 
+			# TODO: Beschreiben
 			data=$(echo "$data" | grep ".*<td.*>$3<\/td>.*" \
 				| sed 's/<td.*>/\n&/g; s/<\/td>/<\/td>\n/Ig;' \
 				| sed "s/<[^>]*>//g" \
 				| sed "s/^ //g;" \
 				| grep "\S")
 
+			# Daten der Uebersicht halber auflisten
 			meeting=$(echo "$data" | sed -n 1p)
 			foundGrp=$(echo "$data" | sed -n 2p)
 			mat1=$(echo "$data" | sed -n 3p)
 			mat2=$(echo "$data" | sed -n 4p)
+			member="$mat1"
+
+			# 2tes Gruppenmitglied hinzufuegen, falls vorhanden
+			if [ -n "$mat2" ]; then
+				member="$mat1 $mat2"
+			fi
 
 			# Ausgabe
-			echo "Gruppe:       $foundGrp"
-			echo "Mitglied(er): $mat1 $mat2"
-			echo "Termin:       $meeting"
-			
+			if [ -n "$member" ]; then
+				echo "Gruppe:       $foundGrp"
+				echo "Mitglied(er): $member"
+				echo "Termin:       $meeting"
+			fi			
 		else
 		      showError "wrong-arguments"
 		fi
