@@ -149,22 +149,16 @@ if [ $# -gt 0 ]; then
 
 					echo "Gruppe $grp - $textDay"
 
-					# als erstes wird alles entfernt, außer Inhalt zwischen <tr>***</tr>
-					# als zweites immer $dayIndex schritte (von 7) weitergehen
-					# 	-> es gibt immer 5 tds innerhalb von 1 tr -> 7
-					# Nur relevante Datum finden (z.B: A2 (WInf: B))
-					# jetzt nur noch Daten innerhalb von div.date anzeigen
-					# div.date enternen, sodass nur noch der Inhalt davon (also die Datum) zu sehen ist
-					# Datum mit "|- " beginnen lassen
+					# TODO: Kommentare
 					cat "$1" \
 						| sed 's/<tr>/\n<tr>/g; s/<\/tr>/<\/tr>\n/g;' \
-						| sed 's/<td id=\".*\">/\n&/g; s/<\/td>/<\/td>\n/Ig;' \
+						| sed 's/<td.*>/\n&/g; s/<\/td>/<\/td>\n/Ig;' \
 						| sed -n "/<tr>/I,/<\/tr>/Ip" \
                         | grep "\S" \
 						| sed -n "$dayIndex~7p" \
 						| grep -i "[AB][1-5] (.*: $grp" \
-						| grep -o -i "<div class=\"date\">.*<\/div>" \
-						| sed "s/<div class=\"date\">//Ig; s/<\/div>//Ig;" \
+						| grep -o -i "<div.*>.*<\/div>" \
+						| sed "s/<[^>]*>//g" \
 						| sed "s/.*/|- &/g"
 				else
 					showError "wrong-day"

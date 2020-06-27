@@ -72,6 +72,14 @@ test {
 }
 
 test {
+    name    = Kalender-Ausgabe: leer
+    comment = Keine passenden Termine vorhanden
+    type    = param
+    cmd       {DUT cache/kalender.html -c Montag B }
+    expect    {^Gruppe B - montags$}
+}
+
+test {
     name    = Kalender-Ausgabe: Aufgabenstellung
     comment = Beispiel aus der Aufgabenstellung
     type    = param
@@ -96,9 +104,9 @@ test {
 }
 
 test {
-    name    = Kalender-Ausgabe: leer
-    comment = Keine passenden Termine vorhanden
+    name    = Kalender-Ausgabe: Aufgabenstellung Plain
+    comment = Beispiel aus der Aufgabenstellung plain
     type    = param
-    cmd       {DUT cache/kalender.html -c Montag B }
-    expect    {^Gruppe B - montags$}
+    cmd       {DUT cache/kalender_plain.html -c DiensTag a | diff cal.exp - }
+    expect    {^$}
 }
