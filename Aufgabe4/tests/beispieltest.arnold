@@ -104,9 +104,17 @@ test {
 }
 
 test {
-    name    = Kalender-Ausgabe: Aufgabenstellung Plain
+    name    = Kalender-Ausgabe: Aufgabenstellung PLAIN
     comment = Beispiel aus der Aufgabenstellung plain
     type    = param
     cmd       {DUT cache/kalender_plain.html -c DiensTag a | diff cal.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = Kalender-Ausgabe: Aufgabenstellung COMMENTS
+    comment = Beispiel aus der Aufgabenstellung mit Kommentaren
+    type    = param
+    cmd       {DUT cache/kalender_comments.html -c DiensTag a | diff cal.exp - }
     expect    {^$}
 }

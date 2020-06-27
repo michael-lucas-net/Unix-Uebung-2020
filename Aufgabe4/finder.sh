@@ -153,6 +153,7 @@ if [ $# -gt 0 ]; then
 					cat "$1" \
 						| sed 's/<tr>/\n<tr>/g; s/<\/tr>/<\/tr>\n/g;' \
 						| sed 's/<td.*>/\n&/g; s/<\/td>/<\/td>\n/Ig;' \
+						| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
 						| sed -n "/<tr>/I,/<\/tr>/Ip" \
                         | grep "\S" \
 						| sed -n "$dayIndex~7p" \
