@@ -157,16 +157,15 @@ if [ $# -gt 0 ]; then
 					# div.date enternen, sodass nur noch der Inhalt davon (also die Datum) zu sehen ist
 					# Datum mit "|- " beginnen lassen
 					cat "$1" \
-						| sed 's/<\/div>/& \n/g;' \
-						| sed 's/<tr>/I\n<tr>/Ig; s/<\/tr>/I<\/tr>\n/Ig;' \
-						| sed 's/<td>/\n<td>/g; s/<\/td>/<\/td>\n/Ig;' \
-						| sed 's/<br \/>/\n/g;' \
+						| sed 's/<tr>/\n<tr>/g; s/<\/tr>/<\/tr>\n/g;' \
+						| sed 's/<td id=\".*\">/\n&/g; s/<\/td>/<\/td>\n/Ig;' \
 						| sed -n "/<tr>/I,/<\/tr>/Ip" \
+                        | grep "\S" \
 						| sed -n "$dayIndex~7p" \
-						| grep -i "[AB][1-5] (.*: $grp"  > mimimimi.test 
-						# | grep -o -i "<div class=\"date\">.*<\/div>" \
-						# | sed "s/<div class=\"date\">//Ig; s/<\/div>//Ig;" \
-						# | sed "s/.*/|- &/g"
+						| grep -i "[AB][1-5] (.*: $grp" \
+						| grep -o -i "<div class=\"date\">.*<\/div>" \
+						| sed "s/<div class=\"date\">//Ig; s/<\/div>//Ig;" \
+						| sed "s/.*/|- &/g"
 				else
 					showError "wrong-day"
 				fi
