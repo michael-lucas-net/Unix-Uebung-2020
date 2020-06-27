@@ -105,7 +105,7 @@ if [ $# -gt 0 ]; then
 		fi
 	fi
 
-	# FAQ oder Kalender
+	# FAQ, Kalender oder Gruppensuche
 	if [ -z "$2" ] || [ -z "$3" ]; then
 		showError "wrong-arguments"
 	else
@@ -140,7 +140,6 @@ if [ $# -gt 0 ]; then
 					showError "wrong-group"
 				fi
 
-
 				# Tag muss [Montag-Freitag] sein
 				if $(isCorrectDay "$day"); then
 					textDay="$(toLower "$day")"
@@ -167,6 +166,40 @@ if [ $# -gt 0 ]; then
 			else
 				showError "wrong-file"
 			fi
+
+		# Gruppen
+		elif [ "$2" = "-g" ]; then
+
+			# Nicht genug Parameter
+			if [ -z "$3" ]; then
+				showError "wrong-arguments"
+			fi
+
+			# TODO: Ueberpruefen, ob Datei auch "Gruppen" enthaelt
+			# Gruppen sind bis 66
+
+			# Pruefen, ob Matrikelnummer oder Gruppennummer
+
+			data=$(cat "$1" \
+				| sed -n "/<tr>/I,/<\/tr>/Ip" \
+				| tail -n +6 \
+				| sed ':a;N;$!ba;s/\n/ /g; s/<\/tr>/<\tr>\n/g;' \
+				| grep "<tr>.*$3.*" \
+				| sed 's/<td.*>/\n&/g; s/<\/td>/<\/td>\n/Ig;' \
+				| sed "s/<[^>]*>//g" \
+				| sed "s/^ //g;" \
+				| grep "\S")
+
+			meeting=$(echo "$data" | sed -n 1p)
+			foundGrp=$(echo "$data" | sed -n 2p)
+			mat1=$(echo "$data" | sed -n 3p)
+			mat2=$(echo "$data" | sed -n 4p)
+
+			echo "Gruppe:       $foundGrp"
+			echo "Mitglied(er): $mat1 $mat2"
+			echo "Termin:       $meeting"
+
+
 		else
 		      showError "wrong-arguments"
 		fi
