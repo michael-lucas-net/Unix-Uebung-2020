@@ -68,6 +68,14 @@ toUpper(){
 	echo "$1" | tr '[:lower:]' '[:upper:]'
 }
 
+isNumber(){
+  if echo "$1" | grep -E -q '^[-]?[[:digit:]]+$'; then
+    echo true
+  else
+    echo false
+  fi
+}
+
 # Gibt den Index fuer das Reihenueberspringen eines Tages aus
 # Montag ist 2, weil fuer das korrekte Springen muss immer 1 addiert werden
 getIndexOfDay(){
@@ -176,15 +184,20 @@ if [ $# -gt 0 ]; then
 			fi
 
 			# TODO: Ueberpruefen, ob Datei auch "Gruppen" enthaelt
-			# Gruppen sind bis 66
-
-			# Pruefen, ob Matrikelnummer oder Gruppennummer
+			# Ideen: Gruppen sind bis 66 | Matrikelnummern keine Zahlen
 
 			data=$(cat "$1" \
 				| sed -n "/<tr>/I,/<\/tr>/Ip" \
 				| tail -n +6 \
-				| sed ':a;N;$!ba;s/\n/ /g; s/<\/tr>/<\tr>\n/g;' \
-				| grep "<tr>.*$3.*" \
+				| sed ':a;N;$!ba;s/\n/ /g; s/<\/tr>/<\tr>\n/g;')
+
+			if "$(isNumber $3)"; then
+				data=$(echo "$data" | grep ".*<td.*>$3<\/td>.*")
+			else
+				data=$(echo "$data" | grep "<tr>.*$3.*")
+			fi
+
+			data=$(echo "$data" | grep ".*<td.*>$3<\/td>.*" \
 				| sed 's/<td.*>/\n&/g; s/<\/td>/<\/td>\n/Ig;' \
 				| sed "s/<[^>]*>//g" \
 				| sed "s/^ //g;" \
@@ -195,11 +208,11 @@ if [ $# -gt 0 ]; then
 			mat1=$(echo "$data" | sed -n 3p)
 			mat2=$(echo "$data" | sed -n 4p)
 
+			# Ausgabe
 			echo "Gruppe:       $foundGrp"
 			echo "Mitglied(er): $mat1 $mat2"
 			echo "Termin:       $meeting"
-
-
+			
 		else
 		      showError "wrong-arguments"
 		fi
