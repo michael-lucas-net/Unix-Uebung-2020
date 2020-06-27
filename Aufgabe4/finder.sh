@@ -185,22 +185,25 @@ if [ $# -gt 0 ]; then
 
 			# TODO: Beschreiben
 			data=$(cat "$1" \
-				| sed -n "/<tr>/I,/<\/tr>/Ip" \
+				| sed -n "/<[TRtr]*>/I,/<\/[TRtr]*>/Ip" \
 				| tail -n +6 \
-				| sed ':a;N;$!ba;s/\n/ /g; s/<\/tr>/<\tr>\n/g;')
+				| sed ':a;N;$!ba;s/\n/ /g; s/<\/[TRtr]*>/<\[TRtr]*>\n/g;')
 
 			# Unterscheidung der Suche
 			if "$(isNumber $3)"; then
 				# Nach Gruppennummer suchen
-				data=$(echo "$data" | grep ".*<td.*>$3<\/td>.*")
+				data=$(echo "$data" | grep -i ".*<td.*>$3<\/td>.*")
 			else
 				# Nach Matrikelnummer suchen
-				data=$(echo "$data" | grep "<tr>.*$3.*")
+				# TODO: Pruefen, ob mit WINF usw. anfaengt?
+				data=$(echo "$data" | grep -i "<tr>.*$3.*")
 			fi
 
+			echo "$data" > wip.html
+
 			# TODO: Beschreiben
-			data=$(echo "$data" | grep ".*<td.*>$3<\/td>.*" \
-				| sed 's/<td.*>/\n&/g; s/<\/td>/<\/td>\n/Ig;' \
+			data=$(echo "$data" | grep -i ".*<td.*>$3<\/td>.*" \
+				| sed 's/<[TDtd]*.*>/\n&/g; s/<\/[TDtd]*>/<\/[TDtd]*>\n/Ig;' \
 				| sed "s/<[^>]*>//g" \
 				| sed "s/^ //g;" \
 				| grep "\S")
