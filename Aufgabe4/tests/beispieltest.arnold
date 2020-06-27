@@ -152,6 +152,14 @@ test {
 }
 
 test {
+    name    = Gruppen-Ausgabe: Aufgabenstellung COMPACTED
+    comment = Ein Beispiel aus der Aufgabenstellung: COMPACTED
+    type    = param
+    cmd       {DUT cache/gruppen_compacted.html -g 06 | diff grpSpaced.exp - }
+    expect    {^$}
+}
+
+test {
     name    = Gruppen-Ausgabe: leer
     comment = Keine passende Gruppe vorhanden
     type    = param

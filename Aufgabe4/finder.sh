@@ -185,6 +185,7 @@ if [ $# -gt 0 ]; then
 
 			# TODO: Beschreiben
 			data=$(cat "$1" \
+				| sed 's/<tr>/\n<tr>/g; s/<\/tr>/<\/tr>\n/g;' \
 				| sed -n "/<[TRtr]*>/I,/<\/[TRtr]*>/Ip" \
 				| tail -n +6 \
 				| sed ':a;N;$!ba;s/\n/ /g; s/<\/[TRtr]*>/<\/tr>\n/g;')
