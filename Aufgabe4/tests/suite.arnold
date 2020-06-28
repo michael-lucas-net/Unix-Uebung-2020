@@ -31,6 +31,14 @@ test {
 }
 
 test {
+    name    = FAQ-Suche: Aufgabenstellung --search
+    comment = Beispiel aus der Aufgabenstellung mit --search
+    type    = param
+    cmd       {DUT cache/faq.html --search kom | diff ./expected/faq.exp - }
+    expect    {^$}
+}
+
+test {
     name    = FAQ-Suche: Aufgabenstellung (CAPS)
     comment = Beispiel aus der Aufgabenstellung mit Caps
     type    = param
@@ -111,6 +119,14 @@ test {
 }
 
 test {
+    name    = Kalender-Ausgabe: Aufgabenstellung --calendar
+    comment = Beispiel aus der Aufgabenstellung mit --calendar
+    type    = param
+    cmd       {DUT cache/kalender.html --calendar DiensTag a | diff ./expected/cal.exp - }
+    expect    {^$}
+}
+
+test {
     name    = Kalender-Ausgabe: Aufgabenstellung CAPS
     comment = Beispiel aus der Aufgabenstellung mit Caps
     type    = param
@@ -163,6 +179,14 @@ test {
     comment = Ein Beispiel aus der Aufgabenstellung: Zwei Teilnehmer
     type    = param
     cmd       {DUT cache/gruppen_minimal.html -g 06 | diff ./expected/grp2.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = Gruppen-Ausgabe: Aufgabenstellung --group
+    comment = Ein Beispiel aus der Aufgabenstellung: Zwei Teilnehmer mit --group
+    type    = param
+    cmd       {DUT cache/gruppen_minimal.html --group 06 | diff ./expected/grp2.exp - }
     expect    {^$}
 }
 
