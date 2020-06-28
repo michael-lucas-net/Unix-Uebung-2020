@@ -1,11 +1,18 @@
 test {
+    name    = Ohne Parameter
+    comment = Muss Fehler ausgeben, dass Aufruf fehlerhaft ist.
+    type    = param
+    cmd       {DUT}
+    expect    {^Error: There are no arguments.*$}
+}
+
+test {
     name    = Hilfeaufruf: Kurzform
     comment = Hilfetext anfordern und ueberpruefen
     type    = param
     cmd       {DUT -h | diff - help.exp}
     expect    {^$}
 }
-
 
 test {
     name    = Hilfeaufruf: Exitcode
@@ -64,6 +71,22 @@ test {
 }
 
 test {
+    name    = FAQ-Suche: Satz
+    comment = Mehrere Worte als Parameter
+    type    = param
+    cmd       {DUT cache/faq_compacted.html -s "ein Problem oder eine" | diff faqSentence.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = FAQ-Suche: Satz (Mit Caps random drin)
+    comment = Mehrere Worte als Parameter, wobei manche Buchstaben in caps sind
+    type    = param
+    cmd       {DUT cache/faq_compacted.html -s "eIn ProBleM odeR eIne" | diff faqSentence.exp - }
+    expect    {^$}
+}
+
+test {
     name    = FAQ-Suche: leer
     comment = Nicht vorhandenes Suchwort
     type    = param
@@ -117,6 +140,22 @@ test {
     type    = param
     cmd       {DUT cache/kalender_comments.html -c DiensTag a | diff cal.exp - }
     expect    {^$}
+}
+
+test {
+    name    = Kalender-Ausgabe: Freitag b
+    comment = Beispiel mit anderen Werten und case sensitive
+    type    = param
+    cmd       {DUT cache/kalender_comments.html -c FrEiTaG b | diff calFridayB.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = Kalender-Ausgabe: Falscher Tag (Samstag)
+    comment = Soll Fehler ausgeben, dass der Tag ungültig ist.
+    type    = param
+    cmd       {DUT cache/kalender_comments.html -c Samstag b }
+    expect    {^Error: Wrong day! Only days from Monday-Friday are allowed.*$}
 }
 
 test {
@@ -191,3 +230,50 @@ test {
     expect    {^$}
 }
 
+test {
+    name    = Kalender Dateiname: ohne Präfix kalender
+    comment = Muss Fehler ausgeben, dass die Datei ungültig ist.
+    type    = param
+    cmd       {DUT cache/gruppen_minimal.html -c dienstag a }
+    expect    {^Error: The given file does not fit the requirements.*$}
+}
+
+test {
+    name    = Gruppen Dateiname: ohne Präfix gruppe
+    comment = Muss Fehler ausgeben, dass die Datei ungültig ist.
+    type    = param
+    cmd       {DUT cache/faq_minimal.html -g 03 }
+    expect    {^Error: The given file does not fit the requirements.*$}
+}
+
+test {
+    name    = FAQ Dateiname: ohne Präfix faq
+    comment = Muss Fehler ausgeben, dass die Datei ungültig ist.
+    type    = param
+    cmd       {DUT cache/gruppen_minimal.html -s kom }
+    expect    {^Error: The given file does not fit the requirements.*$}
+}
+
+test {
+    name    = FAQ Dateiname: Caps
+    comment = Dateiname muss auch in caps funktionieren
+    type    = param
+    cmd       {DUT cache/FAQ.HTML -s kom | diff faq.exp -  }
+    expect    {^$}
+}
+
+test {
+    name    = FAQ Dateiname: ohne HTML-Endung 
+    comment = Muss Fehler ausgeben, dass die Datei ungültig ist.
+    type    = param
+    cmd       {DUT cache/faq.txt -s kom }
+    expect    {^Error: The given file does not fit the requirements.*$}
+}
+
+test {
+    name    = FAQ Dateiname: ohne HTML-Endung (CAPS)
+    comment = Muss Fehler ausgeben, dass die Datei ungültig ist.
+    type    = param
+    cmd       {DUT cache/faq.txt -s kom }
+    expect    {^Error: The given file does not fit the requirements.*$}
+}

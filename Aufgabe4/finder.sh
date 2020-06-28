@@ -84,25 +84,28 @@ isNumber(){
 # Montag ist 2, weil fuer das korrekte Springen muss immer 1 addiert werden
 getIndexOfDay(){
 	day="$(toLower "$1")"
+    index=0
 	if [ "$day" = "montag" ]; then
-		echo "2"
+		index=2
 	elif [ "$day" = "dienstag" ]; then
-		echo "3"
+		index=3
 	elif [ "$day" = "mittwoch" ]; then
-		echo "4"
+		index=4
 	elif [ "$day" = "donnerstag" ]; then
-		echo "5"
+		index=5
 	elif [ "$day" = "freitag" ]; then
-		echo "6"
+		index=6
 	fi
+
+    echo "$index"
 }
 
 # Prueft, ob der uebergebene Parameter ein gueltiger (MO-FR) Tag ist
 isCorrectDay(){
 	if [ $(getIndexOfDay "$1") -gt 0 ]; then
-        echo "true"
+        echo true
     else
-        echo "false"
+        echo false
     fi
 }
 
