@@ -47,12 +47,19 @@ showError() {
 		errorText="Wrong arguments where used."
 	elif [ "$1" = "no-arguments" ]; then
 		errorText="There are no arguments."
+		errorCode=2
 	elif [ "$1" = "wrong-file" ]; then
 		errorText="The given file does not fit the requirements."
+		errorCode=3
 	elif [ "$1" = "wrong-group" ]; then
 		errorText="Wrong group! Only 'A' & 'B' allowed"
+		errorCode=4
 	elif [ "$1" = "wrong-day" ]; then
 		errorText="Wrong day! Only days from Monday-Friday are allowed."
+		errorCode=5
+	elif [ "$1" = "no-html" ]; then
+		errorText="Wrong file ending! Please only use HTML-files!"
+		errorCode=6
 	fi
 
 	printf "Error: %s\n" "$errorText" >&2
@@ -124,10 +131,19 @@ if [ $# -gt 0 ]; then
 	if [ -z "$2" ] || [ -z "$3" ]; then
 		showError "wrong-arguments"
 	else
+
+		# Pruefen, ob Datei mit HTML endet!
+		if echo "$1" | grep -ivq ".html$"; then
+			showError "no-html"
+		fi
+
 		# FAQ
 		if [ "$2" = "-s" ]; then
 			# Dateiname muss "faq" enthalten
-			if [[ "$1" != *"faq"* ]]; then
+			# i: case insensitive
+			# v: negieren
+			# q: ohne output
+			if echo "$1" | grep -ivq faq; then
 				showError "wrong-file"
 			fi
 
@@ -146,7 +162,7 @@ if [ $# -gt 0 ]; then
 			fi
 
 			# Dateiname muss "kalender" enthalten
-			if [[ "$1" != *"kalender"* ]]; then
+			if echo "$1" | grep -ivq kalender; then
 				showError "wrong-file"
 			fi
 
@@ -190,7 +206,7 @@ if [ $# -gt 0 ]; then
 			fi
 
 			# Pruefen, ob Praefix "gruppe" enthalten
-			if [[ "$1" != *"gruppen"* ]]; then
+			if echo "$1" | grep -ivq gruppen; then
 				showError "wrong-file"
 			fi
 

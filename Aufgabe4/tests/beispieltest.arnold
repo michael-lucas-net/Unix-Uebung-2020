@@ -258,7 +258,7 @@ test {
     name    = FAQ Dateiname: Caps
     comment = Dateiname muss auch in caps funktionieren
     type    = param
-    cmd       {DUT cache/FAQ.HTML -s kom | diff faq.exp -  }
+    cmd       {DUT cache/FaQ.HTML -s kom | diff faq.exp -  }
     expect    {^$}
 }
 
@@ -267,7 +267,7 @@ test {
     comment = Muss Fehler ausgeben, dass die Datei ungültig ist.
     type    = param
     cmd       {DUT cache/faq.txt -s kom }
-    expect    {^Error: The given file does not fit the requirements.*$}
+    expect    {^Error: Wrong file ending! Please only use HTML-files!.*$}
 }
 
 test {
@@ -275,5 +275,5 @@ test {
     comment = Muss Fehler ausgeben, dass die Datei ungültig ist.
     type    = param
     cmd       {DUT cache/faq.txt -s kom }
-    expect    {^Error: The given file does not fit the requirements.*$}
+    expect    {^Error: Wrong file ending! Please only use HTML-files!.*$}
 }
