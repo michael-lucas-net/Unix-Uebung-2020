@@ -1,1 +1,0 @@
-Test, ob auch Präfix stimmt (z.B. "gruppen" im Namen der Gruppendatei)
