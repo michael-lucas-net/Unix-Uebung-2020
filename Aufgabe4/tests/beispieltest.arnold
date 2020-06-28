@@ -223,6 +223,22 @@ test {
 }
 
 test {
+    name    = Gruppen-Ausgabe: nach Matrikelnummer suchen (mit Studiengangsbezeichner)
+    comment = Sucht Daten anhand der Matrikelnummer
+    type    = param
+    cmd       {DUT cache/gruppen_comments.html -g winf104227 | diff grpSpaced.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = Gruppen-Ausgabe: nach Matrikelnummer suchen (ohne Studiengangsbezeichner)
+    comment = Sucht Daten anhand der Matrikelnummer
+    type    = param
+    cmd       {DUT cache/gruppen_comments.html -g 104227 | diff grpSpaced.exp - }
+    expect    {^$}
+}
+
+test {
     name    = Gruppen-Ausgabe: leer
     comment = Keine passende Gruppe vorhanden
     type    = param
