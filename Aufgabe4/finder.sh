@@ -1,17 +1,17 @@
 #!/bin/bash
 
 # +--------------------------------------+----------------------------------------------------------------------+
-# |                               Finder - Michael Lucas inf102773                                      	  	|
+# |                               Finder - Michael Lucas inf102773                                      	|
 # +--------------------------------------+----------------------------------------------------------------------+
-# | Beschreibung                         | Dieses Skript durchsucht HTML-Seiten.							  	|
+# | Beschreibung                         | Dieses Skript durchsucht HTML-Seiten.				|
 # | Letzte Aenderung                     | 29.06.2020                                                         	|
 # +--------------------------------------+----------------------------------------------------------------------+
-# | Aufruf                               | -h / --help 					=> Hilfeausgabe							|
-# | 		                             | FILE -s STRING --search 		=> Sucht FAQ-Dateien nach String		|
-# | 		                             | FILE -c T G / --calendar T G => Sucht in Dateien nach Tag und Gruppe	|
-# | 		                             | FILE -g X / --group X 		=> Sucht Dateien nach GRP / MatrikelNr.	|
+# | Aufruf                               | -h / --help 					=> Hilfeausgabe		|
+# | 		                     	 | FILE -s STRING --search 		=> Sucht FAQ-Dateien nach String|
+# | 		                 	 | FILE -c T G / --calendar T G => Sucht in Dateien nach Tag und Gruppen|
+# | 		                     	 | FILE -g X / --group X 		=> Sucht Dateien nach GRP / MatrikelNr.	|
 # | Beispiel-Aufruf                      | finder.sh cache/faq.html -s "Was sind die"                         	|
-# | Beispiel-Ausgabe (stdout)            | Was sind die Kommunikationskanäle für die Übungen?					|
+# | Beispiel-Ausgabe (stdout)            | Was sind die Kommunikationskanäle für die Übungen?			|
 # +--------------------------------------+----------------------------------------------------------------------+
 
 # Gibt die Hilfe aus 
@@ -148,7 +148,7 @@ if [ $# -gt 0 ]; then
 		fi
 
 		# --------------------------------------------------------------------------------- #
-		# 								==== FAQ ====
+		# ==== FAQ ====
 		# --------------------------------------------------------------------------------- #
 		if [[ "$2" = "-s" || "$2" = "--search" ]]; then
 			# Dateiname muss "faq" enthalten
@@ -174,7 +174,7 @@ if [ $# -gt 0 ]; then
 			| sed "s/<[/]*[hH]3>//g;"
 
 		# --------------------------------------------------------------------------------- #
-		# 								==== Kalender ====
+		# ==== Kalender ====
 		# --------------------------------------------------------------------------------- #
 		elif [[ "$2" = "-c" || "$2" = "--calendar" ]]; then
 			# Wenn ein Parameter zu viel, dann Fehler
@@ -235,7 +235,7 @@ if [ $# -gt 0 ]; then
 			fi
 
 		# --------------------------------------------------------------------------------- #
-		# 								==== Gruppen ====
+		# ==== Gruppen ====
 		# --------------------------------------------------------------------------------- #
 		elif [[ "$2" = "-g" || "$2" = "--group" ]]; then
 
@@ -306,7 +306,7 @@ if [ $# -gt 0 ]; then
 				echo "Termin:       $meeting"
 			fi			
 		# --------------------------------------------------------------------------------- #
-		# 								==== ENDE ====
+		# ==== ENDE ====
 		# --------------------------------------------------------------------------------- #	
 		else
 		    showError "wrong-arguments"
