@@ -85,13 +85,6 @@ showError() {
 	exit "$errorCode"
 }
 
-# Gibt den uebergebenen Parameter in Kleinbuchstaben wieder aus
-# Params: $1 String, der lowercased wird
-# Return: lowercased String
-toLower(){
-	echo "$1" | tr '[:upper:]' '[:lower:]'
-}
-
 # Gibt den uebergebenen Parameter in Großbuchstaben wieder aus
 # Params: $1 String, der uppercased wird
 # Return: uppercased String
@@ -155,7 +148,7 @@ if [ $# -gt 0 ]; then
 		fi
 
 		# --------------------------------------------------------------------------------- #
-		# ==== FAQ ====
+		# 								==== FAQ ====
 		# --------------------------------------------------------------------------------- #
 		if [[ "$2" = "-s" || "$2" = "--search" ]]; then
 			# Dateiname muss "faq" enthalten
@@ -181,7 +174,7 @@ if [ $# -gt 0 ]; then
 			| sed "s/<[/]*[hH]3>//g;"
 
 		# --------------------------------------------------------------------------------- #
-		# ==== Kalender ====
+		# 								==== Kalender ====
 		# --------------------------------------------------------------------------------- #
 		elif [[ "$2" = "-c" || "$2" = "--calendar" ]]; then
 			# Wenn ein Parameter zu viel, dann Fehler
@@ -197,8 +190,9 @@ if [ $# -gt 0 ]; then
 				showError "wrong-file"
 			fi
 
-			day=$(toLower "$3")
-			grp=$(toUpper "$4")
+			# Tag in klein (fuer z.B. dienstags) und Gruppe in groß
+			day=$(echo "$3" | tr '[:upper:]' '[:lower:]')
+			grp=$(echo "$4" | tr '[:lower:]' '[:upper:]')
 
 			# Gruppe muss entweder a oder b sein
 			if [ "$grp" != "A" ] && [ "$grp" != "B" ]; then
@@ -206,7 +200,7 @@ if [ $# -gt 0 ]; then
 			fi
 
 			# Tag muss [Montag-Freitag] sein
-			if $(isCorrectDay "$day"); then
+			if [ $(getIndexOfDay "$day") -gt 0 ]; then
 				textDay="${day}s"
 				dayIndex="$(getIndexOfDay "$day")"
 
@@ -215,7 +209,7 @@ if [ $# -gt 0 ]; then
 				# 1: neue Zeilen bei <tr>s (fuer compacted)
 				# 2: neue Zeilen bei <td>s (fuer compacted)
 				# 3: HTML-Kommentare entfernen (Beschreibung oben bei FAQ)
-				# 4: Alles außer <tr>.*</tr> nehmen
+				# 4: Alles außer <tr>.*</tr> entfernen
 				# 5: Leerzeilen entfernen
 				# 6: Richtige Zeile anhand des Index waehlen
 					# -> es gibt 7 Zeilen (2 <tr> und 5 <td>) 
@@ -241,7 +235,7 @@ if [ $# -gt 0 ]; then
 			fi
 
 		# --------------------------------------------------------------------------------- #
-		# ==== Gruppen ====
+		# 								==== Gruppen ====
 		# --------------------------------------------------------------------------------- #
 		elif [[ "$2" = "-g" || "$2" = "--group" ]]; then
 
@@ -255,13 +249,21 @@ if [ $# -gt 0 ]; then
 				showError "wrong-file"
 			fi
 
-			# TODO: Beschreiben
+			# 1: bei <tr> neue Zeilen hinzufeugen (fuer compact)
+			# 2: Alles außer <tr>.*</tr> entfernen
+			# 3: HTML-Kommentare entfernen (Beschreibung oben)
+			# 4: Die ersten 5 Zeilen entfernen (sind <th> Ueberschriften und daher irrelevant)
+			# 5: Zeilenumbrueche entfernen und nur nach </tr> hinzufuegen, 
+			#    damit alle Infos pro Gruppe in einer Reihe sind
+				# :label erstellt ein Label,
+				# :N aktuelle und neachste Zeile hinzufuegen
+				# $!blabel: falls noch Zeilen fehlen, wieder zu label
 			data=$(cat "$1" \
 				| sed 's/<tr>/\n<tr>/g; s/<\/tr>/<\/tr>\n/g;' \
 				| sed -n "/<[TRtr]*>/I,/<\/[TRtr]*>/Ip" \
 				| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
 				| tail -n +6 \
-				| sed ':a;N;$!ba;s/\n/ /g; s/<\/[TRtr]*>/<\/tr>\n/g;')
+				| sed ':label;N;$!blabel;s/\n//g; s/<\/[TRtr]*>/<\/tr>\n/g;')
 
 			# Pruefen, ob nach Gruppennummer oder Matrikelnummer gesucht werden soll
 			# Gruppen 2 Stellig, Matrik. 6 bis 10 stellig
@@ -276,7 +278,10 @@ if [ $# -gt 0 ]; then
 				showError "wrong-group-number"
 			fi
 
-			# # TODO: Beschreiben
+			# 1: Neue Zeilen vor und nach <(/)td> hinzufuegen
+			# 2: Alle HTML-Tags entfernen
+			# 3: Leerzeichen entfernen
+			# 4: Leerzeilen entfernen
 			data=$(echo "$data" | sed 's/<[TDtd]*.*>/\n&/g; s/<\/[TDtd]*>/<\/td>\n/Ig;' \
 				| sed "s/<[^>]*>//g" \
 				| sed "s/  //g; s/^ //g;" \
@@ -301,7 +306,7 @@ if [ $# -gt 0 ]; then
 				echo "Termin:       $meeting"
 			fi			
 		# --------------------------------------------------------------------------------- #
-		# ==== ENDE ====
+		# 								==== ENDE ====
 		# --------------------------------------------------------------------------------- #	
 		else
 		    showError "wrong-arguments"
