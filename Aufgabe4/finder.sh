@@ -4,7 +4,7 @@
 # |                               Finder - Michael Lucas inf102773                                      	  	|
 # +--------------------------------------+----------------------------------------------------------------------+
 # | Beschreibung                         | Dieses Skript durchsucht HTML-Seiten.							  	|
-# | Letzte Aenderung                     | 28.06.2020                                                         	|
+# | Letzte Aenderung                     | 29.06.2020                                                         	|
 # +--------------------------------------+----------------------------------------------------------------------+
 # | Aufruf                               | -h / --help 					=> Hilfeausgabe							|
 # | 		                             | FILE -s STRING --search 		=> Sucht FAQ-Dateien nach String		|
@@ -51,6 +51,9 @@ finder.sh HTML-FILE OPTION
 
 # Gibt eine Fehlermeldung auf stderr aus
 # und beendet das Programm mit dem dazugehoerigen Errorcode (> 0)
+# Params: $1 kurzer Error Text
+# Return: Error Beschreibung für den Nutzer
+# Stderr: errorCode > 0
 showError() {
 	local errorCode=1
 	local errorText=""
@@ -83,16 +86,22 @@ showError() {
 }
 
 # Gibt den uebergebenen Parameter in Kleinbuchstaben wieder aus
+# Params: $1 String, der lowercased wird
+# Return: lowercased String
 toLower(){
 	echo "$1" | tr '[:upper:]' '[:lower:]'
 }
 
 # Gibt den uebergebenen Parameter in Großbuchstaben wieder aus
+# Params: $1 String, der uppercased wird
+# Return: uppercased String
 toUpper(){
 	echo "$1" | tr '[:lower:]' '[:upper:]'
 }
 
 # Prueft, ob der uebergebene Parameter eine Zahl ist
+# Params: $1 - Wird ueberprueft, ob eine Zahl
+# Return: true, wenn eine Zahl
 isNumber(){
   if echo "$1" | grep -E -q '^[-]?[[:digit:]]+$'; then
     echo true
@@ -103,6 +112,8 @@ isNumber(){
 
 # Gibt den Index fuer das Reihenueberspringen eines Tages aus
 # Montag ist 2, weil fuer das korrekte Springen muss immer 1 addiert werden
+# Params: $1 String, der ein Wochentag sein kann
+# Return: index 0, wenn kein Tag, sonst > 0
 getIndexOfDay(){
     index=0
 	if [ "$1" = "montag" ]; then
@@ -121,6 +132,8 @@ getIndexOfDay(){
 }
 
 # Prueft, ob der uebergebene Parameter ein gueltiger (MO-FR) Tag ist
+# Params: $1 String, der ein Tag darstellen soll
+# Return: true, wenn ein korrekter (Mo-Fr) Wochentag ist
 isCorrectDay(){
 	if [ $(getIndexOfDay "$1") -gt 0 ]; then
         echo true
