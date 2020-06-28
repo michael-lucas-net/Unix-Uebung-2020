@@ -159,6 +159,14 @@ test {
 }
 
 test {
+    name    = Kalender-Ausgabe: Aufgabenstellung Spaced
+    comment = Beispiel aus der Aufgabenstellung mit Spaces
+    type    = param
+    cmd       {DUT cache/kalender_spaced.html -c DiensTag a | diff ./expected/cal.exp - }
+    expect    {^$}
+}
+
+test {
     name    = Kalender-Ausgabe: Freitag b
     comment = Beispiel mit anderen Werten und case sensitive
     type    = param
@@ -191,7 +199,7 @@ test {
 }
 
 test {
-    name    = Gruppen-Ausgabe: Aufgabenstellung
+    name    = Gruppen-Ausgabe: Aufgabenstellung Einer
     comment = Ein Beispiel aus der Aufgabenstellung: Ein Teilnehmer
     type    = param
     cmd       {DUT cache/gruppen_minimal.html -g 12 | diff ./expected/grp1.exp - }
@@ -219,6 +227,14 @@ test {
     comment = Ein Beispiel aus der Aufgabenstellung: COMPACTED
     type    = param
     cmd       {DUT cache/gruppen_compacted.html -g 06 | diff ./expected/grpSpaced.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = Gruppen-Ausgabe: Aufgabenstellung CAPS
+    comment = Ein Beispiel aus der Aufgabenstellung: CAPS
+    type    = param
+    cmd       {DUT cache/gruppen_caps.html -g 06 | diff ./expected/grpSpaced.exp - }
     expect    {^$}
 }
 

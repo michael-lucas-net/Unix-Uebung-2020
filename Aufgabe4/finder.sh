@@ -1,6 +1,18 @@
 #!/bin/bash
 
-#TODO: Header
+# +--------------------------------------+----------------------------------------------------------------------+
+# |                               Finder - Michael Lucas inf102773                                      	  	|
+# +--------------------------------------+----------------------------------------------------------------------+
+# | Beschreibung                         | Dieses Skript durchsucht HTML-Seiten.							  	|
+# | Letzte Aenderung                     | 28.06.2020                                                         	|
+# +--------------------------------------+----------------------------------------------------------------------+
+# | Aufruf                               | -h / --help 					=> Hilfeausgabe							|
+# | 		                             | FILE -s STRING --search 		=> Sucht FAQ-Dateien nach String		|
+# | 		                             | FILE -c T G / --calendar T G => Sucht in Dateien nach Tag und Gruppe	|
+# | 		                             | FILE -g X / --group X 		=> Sucht Dateien nach GRP / MatrikelNr.	|
+# | Beispiel-Aufruf                      | finder.sh cache/faq.html -s "Was sind die"                         	|
+# | Beispiel-Ausgabe (stdout)            | Was sind die Kommunikationskanäle für die Übungen?					|
+# +--------------------------------------+----------------------------------------------------------------------+
 
 # Gibt die Hilfe aus
 showHelp() {
