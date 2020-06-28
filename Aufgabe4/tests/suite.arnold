@@ -279,10 +279,18 @@ test {
 }
 
 test {
-    name    = Gruppen-Ausgabe: nach Matrikelnummer suchen (ohne Studiengangsbezeichner)
+    name    = Gruppen-Ausgabe: nach Matrikelnummer suchen 2 (ohne Studiengangsbezeichner)
     comment = Sucht Daten anhand der Matrikelnummer
     type    = param
     cmd       {DUT cache/gruppen_comments.html -g 102773 | diff ./expected/grpMe.exp - }
+    expect    {^$}
+}
+
+test {
+    name    = Gruppen-Ausgabe: COMMENTS Kommentar direkt vor TD
+    comment = Sucht Daten anhand der Matrikelnummer
+    type    = param
+    cmd       {DUT cache/gruppen_comments.html -g 04 | diff ./expected/grp4.exp - }
     expect    {^$}
 }
 

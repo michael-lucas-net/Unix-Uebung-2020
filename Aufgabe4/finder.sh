@@ -14,7 +14,7 @@
 # | Beispiel-Ausgabe (stdout)            | Was sind die Kommunikationskanäle für die Übungen?					|
 # +--------------------------------------+----------------------------------------------------------------------+
 
-# Gibt die Hilfe aus
+# Gibt die Hilfe aus 
 showHelp() {
     echo "Usage:
 finder.sh -h | finder.sh --help
@@ -235,6 +235,7 @@ if [ $# -gt 0 ]; then
 			data=$(cat "$1" \
 				| sed 's/<tr>/\n<tr>/g; s/<\/tr>/<\/tr>\n/g;' \
 				| sed -n "/<[TRtr]*>/I,/<\/[TRtr]*>/Ip" \
+				| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
 				| tail -n +6 \
 				| sed ':a;N;$!ba;s/\n/ /g; s/<\/[TRtr]*>/<\/tr>\n/g;')
 
