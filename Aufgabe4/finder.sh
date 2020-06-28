@@ -131,17 +131,6 @@ getIndexOfDay(){
     echo "$index"
 }
 
-# Prueft, ob der uebergebene Parameter ein gueltiger (MO-FR) Tag ist
-# Params: $1 String, der ein Tag darstellen soll
-# Return: true, wenn ein korrekter (Mo-Fr) Wochentag ist
-isCorrectDay(){
-	if [ $(getIndexOfDay "$1") -gt 0 ]; then
-        echo true
-    else
-        echo false
-    fi
-}
-
 # Pruefen, ob es Parameter gibt
 # Es kann bis zu 4 Parameter geben (FAQ 3 | Kalender 4 | Gruppen 3)
 if [ $# -gt 0 ]; then
@@ -172,28 +161,38 @@ if [ $# -gt 0 ]; then
 			# Dateiname muss "faq" enthalten
 			# i: case insensitive
 			# v: negieren
-			# q: ohne output
+			# q: ohne output (ich moechte nur pruefen und nichts ausgeben)
 			if echo "$1" | grep -ivq faq; then
 				showError "wrong-file"
 			fi
 
-			# TODO: Kommentare
+			# 1: Leerzeilen vor und nach <h3> einfuegen
+			# 2: HTML-Kommentare entfernen
+				# -> sucht nach Kommentare und ersetzt sie
+				# -> falls noch einer vorkommt, ersetzt er nochmals
+			# 3: nur noch die h3 Uberschriften nehmen
+			# 4: Nach uebergebenen Parameter suchen
+			# 5: <(/)h3> entfernen
 			cat "$1" \
 			| sed 's/<h3>/\n<h3>/g; s/<\/h3>/<\/h3>\n/g;' \
-			| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
+			| sed -e :start -re 's/<!--.*?-->//g; /<!--/N;//bstart' \
 			| grep "<h3>.*</h3>" -i \
 			| grep "$3" -i \
-			| sed "s/<[/]*[hH]3>//gi;"
+			| sed "s/<[/]*[hH]3>//g;"
 
 		# --------------------------------------------------------------------------------- #
 		# ==== Kalender ====
 		# --------------------------------------------------------------------------------- #
 		elif [[ "$2" = "-c" || "$2" = "--calendar" ]]; then
+			# Wenn ein Parameter zu viel, dann Fehler
 			if [ -z "$4" ]; then
 				showError "wrong-arguments"
 			fi
 
 			# Dateiname muss "kalender" enthalten
+				# -i = ignore case
+				# -v = reverse
+				# -q = keine Ausgabe (ich moechte ja nur pruefen)
 			if echo "$1" | grep -ivq kalender; then
 				showError "wrong-file"
 			fi
@@ -213,10 +212,22 @@ if [ $# -gt 0 ]; then
 
 				echo "Gruppe $grp - $textDay"
 
-				# TODO: Kommentare
+				# 1: neue Zeilen bei <tr>s (fuer compacted)
+				# 2: neue Zeilen bei <td>s (fuer compacted)
+				# 3: HTML-Kommentare entfernen (Beschreibung oben bei FAQ)
+				# 4: Alles außer <tr>.*</tr> nehmen
+				# 5: Leerzeilen entfernen
+				# 6: Richtige Zeile anhand des Index waehlen
+					# -> es gibt 7 Zeilen (2 <tr> und 5 <td>) 
+					# -> in einer der 5 <td> steht der relevante Inhalt
+					# -> Montag steht in der zweiten Zeile (deshalb index 2)
+				# 7: Kalendereintrag kann z.B. sein: A1 (Inf: B)
+				# 8: Divs waehlen, wo das Datum drin steht
+				# 9: Divs und sonstige Html-Tags entfernen
+				# 10: |- vor Datum hinzufügen
 				cat "$1" \
 					| sed 's/<tr>/\n<tr>/g; s/<\/tr>/<\/tr>\n/g;' \
-					| sed 's/<td.*>/\n&/g; s/<\/td>/<\/td>\n/Ig;' \
+					| sed 's/<td.*>/\n&/g; s/<\/td>/<\/td>\n/g;' \
 					| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
 					| sed -n "/<tr>/I,/<\/tr>/Ip" \
 					| grep "\S" \
@@ -293,7 +304,7 @@ if [ $# -gt 0 ]; then
 		# ==== ENDE ====
 		# --------------------------------------------------------------------------------- #	
 		else
-		      showError "wrong-arguments"
+		    showError "wrong-arguments"
 		fi
 	fi
 else
