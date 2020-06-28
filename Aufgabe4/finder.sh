@@ -60,6 +60,9 @@ showError() {
 	elif [ "$1" = "no-html" ]; then
 		errorText="Wrong file ending! Please only use HTML-files!"
 		errorCode=6
+	elif [ "$1" = "wrong-group-number" ]; then
+		errorText="Wrong matriculation or group number!"
+		errorCode=7
 	fi
 
 	printf "Error: %s\n" "$errorText" >&2
@@ -223,13 +226,17 @@ if [ $# -gt 0 ]; then
 				| tail -n +6 \
 				| sed ':a;N;$!ba;s/\n/ /g; s/<\/[TRtr]*>/<\/tr>\n/g;')
 
-			if [[ "$(isNumber $3)" && "$3" -lt 100 ]]; then
-				# Nach Gruppennummer suchen
+			# Pruefen, ob nach Gruppennummer oder Matrikelnummer gesucht werden soll
+			# Gruppen 2 Stellig, Matrik. 6 bis 10 stellig
+			# Gruppennummer
+			length=${#3}
+			if [[ "$length" -eq 2 && $(isNumber $3) ]]; then
 				data=$(echo "$data" | grep -i ".*<td.*>$3<\/td>.*")
-			else
-				# Nach Matrikelnummer suchen
-				# TODO: Pruefen, ob mit WINF usw. anfaengt?
+			# Matrikelnummer
+			elif [[ "$length" -eq 6 || "$length" -gt 8  && "$length" -lt 11 ]]; then
 				data=$(echo "$data" | grep -i "<tr>.*$3.*")
+			else 
+				showError "wrong-group-number"
 			fi
 
 			# # TODO: Beschreiben
