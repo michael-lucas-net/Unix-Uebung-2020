@@ -10,7 +10,7 @@ test {
     name    = Hilfeaufruf: Kurzform
     comment = Hilfetext anfordern und ueberpruefen
     type    = param
-    cmd       {DUT -h | diff - help.exp}
+    cmd       {DUT -h | diff - ./expected/help.exp}
     expect    {^$}
 }
 
@@ -26,7 +26,7 @@ test {
     name    = FAQ-Suche: Aufgabenstellung
     comment = Beispiel aus der Aufgabenstellung
     type    = param
-    cmd       {DUT cache/faq.html -s kom | diff faq.exp - }
+    cmd       {DUT cache/faq.html -s kom | diff ./expected/faq.exp - }
     expect    {^$}
 }
 
@@ -34,7 +34,7 @@ test {
     name    = FAQ-Suche: Aufgabenstellung (CAPS)
     comment = Beispiel aus der Aufgabenstellung mit Caps
     type    = param
-    cmd       {DUT cache/faq_caps.html -s kom | diff faq.exp - }
+    cmd       {DUT cache/faq_caps.html -s kom | diff ./expected/faq.exp - }
     expect    {^$}
 }
 
@@ -42,7 +42,7 @@ test {
     name    = FAQ-Suche: Aufgabenstellung (PLAIN)
     comment = Beispiel aus der Aufgabenstellung mit Plaintext
     type    = param
-    cmd       {DUT cache/faq_plain.html -s kom | diff faq.exp - }
+    cmd       {DUT cache/faq_plain.html -s kom | diff ./expected/faq.exp - }
     expect    {^$}
 }
 
@@ -50,7 +50,7 @@ test {
     name    = FAQ-Suche: Aufgabenstellung (SPACED)
     comment = Beispiel aus der Aufgabenstellung mit Spaces
     type    = param
-    cmd       {DUT cache/faq_spaced.html -s kom | diff faq.exp - }
+    cmd       {DUT cache/faq_spaced.html -s kom | diff ./expected/faq.exp - }
     expect    {^$}
 }
 
@@ -58,7 +58,7 @@ test {
     name    = FAQ-Suche: Aufgabenstellung (COMMENTS)
     comment = Beispiel aus der Aufgabenstellung mit Kommentaren
     type    = param
-    cmd       {DUT cache/faq_comments.html -s kom | diff faq.exp - }
+    cmd       {DUT cache/faq_comments.html -s kom | diff ./expected/faq.exp - }
     expect    {^$}
 }
 
@@ -66,7 +66,7 @@ test {
     name    = FAQ-Suche: Aufgabenstellung (COMPACT)
     comment = Beispiel aus der Aufgabenstellung minified
     type    = param
-    cmd       {DUT cache/faq_compacted.html -s kom | diff faq.exp - }
+    cmd       {DUT cache/faq_compacted.html -s kom | diff ./expected/faq.exp - }
     expect    {^$}
 }
 
@@ -74,7 +74,7 @@ test {
     name    = FAQ-Suche: Satz
     comment = Mehrere Worte als Parameter
     type    = param
-    cmd       {DUT cache/faq_compacted.html -s "ein Problem oder eine" | diff faqSentence.exp - }
+    cmd       {DUT cache/faq_compacted.html -s "ein Problem oder eine" | diff ./expected/faqSentence.exp - }
     expect    {^$}
 }
 
@@ -82,7 +82,7 @@ test {
     name    = FAQ-Suche: Satz (Mit Caps random drin)
     comment = Mehrere Worte als Parameter, wobei manche Buchstaben in caps sind
     type    = param
-    cmd       {DUT cache/faq_compacted.html -s "eIn ProBleM odeR eIne" | diff faqSentence.exp - }
+    cmd       {DUT cache/faq_compacted.html -s "eIn ProBleM odeR eIne" | diff ./expected/faqSentence.exp - }
     expect    {^$}
 }
 
@@ -106,7 +106,7 @@ test {
     name    = Kalender-Ausgabe: Aufgabenstellung
     comment = Beispiel aus der Aufgabenstellung
     type    = param
-    cmd       {DUT cache/kalender.html -c DiensTag a | diff cal.exp - }
+    cmd       {DUT cache/kalender.html -c DiensTag a | diff ./expected/cal.exp - }
     expect    {^$}
 }
 
@@ -114,7 +114,7 @@ test {
     name    = Kalender-Ausgabe: Aufgabenstellung CAPS
     comment = Beispiel aus der Aufgabenstellung mit Caps
     type    = param
-    cmd       {DUT cache/kalender_caps.html -c DiensTag a | diff cal.exp - }
+    cmd       {DUT cache/kalender_caps.html -c DiensTag a | diff ./expected/cal.exp - }
     expect    {^$}
 }
 
@@ -122,7 +122,7 @@ test {
     name    = Kalender-Ausgabe: Aufgabenstellung COMPACTED
     comment = Beispiel aus der Aufgabenstellung minified
     type    = param
-    cmd       {DUT cache/kalender_compacted.html -c DiensTag a | diff cal.exp - }
+    cmd       {DUT cache/kalender_compacted.html -c DiensTag a | diff ./expected/cal.exp - }
     expect    {^$}
 }
 
@@ -130,7 +130,7 @@ test {
     name    = Kalender-Ausgabe: Aufgabenstellung PLAIN
     comment = Beispiel aus der Aufgabenstellung plain
     type    = param
-    cmd       {DUT cache/kalender_plain.html -c DiensTag a | diff cal.exp - }
+    cmd       {DUT cache/kalender_plain.html -c DiensTag a | diff ./expected/cal.exp - }
     expect    {^$}
 }
 
@@ -138,7 +138,7 @@ test {
     name    = Kalender-Ausgabe: Aufgabenstellung COMMENTS
     comment = Beispiel aus der Aufgabenstellung mit Kommentaren
     type    = param
-    cmd       {DUT cache/kalender_comments.html -c DiensTag a | diff cal.exp - }
+    cmd       {DUT cache/kalender_comments.html -c DiensTag a | diff ./expected/cal.exp - }
     expect    {^$}
 }
 
@@ -146,7 +146,7 @@ test {
     name    = Kalender-Ausgabe: Freitag b
     comment = Beispiel mit anderen Werten und case sensitive
     type    = param
-    cmd       {DUT cache/kalender_comments.html -c FrEiTaG b | diff calFridayB.exp - }
+    cmd       {DUT cache/kalender_comments.html -c FrEiTaG b | diff ./expected/calFridayB.exp - }
     expect    {^$}
 }
 
@@ -162,7 +162,7 @@ test {
     name    = Gruppen-Ausgabe: Aufgabenstellung
     comment = Ein Beispiel aus der Aufgabenstellung: Zwei Teilnehmer
     type    = param
-    cmd       {DUT cache/gruppen_minimal.html -g 06 | diff grp2.exp - }
+    cmd       {DUT cache/gruppen_minimal.html -g 06 | diff ./expected/grp2.exp - }
     expect    {^$}
 }
 
@@ -170,7 +170,7 @@ test {
     name    = Gruppen-Ausgabe: Aufgabenstellung
     comment = Ein Beispiel aus der Aufgabenstellung: Ein Teilnehmer
     type    = param
-    cmd       {DUT cache/gruppen_minimal.html -g 12 | diff grp1.exp - }
+    cmd       {DUT cache/gruppen_minimal.html -g 12 | diff ./expected/grp1.exp - }
     expect    {^$}
 }
 
@@ -178,7 +178,7 @@ test {
     name    = Gruppen-Ausgabe: Aufgabenstellung CAPS
     comment = Ein Beispiel aus der Aufgabenstellung: CAPS
     type    = param
-    cmd       {DUT cache/gruppen_minimal.html -g 06 | diff grp2.exp - }
+    cmd       {DUT cache/gruppen_minimal.html -g 06 | diff ./expected/grp2.exp - }
     expect    {^$}
 }
 
@@ -186,7 +186,7 @@ test {
     name    = Gruppen-Ausgabe: Aufgabenstellung SPACED
     comment = Ein Beispiel aus der Aufgabenstellung: SPACED
     type    = param
-    cmd       {DUT cache/gruppen_spaced.html -g 06 | diff grpSpaced.exp - }
+    cmd       {DUT cache/gruppen_spaced.html -g 06 | diff ./expected/grpSpaced.exp - }
     expect    {^$}
 }
 
@@ -194,7 +194,7 @@ test {
     name    = Gruppen-Ausgabe: Aufgabenstellung COMPACTED
     comment = Ein Beispiel aus der Aufgabenstellung: COMPACTED
     type    = param
-    cmd       {DUT cache/gruppen_compacted.html -g 06 | diff grpSpaced.exp - }
+    cmd       {DUT cache/gruppen_compacted.html -g 06 | diff ./expected/grpSpaced.exp - }
     expect    {^$}
 }
 
@@ -202,7 +202,7 @@ test {
     name    = Gruppen-Ausgabe: Aufgabenstellung MINIMAL
     comment = Ein Beispiel aus der Aufgabenstellung: MINIMAL
     type    = param
-    cmd       {DUT cache/gruppen_minimal.html -g 06 | diff grp2.exp - }
+    cmd       {DUT cache/gruppen_minimal.html -g 06 | diff ./expected/grp2.exp - }
     expect    {^$}
 }
 
@@ -210,7 +210,7 @@ test {
     name    = Gruppen-Ausgabe: Aufgabenstellung MINIMAL
     comment = Ein Beispiel aus der Aufgabenstellung: MINIMAL
     type    = param
-    cmd       {DUT cache/gruppen_plain.html -g 06 | diff grpSpaced.exp - }
+    cmd       {DUT cache/gruppen_plain.html -g 06 | diff ./expected/grpSpaced.exp - }
     expect    {^$}
 }
 
@@ -218,7 +218,7 @@ test {
     name    = Gruppen-Ausgabe: Aufgabenstellung COMMENTS
     comment = Ein Beispiel aus der Aufgabenstellung: COMMENTS
     type    = param
-    cmd       {DUT cache/gruppen_comments.html -g 06 | diff grpSpaced.exp - }
+    cmd       {DUT cache/gruppen_comments.html -g 06 | diff ./expected/grpSpaced.exp - }
     expect    {^$}
 }
 
@@ -226,7 +226,7 @@ test {
     name    = Gruppen-Ausgabe: nach Matrikelnummer suchen (mit Studiengangsbezeichner)
     comment = Sucht Daten anhand der Matrikelnummer
     type    = param
-    cmd       {DUT cache/gruppen_comments.html -g winf104227 | diff grpSpaced.exp - }
+    cmd       {DUT cache/gruppen_comments.html -g winf104227 | diff ./expected/grpSpaced.exp - }
     expect    {^$}
 }
 
@@ -234,7 +234,7 @@ test {
     name    = Gruppen-Ausgabe: nach Matrikelnummer suchen (ohne Studiengangsbezeichner)
     comment = Sucht Daten anhand der Matrikelnummer
     type    = param
-    cmd       {DUT cache/gruppen_comments.html -g 104227 | diff grpSpaced.exp - }
+    cmd       {DUT cache/gruppen_comments.html -g 104227 | diff ./expected/grpSpaced.exp - }
     expect    {^$}
 }
 
@@ -274,7 +274,7 @@ test {
     name    = FAQ Dateiname: Caps
     comment = Dateiname muss auch in caps funktionieren
     type    = param
-    cmd       {DUT cache/FaQ.HTML -s kom | diff faq.exp -  }
+    cmd       {DUT cache/FaQ.HTML -s kom | diff ./expected/faq.exp -  }
     expect    {^$}
 }
 
