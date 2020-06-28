@@ -60,18 +60,17 @@ showError() {
 	exit "$errorCode"
 }
 
-# TODO: Umschreiben, ist evtl nicht noetig
 # Gibt den uebergebenen Parameter in Kleinbuchstaben wieder aus
 toLower(){
 	echo "$1" | tr '[:upper:]' '[:lower:]'
 }
 
-# TODO: Umschreiben, ist evtl nicht noetig
 # Gibt den uebergebenen Parameter in Großbuchstaben wieder aus
 toUpper(){
 	echo "$1" | tr '[:lower:]' '[:upper:]'
 }
 
+# Prueft, ob der uebergebene Parameter eine Zahl ist
 isNumber(){
   if echo "$1" | grep -E -q '^[-]?[[:digit:]]+$'; then
     echo true
@@ -83,17 +82,16 @@ isNumber(){
 # Gibt den Index fuer das Reihenueberspringen eines Tages aus
 # Montag ist 2, weil fuer das korrekte Springen muss immer 1 addiert werden
 getIndexOfDay(){
-	day="$(toLower "$1")"
     index=0
-	if [ "$day" = "montag" ]; then
+	if [ "$1" = "montag" ]; then
 		index=2
-	elif [ "$day" = "dienstag" ]; then
+	elif [ "$1" = "dienstag" ]; then
 		index=3
-	elif [ "$day" = "mittwoch" ]; then
+	elif [ "$1" = "mittwoch" ]; then
 		index=4
-	elif [ "$day" = "donnerstag" ]; then
+	elif [ "$1" = "donnerstag" ]; then
 		index=5
-	elif [ "$day" = "freitag" ]; then
+	elif [ "$1" = "freitag" ]; then
 		index=6
 	fi
 
@@ -109,6 +107,8 @@ isCorrectDay(){
     fi
 }
 
+# Pruefen, ob es Parameter gibt
+# Es kann bis zu 4 Parameter geben (FAQ 3 | Kalender 4 | Gruppen 3)
 if [ $# -gt 0 ]; then
 	# Hilfe-Ausgabe
 	if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
@@ -150,18 +150,17 @@ if [ $# -gt 0 ]; then
 				showError "wrong-file"
 			fi
 
-			day="$3"
+			day=$(toLower "$3")
 			grp=$(toUpper "$4")
 
 			# Gruppe muss entweder a oder b sein
-			if [ $(toLower "$grp") != "a" ] && [ $(toLower "$grp") != "b" ]; then
+			if [ "$grp" != "A" ] && [ "$grp" != "B" ]; then
 				showError "wrong-group"
 			fi
 
 			# Tag muss [Montag-Freitag] sein
 			if $(isCorrectDay "$day"); then
-				textDay="$(toLower "$day")"
-				textDay="${textDay}s"
+				textDay="${day}s"
 				dayIndex="$(getIndexOfDay "$day")"
 
 				echo "Gruppe $grp - $textDay"
