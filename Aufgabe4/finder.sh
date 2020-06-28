@@ -77,7 +77,7 @@ showError() {
 		errorCode=7
 	fi
 
-	printf "Error: %s\n" "$errorText" >&2
+	printf "ERROR: %s\n" "$errorText" >&2
 	showHelp >&2
 	exit "$errorCode"
 }

@@ -3,7 +3,7 @@ test {
     comment = Muss Fehler ausgeben, dass Aufruf fehlerhaft ist.
     type    = param
     cmd       {DUT}
-    expect    {^Error: There are no arguments.*$}
+    expect    {^ERROR: There are no arguments.*$}
 }
 
 test {
@@ -179,7 +179,7 @@ test {
     comment = Soll Fehler ausgeben, dass der Tag ungültig ist.
     type    = param
     cmd       {DUT cache/kalender_comments.html -c Samstag b }
-    expect    {^Error: Wrong day! Only days from Monday-Friday are allowed.*$}
+    expect    {^ERROR: Wrong day! Only days from Monday-Friday are allowed.*$}
 }
 
 test {
@@ -291,7 +291,7 @@ test {
     comment = Muss Fehler ausgeben, dass die Datei ungültig ist.
     type    = param
     cmd       {DUT cache/gruppen_minimal.html -c dienstag a }
-    expect    {^Error: The given file does not fit the requirements.*$}
+    expect    {^ERROR: The given file does not fit the requirements.*$}
 }
 
 test {
@@ -299,7 +299,7 @@ test {
     comment = Muss Fehler ausgeben, dass die Datei ungültig ist.
     type    = param
     cmd       {DUT cache/faq_minimal.html -g 03 }
-    expect    {^Error: The given file does not fit the requirements.*$}
+    expect    {^ERROR: The given file does not fit the requirements.*$}
 }
 
 test {
@@ -307,7 +307,7 @@ test {
     comment = Muss Fehler ausgeben, dass die Datei ungültig ist.
     type    = param
     cmd       {DUT cache/gruppen_minimal.html -s kom }
-    expect    {^Error: The given file does not fit the requirements.*$}
+    expect    {^ERROR: The given file does not fit the requirements.*$}
 }
 
 test {
@@ -323,7 +323,7 @@ test {
     comment = Muss Fehler ausgeben, dass die Datei ungültig ist.
     type    = param
     cmd       {DUT cache/faq.txt -s kom }
-    expect    {^Error: Wrong file ending! Please only use HTML-files!.*$}
+    expect    {^ERROR: Wrong file ending! Please only use HTML-files!.*$}
 }
 
 test {
@@ -331,5 +331,5 @@ test {
     comment = Muss Fehler ausgeben, dass die Datei ungültig ist.
     type    = param
     cmd       {DUT cache/faq.txt -s kom }
-    expect    {^Error: Wrong file ending! Please only use HTML-files!.*$}
+    expect    {^ERROR: Wrong file ending! Please only use HTML-files!.*$}
 }
