@@ -85,13 +85,6 @@ showError() {
 	exit "$errorCode"
 }
 
-# Gibt den uebergebenen Parameter in Großbuchstaben wieder aus
-# Params: $1 String, der uppercased wird
-# Return: uppercased String
-toUpper(){
-	echo "$1" | tr '[:lower:]' '[:upper:]'
-}
-
 # Prueft, ob der uebergebene Parameter eine Zahl ist
 # Params: $1 - Wird ueberprueft, ob eine Zahl
 # Return: true, wenn eine Zahl
