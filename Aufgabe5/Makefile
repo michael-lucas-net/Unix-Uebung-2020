@@ -42,6 +42,10 @@ export showHelp
 # Make soll keine temp.-Dateien loeschen
 # -> Ein .SECONDARY ohne Abhängigkeiten deaktiviert das automatische Löschen von Zwischenzielen
 .SECONDARY:
+  
+# Um zu verhindern, dass er z.B: "clean" nicht ausfuehrt,
+# wenn es eine Datei gibt, die "clean" heißt.
+.PHONY: all index md html clean help 
 
 # Ruft standardmaessig index auf
 all: index
@@ -52,10 +56,10 @@ index: md html
 	@./genindex > $(INDEX_FILE)
 
 # Wandelt alle sh-Dateien in md um
-# zudem wird noch der pretext hinzugefuegt
+# zudem wird noch der pretext in der ersten Zeile hinzugefuegt
 md: $(MD_OBJECTS)
 %.md: %.sh
-	@./shelltomd < $< | sed '1 i $(PRE_TEXT)' > $@
+	@./shelltomd < $< | sed "1i $(PRE_TEXT)" > $@
 
 # Wandelt alle Markdown-Dateien in HTML um
 html: $(HTML_OBJECTS)
