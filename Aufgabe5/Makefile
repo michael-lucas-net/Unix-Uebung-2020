@@ -16,7 +16,6 @@
  # clean - remove all generated files
 
 # ==== VARS
-SHELL = /bin/bash
 PRE_TEXT = \# Code Documentation
 SH_OBJECTS = $(wildcard *.sh)
 MD_OBJECTS = $(SH_OBJECTS:.sh=.md)
@@ -46,7 +45,7 @@ all: index
 # Uebersicht erstellen
 # Ruft Script "genindex" auf und schreibt es in Datei 
 index: md html
-	@$(SHELL) genindex > $(INDEX_FILE)
+	@./genindex > $(INDEX_FILE)
 
 # Wandelt alle Markdown-Dateien in HTML um
 html: $(HTML_OBJECTS)
@@ -57,7 +56,7 @@ html: $(HTML_OBJECTS)
 # zudem wird noch der pretext hinzugefuegt
 md: $(MD_OBJECTS)
 %.md: %.sh
-	@$(SHELL) shelltomd < $< | sed '1 i $(PRE_TEXT)' > $@
+	@./shelltomd < $< | sed '1 i $(PRE_TEXT)' > $@
 
 # Gibt die Hilfe aus
 help: ; @echo "$$showHelp"
