@@ -1,7 +1,10 @@
-SHELL=/bin/dash
-PRETEXT=\# Code Documentation
+# ==== VARS
+SHELL=/bin/bash
+PRE_TEXT=\# Code Documentation
 SH_OBJECTS=$(wildcard *.sh)
 MD_OBJECTS=$(SH_OBJECTS:.sh=.md)
+HTML_OBJECTS=$(SH_OBJECTS:.sh=.html)
+INDEX_FILE=index.html
 
 # Um tausend Echos zu vermeiden ein define mit dem Text
 define showHelp
@@ -20,22 +23,33 @@ TARGETS
 endef
 export showHelp
 
-
+# Ruft standardmaessig index auf
 all: index
 
-index: ; @echo "Index aufgerufen"
+# Uebersicht erstellen
+# Ruft Script "genindex" auf und schreibt es in Datei 
+index: md html
+	@$(SHELL) genindex > $(INDEX_FILE)
 
-# Ersetzt .sh durch .md und fuehrt Skript shelltomd aus
-# Zudem wird noch der pretext hinzugefuegt
+# Wandelt alle Markdown-Dateien in HTML um
+html: $(HTML_OBJECTS)
+%.html: %.md
+	@./Markdown.pl < $< > $@
+
+# Wandelt alle sh-Dateien in md um
+# zudem wird noch der pretext hinzugefuegt
 md: $(MD_OBJECTS)
 %.md: %.sh
-	@$(SHELL) shelltomd < $< | sed '1 i $(PRETEXT)' > $@
+	@$(SHELL) shelltomd < $< | sed '1 i $(PRE_TEXT)' > $@
 
+# Gibt die Hilfe aus
 help: ; @echo "$$showHelp"
 
 # Entfernt alle von der Makefile erstellten Dateien
 clean:
-	@rm -rf $(MD_OBJECTS)
+	@rm -f $(MD_OBJECTS)
+	@rm -f $(HTML_OBJECTS)
+	@rm -f $(INDEX_FILE)
 
 # Make soll keine temp.-Dateien loeschen
 # -> Ein .SECONDARY ohne Abhängigkeiten deaktiviert das automatische Löschen von Zwischenzielen
