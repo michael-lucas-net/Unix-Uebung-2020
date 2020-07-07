@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# HTML-Header und oeffnende HTML-Tags ausgeben:
+echo '<html><head><title></title></head><body>'
+# Alle HTML-Dateien im aktuellen Verzeichnis auflisten (ausser index.html)
+# und hieraus jeweils <h3>- und <a>-Tags generieren:
+ls *.html | grep --invert-match index.html | \
+    sed 's|\(.*\)|<h3>\1</h3><a href=\"\1\">Documentation</a>|'
+# Schliessende HTML-Tags ausgeben:
+echo '</body></html>'

@@ -1,0 +1,18 @@
+
+define showHelp
+Makefile to create a code documentation of shell files using markdown.
+
+VARIABLES
+  PRETEXT - text prepended to every markdown file (default="# Code Documentation")
+
+TARGETS
+  all   - default target, does the same as index target
+  index - create all md files, html pages and an index.html
+  html  - create all md files and html pages
+  md    - create all md files
+  help  - display this help and exit
+  clean - remove all generated files
+endef
+export showHelp
+
+help: ; @echo "$$showHelp"

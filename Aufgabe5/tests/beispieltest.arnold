@@ -1,0 +1,24 @@
+
+define make   {make --no-print-directory --file=DUT}
+define silent {1>/dev/null 2>/dev/null}
+
+test {
+    name    = 1) Ausgabe der Hilfe
+    comment = Ein Aufruf von "make help" muss den Hilfetext ausgeben
+    type    = param
+    cmd       {${make} help | diff - exp/help.exp}
+    expect    {^$}
+}
+
+define source {example.sh}
+define target {example.md}
+test {
+    name    = 2) md aus sh generieren
+    comment = Konvertiert die Datei ${source} in ${target}
+    type    = param
+    cmd       {rm -f ${target}; \
+               ${make} ${target} ${silent}; \
+               diff ${target} ${target}.exp; \
+               rm -f ${target}; }
+    expect    {^$}
+}
