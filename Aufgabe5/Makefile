@@ -1,3 +1,7 @@
+SHELL=/bin/dash
+PRETEXT=\# Code Documentation
+SH_OBJECTS=$(wildcard *.sh)
+MD_OBJECTS=$(SH_OBJECTS:.sh=.md)
 
 define showHelp
 Makefile to create a code documentation of shell files using markdown.
@@ -15,14 +19,22 @@ TARGETS
 endef
 export showHelp
 
-all: index
+all: index.html
 
 index: ; @echo "Index aufgerufen"
 
-html: ; @echo "html aufgerufen"
-
-md: ; @echo "MD aufgerufen"
-
-clean: ; @echo "clean aufgerufen"
+#führt die %.md regel solange aus, bis es zu allen .sh Datein eine .md datei gibt
+md: $(MD_OBJECTS)
+%.md: %.sh
+	@$(SHELL) shelltomd < $< | sed '1 i $(PRETEXT)' >$@
 
 help: ; @echo "$$showHelp"
+
+clean:
+	@rm -rf $(OBJHTML)
+	@rm -rf $(MD_OBJECTS)
+	@rm -rf index.html
+
+# Make soll keine temp.-Dateien loeschen
+# -> Ein .SECONDARY ohne Abhängigkeiten deaktiviert das automatische Löschen von Zwischenzielen
+.SECONDARY:
