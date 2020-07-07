@@ -3,6 +3,7 @@ PRETEXT=\# Code Documentation
 SH_OBJECTS=$(wildcard *.sh)
 MD_OBJECTS=$(SH_OBJECTS:.sh=.md)
 
+# Um tausend Echos zu vermeiden ein define mit dem Text
 define showHelp
 Makefile to create a code documentation of shell files using markdown.
 
@@ -19,21 +20,22 @@ TARGETS
 endef
 export showHelp
 
-all: index.html
+
+all: index
 
 index: ; @echo "Index aufgerufen"
 
-#führt die %.md regel solange aus, bis es zu allen .sh Datein eine .md datei gibt
+# Ersetzt .sh durch .md und fuehrt Skript shelltomd aus
+# Zudem wird noch der pretext hinzugefuegt
 md: $(MD_OBJECTS)
 %.md: %.sh
-	@$(SHELL) shelltomd < $< | sed '1 i $(PRETEXT)' >$@
+	@$(SHELL) shelltomd < $< | sed '1 i $(PRETEXT)' > $@
 
 help: ; @echo "$$showHelp"
 
+# Entfernt alle von der Makefile erstellten Dateien
 clean:
-	@rm -rf $(OBJHTML)
 	@rm -rf $(MD_OBJECTS)
-	@rm -rf index.html
 
 # Make soll keine temp.-Dateien loeschen
 # -> Ein .SECONDARY ohne Abhängigkeiten deaktiviert das automatische Löschen von Zwischenzielen
