@@ -1,7 +1,6 @@
 # Makefile fuer Quellcode-Dokumentationen
 # Michael Lucas - inf102773
 # Letzte Aenderung: 08.07.2020
-
 # Beschreibung: Erstellt Quellcode-Dokumentationen aus Shell-Skripten.
 
 # VARIABLES
@@ -42,7 +41,7 @@ export showHelp
 # Make soll keine temp.-Dateien loeschen
 # -> Ein .SECONDARY ohne Abhängigkeiten deaktiviert das automatische Löschen von Zwischenzielen
 .SECONDARY:
-  
+
 # Um zu verhindern, dass er z.B: "clean" nicht ausfuehrt,
 # wenn es eine Datei gibt, die "clean" heißt.
 .PHONY: all index md html clean help 
