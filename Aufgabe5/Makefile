@@ -1,10 +1,27 @@
+# Makefile fuer Quellcode-Dokumentationen
+# Michael Lucas - inf102773
+# Letzte Aenderung: 08.07.2020
+
+# Beschreibung: Erstellt Quellcode-Dokumentationen aus Shell-Skripten.
+
+# VARIABLES
+  # PRETEXT - text prepended to every markdown file (default="# Code Documentation")
+
+# TARGETS
+ # all   - default target, does the same as index target
+ # index - create all md files, html pages and an index.html
+ # html  - create all md files and html pages
+ # md    - create all md files
+ # help  - display this help and exit
+ # clean - remove all generated files
+
 # ==== VARS
-SHELL=/bin/bash
-PRE_TEXT=\# Code Documentation
-SH_OBJECTS=$(wildcard *.sh)
-MD_OBJECTS=$(SH_OBJECTS:.sh=.md)
-HTML_OBJECTS=$(SH_OBJECTS:.sh=.html)
-INDEX_FILE=index.html
+SHELL = /bin/bash
+PRE_TEXT = \# Code Documentation
+SH_OBJECTS = $(wildcard *.sh)
+MD_OBJECTS = $(SH_OBJECTS:.sh=.md)
+HTML_OBJECTS = $(SH_OBJECTS:.sh=.html)
+INDEX_FILE = index.html
 
 # Um tausend Echos zu vermeiden ein define mit dem Text
 define showHelp
