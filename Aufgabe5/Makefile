@@ -39,6 +39,10 @@ TARGETS
 endef
 export showHelp
 
+# Make soll keine temp.-Dateien loeschen
+# -> Ein .SECONDARY ohne Abhängigkeiten deaktiviert das automatische Löschen von Zwischenzielen
+.SECONDARY:
+
 # Ruft standardmaessig index auf
 all: index
 
@@ -47,19 +51,16 @@ all: index
 index: md html
 	@./genindex > $(INDEX_FILE)
 
-# Wandelt alle Markdown-Dateien in HTML um
-html: $(HTML_OBJECTS)
-%.html: %.md
-	@./Markdown.pl < $< > $@
-
 # Wandelt alle sh-Dateien in md um
 # zudem wird noch der pretext hinzugefuegt
 md: $(MD_OBJECTS)
 %.md: %.sh
 	@./shelltomd < $< | sed '1 i $(PRE_TEXT)' > $@
 
-# Gibt die Hilfe aus
-help: ; @echo "$$showHelp"
+# Wandelt alle Markdown-Dateien in HTML um
+html: $(HTML_OBJECTS)
+%.html: %.md
+	@./Markdown.pl < $< > $@
 
 # Entfernt alle von der Makefile erstellten Dateien
 clean:
@@ -67,6 +68,5 @@ clean:
 	@rm -f $(HTML_OBJECTS)
 	@rm -f $(INDEX_FILE)
 
-# Make soll keine temp.-Dateien loeschen
-# -> Ein .SECONDARY ohne Abhängigkeiten deaktiviert das automatische Löschen von Zwischenzielen
-.SECONDARY:
+# Gibt die Hilfe aus
+help: ; @echo "$$showHelp"
