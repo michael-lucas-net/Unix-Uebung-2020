@@ -15,4 +15,14 @@ TARGETS
 endef
 export showHelp
 
+all: index
+
+index: ; @echo "Index aufgerufen"
+
+html: ; @echo "html aufgerufen"
+
+md: ; @echo "MD aufgerufen"
+
+clean: ; @echo "clean aufgerufen"
+
 help: ; @echo "$$showHelp"
