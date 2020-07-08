@@ -21,6 +21,8 @@ MD_OBJECTS = $(wildcard *.md)
 MD_OBJECTS += $(SH_OBJECTS:.sh=.md)
 HTML_OBJECTS = $(MD_OBJECTS:.md=.html)
 CLEAN_OBJECTS = $(INDEX_FILE)
+CLEAN_OBJECTS += $(HTML_OBJECTS)
+CLEAN_OBJECTS += $(MD_OBJECTS)
 INDEX_FILE = index.html
 
 # Um tausend Echos zu vermeiden ein define mit dem Text
@@ -69,9 +71,7 @@ html: $(HTML_OBJECTS)
 
 # Entfernt alle von der Makefile erstellten Dateien
 clean:
-	@rm -f $(MD_OBJECTS)
-	@rm -f $(HTML_OBJECTS)
-	@rm -f $(INDEX_FILE)
+	@rm -f $(CLEAN_OBJECTS)
 
 # Gibt die Hilfe aus
 help: ; @echo "$$showHelp"
