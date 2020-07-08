@@ -16,14 +16,17 @@
 
 # ==== VARS
 PRE_TEXT = \# Code Documentation
-SH_OBJECTS = $(wildcard *.sh)
-MD_OBJECTS = $(wildcard *.md)
-MD_OBJECTS += $(SH_OBJECTS:.sh=.md)
-HTML_OBJECTS = $(MD_OBJECTS:.md=.html)
-CLEAN_OBJECTS = $(INDEX_FILE)
-CLEAN_OBJECTS += $(HTML_OBJECTS)
-CLEAN_OBJECTS += $(MD_OBJECTS)
-INDEX_FILE = index.html
+INDEX_FILE = index.html                   # so wird die Verzeichnis-Datei heißen
+
+SH_OBJECTS = $(wildcard *.sh)             # Alle sh-Dateien
+MD_OBJECTS_FOL = $(wildcard *.md)         # Alle md-Dateien aus dem Ordner
+MD_OBJECTS_CONV = $(SH_OBJECTS:.sh=.md)   # Alle konvertierten md-Dateien
+MD_OBJECTS = $(MD_OBJECTS_FOL) $(MD_OBJECTS_CONV) # Alle md-Dateien
+HTML_OBJECTS = $(MD_OBJECTS:.md=.html)    # Alle html-Dateien
+
+CLEAN_OBJECTS = $(INDEX_FILE)             # Verzeichnis-Datei loeschen
+CLEAN_OBJECTS += $(HTML_OBJECTS)          # Kovnerrtierte HTML-Dateien loeschen
+CLEAN_OBJECTS += $(MD_OBJECTS_CONV)       # konvertierte MD-Dateien loeschen
 
 # Um tausend Echos zu vermeiden ein define mit dem Text
 define showHelp
