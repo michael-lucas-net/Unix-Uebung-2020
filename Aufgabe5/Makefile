@@ -17,8 +17,10 @@
 # ==== VARS
 PRE_TEXT = \# Code Documentation
 SH_OBJECTS = $(wildcard *.sh)
-MD_OBJECTS = $(SH_OBJECTS:.sh=.md)
-HTML_OBJECTS = $(SH_OBJECTS:.sh=.html)
+MD_OBJECTS = $(wildcard *.md)
+MD_OBJECTS += $(SH_OBJECTS:.sh=.md)
+HTML_OBJECTS = $(MD_OBJECTS:.md=.html)
+CLEAN_OBJECTS = $(INDEX_FILE)
 INDEX_FILE = index.html
 
 # Um tausend Echos zu vermeiden ein define mit dem Text
