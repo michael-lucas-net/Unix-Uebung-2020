@@ -15,7 +15,7 @@
  # clean - remove all generated files
 
 # ==== VARS
-PRE_TEXT = \# Code Documentation
+PRETEXT = \# Code Documentation
 INDEX_FILE = index.html                   # so wird die Verzeichnis-Datei heißen
 
 SH_OBJECTS = $(wildcard *.sh)             # Alle sh-Dateien
@@ -65,7 +65,7 @@ index: md html
 # zudem wird noch der pretext in der ersten Zeile hinzugefuegt
 md: $(MD_OBJECTS)
 %.md: %.sh
-	@./shelltomd < $< | sed "1i $(PRE_TEXT)" > $@
+	@./shelltomd < $< | sed "1i $(PRETEXT)" > $@
 
 # Wandelt alle Markdown-Dateien in HTML um
 html: $(HTML_OBJECTS)

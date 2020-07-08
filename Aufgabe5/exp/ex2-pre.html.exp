@@ -1,0 +1,6 @@
+<h1>hallo123</h1>
+
+<p>HTML-Header und oeffnende HTML-Tags ausgeben:</p>
+
+<pre><code>echo 'Hello World 2'
+</code></pre>

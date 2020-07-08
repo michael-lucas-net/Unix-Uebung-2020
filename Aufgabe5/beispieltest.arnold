@@ -70,3 +70,17 @@ test {
         ${make} clean }
     expect    {^$}
 }
+
+define source2pre {ex2.md}
+define html2pre {ex2.html}
+define exp2pre {ex2-pre.html.exp}
+define preTxt {PRETEXT=#hallo123}
+test {
+    name    = 7) Pretext Test
+    comment = Vergleicht Example 3 (html)
+    type    = param
+    cmd       {make ${preTxt} ${silent}; \
+        diff ${html2pre} ./exp/${exp2pre} && \
+        ${make} clean }
+    expect    {^$}
+}
