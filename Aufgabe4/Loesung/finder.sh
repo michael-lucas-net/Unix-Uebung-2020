@@ -4,7 +4,7 @@
 # |                               Finder - Michael Lucas inf102773                                      		|
 # +--------------------------------------+----------------------------------------------------------------------+
 # | Beschreibung                         | Dieses Skript durchsucht HTML-Seiten.								|
-# | Letzte Aenderung                     | 29.06.2020                                                         	|
+# | Letzte Aenderung                     | 09.07.2020                                                         	|
 # +--------------------------------------+----------------------------------------------------------------------+
 # | Aufruf                               | -h / --help 					=> Hilfeausgabe							|
 # | 		                     	 	 | FILE -s STRING --search 		=> Sucht FAQ-Dateien nach String		|
