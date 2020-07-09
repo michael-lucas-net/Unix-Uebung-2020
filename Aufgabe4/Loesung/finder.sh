@@ -88,6 +88,9 @@ showError() {
 # Prueft, ob der uebergebene Parameter eine Zahl ist
 # Params: $1 - Wird ueberprueft, ob eine Zahl
 # Return: true, wenn eine Zahl
+
+# E: extendet (fuer digit)
+# q: quiet
 isNumber(){
   if echo "$1" | grep -E -q '^[-]?[[:digit:]]+$'; then
     echo true
@@ -101,7 +104,7 @@ isNumber(){
 # Params: $1 String, der ein Wochentag sein kann
 # Return: index 0, wenn kein Tag, sonst > 0
 getIndexOfDay(){
-    index=0
+    local index=0
 	if [ "$1" = "montag" ]; then
 		index=2
 	elif [ "$1" = "dienstag" ]; then
@@ -135,7 +138,11 @@ if [ $# -gt 0 ]; then
 		showError "wrong-arguments"
 	else
 
-		# Pruefen, ob Datei mit HTML endet!
+		# Prueft, ob Datei nicht mit HTML endet!
+		# Wenn nicht -> Fehler
+		# i: case insensitive
+		# v: invert
+		# q: quiet
 		if echo "$1" | grep -ivq ".html$"; then
 			showError "no-html"
 		fi
@@ -156,6 +163,9 @@ if [ $# -gt 0 ]; then
 			# 2: HTML-Kommentare entfernen
 				# -> sucht nach Kommentare und ersetzt sie
 				# -> falls noch einer vorkommt, ersetzt er nochmals
+				# e: script
+				# r: extended
+				# N: next (wenn er noch was gefunden hat)
 			# 3: nur noch die h3 Uberschriften nehmen
 			# 4: Nach uebergebenen Parameter suchen
 			# 5: <(/)h3> entfernen
@@ -203,6 +213,9 @@ if [ $# -gt 0 ]; then
 				# 2: neue Zeilen bei <td>s (fuer compacted)
 				# 3: HTML-Kommentare entfernen (Beschreibung oben bei FAQ)
 				# 4: Alles außer <tr>.*</tr> entfernen
+					# I: ignore case
+					# p: print
+					# , zwei getrennte sachen multiline suchen
 				# 5: Leerzeilen entfernen
 				# 6: Richtige Zeile anhand des Index waehlen
 					# -> es gibt 7 Zeilen (2 <tr> und 5 <td>) 
@@ -249,14 +262,14 @@ if [ $# -gt 0 ]; then
 			# 5: Zeilenumbrueche entfernen und nur nach </tr> hinzufuegen, 
 			#    damit alle Infos pro Gruppe in einer Reihe sind
 				# :label erstellt ein Label,
-				# :N aktuelle und neachste Zeile hinzufuegen
+				# N aktuelle und naechste Zeile hinzufuegen
 				# $!blabel: falls noch Zeilen fehlen, wieder zu label
 			data=$(cat "$1" \
 				| sed 's/<tr>/\n<tr>/g; s/<\/tr>/<\/tr>\n/g;' \
 				| sed -n "/<[TRtr]*>/I,/<\/[TRtr]*>/Ip" \
 				| sed -e :branch -re 's/<!--.*?-->//g; /<!--/N;//bbranch' \
 				| tail -n +6 \
-				| sed ':label;N;$!blabel;s/\n//g; s/<\/[TRtr]*>/<\/tr>\n/g;')
+				| sed ':label;N;$!blabel; s/\n//g; s/<\/[TRtr]*>/<\/tr>\n/g;')
 
 			# Pruefen, ob nach Gruppennummer oder Matrikelnummer gesucht werden soll
 			# Gruppen 2 Stellig, Matrik. 6 bis 10 stellig
