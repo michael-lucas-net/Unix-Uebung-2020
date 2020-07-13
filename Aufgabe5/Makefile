@@ -58,7 +58,7 @@ all: index
 
 # Uebersicht erstellen
 # Ruft Script "genindex" auf und schreibt es in Datei 
-index: md html
+index: html
 	@./genindex > $(INDEX_FILE)
 
 # Wandelt alle sh-Dateien in md um
