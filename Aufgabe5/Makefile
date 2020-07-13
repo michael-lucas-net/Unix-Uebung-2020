@@ -56,9 +56,11 @@ export showHelp
 # Ruft standardmaessig index auf
 all: index
 
+index: index.html
+
 # Uebersicht erstellen
 # Ruft Script "genindex" auf und schreibt es in Datei 
-index: html
+index.html: html
 	@./genindex > $(INDEX_FILE)
 
 # Wandelt alle sh-Dateien in md um
