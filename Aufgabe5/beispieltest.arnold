@@ -1,0 +1,86 @@
+
+define make   {make --no-print-directory --file=DUT}
+define silent {1>/dev/null 2>/dev/null}
+
+test {
+    name    = 1) Ausgabe der Hilfe
+    comment = Ein Aufruf von "make help" muss den Hilfetext ausgeben
+    type    = param
+    cmd       {${make} help | diff - exp/help.exp}
+    expect    {^$}
+}
+
+define source {example.sh}
+define target {example.md}
+test {
+    name    = 2) md aus sh generieren
+    comment = Konvertiert die Datei ${source} in ${target}
+    type    = param
+    cmd       {rm -f ${target}; \
+               ${make} ${target} ${silent}; \
+               diff ${target} ./exp/${target}.exp; \
+               rm -f ${target}; }
+    expect    {^$}
+}
+
+define index {index.html}
+test {
+    name    = 3) Index.html pruefen
+    comment = Prueft, ob alle Eintraege in der Index.html zu finden sind
+    type    = param
+    cmd       {${make} ${silent}; \
+           diff ${index} ./exp/${index}.exp && \
+            rm -f files}
+    expect    {^$}
+}
+
+test {
+    name    = 4) ls vergleichen
+    comment = Prueft, ob alle Dateien erfolgreich erstellt wurden
+    type    = param
+    cmd       {${make} ${silent}; \
+            ls ex[1-9].* > files && \
+            diff files ./exp/ls.exp && \
+            rm -f files}
+    expect    {^$}
+}
+
+define source2 {ex2.sh}
+define md2 {ex2.md}
+define html2 {ex2.html}
+test {
+    name    = 5) Vergleicht example2
+    comment = Vergleicht Example 2 (md und html)
+    type    = param
+    cmd       {${make} ${silent}; \
+        diff ${html2} ./exp/${html2}.exp && \
+        diff ${md2} ./exp/${md2}.exp && \
+        ${make} clean }
+    expect    {^$}
+}
+
+define source3 {ex3.md}
+define html3 {ex3.html}
+test {
+    name    = 6) Vergleicht example3
+    comment = Vergleicht Example 3 (html)
+    type    = param
+    cmd       {${make} ${silent}; \
+        diff ${html3} ./exp/${html3}.exp && \
+        ${make} clean }
+    expect    {^$}
+}
+
+define source2pre {ex2.md}
+define html2pre {ex2.html}
+define exp2pre {ex2-pre.html.exp}
+define preTxt {PRETEXT=#hallo123}
+test {
+    name    = 7) Pretext Test
+    comment = Vergleicht Example 3 (html)
+    type    = param
+    cmd       {make ${preTxt} ${silent}; \
+        diff ${html2pre} ./exp/${exp2pre} && \
+        ${make} clean }
+    expect    {^$}
+}

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+tail --lines=+2      |  # shebang entfernen
+sed 's|^[^#]|\t&|g'  |  # Code-Zeilen einrücken
+sed 's|^#.*$|&\n|g'  |  # aus Kommentar-Zeilen Absätze machen
+sed 's|^#\s*||g'        # aus Kommentar-Zeilen die Raute entfernen
